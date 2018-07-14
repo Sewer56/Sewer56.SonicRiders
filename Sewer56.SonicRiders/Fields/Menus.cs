@@ -1,0 +1,41 @@
+﻿using Sewer56.SonicRiders.Structures.Menus;
+
+namespace Sewer56.SonicRiders.Fields
+{
+    /// <summary>
+    /// This class allows you to access the individual menus
+    /// of the game through the use of pointers.
+    /// It is best advised you check the <see cref="Variables.GameState"/> to first verify which menu you are in.
+    /// </summary>
+    public static unsafe class Menus
+    {
+        public static MainMenu* MainMenu;
+        public static CharacterSelectMenu* CharacterSelectMenu;
+        public static MenuCommon* MenuCommon;
+        public static StageSelect* StageSelect;
+        public static TitleScreen* TitleScreen;
+        public static RaceRules* RaceRules;
+
+        /// <summary>
+        /// Static init set values.
+        /// </summary>
+        static Menus()
+        {
+            Refresh();
+        }
+
+        /// <summary>
+        /// You should note that some menu pointers are only set when you enter the individual menu.
+        /// You may need to use this method to re/set the addresses when entering a new menu.
+        /// </summary>
+        public static void Refresh()
+        {
+            MainMenu = (MainMenu*)*(int*)0x16BF1D8;
+            CharacterSelectMenu = (CharacterSelectMenu*)(*(int*)MainMenu + 0x80);
+            MenuCommon = MainMenu->MenuCommonPointer;
+            StageSelect = (StageSelect*)*(int*)0x16BF1CC;
+            TitleScreen = (TitleScreen*)*(int*)0x16BF1CC;
+            RaceRules = (RaceRules*)(*(int*)MainMenu + 0x80);
+        }
+    }
+}
