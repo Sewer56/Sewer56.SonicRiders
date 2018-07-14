@@ -21,6 +21,6 @@ namespace Sewer56.SonicRiders.Fields
         /// The second set of Running Physics values.
         /// See <see cref="RunningPhysics1"/> for the rest.
         /// </summary>
-        public static RunningPhysics* RunningPhysics2 = (RunningPhysics*) 0x0065C534;
+        public static RunningPhysics2* RunningPhysics2 = (RunningPhysics2*) 0x0065C534;
     }
 }
