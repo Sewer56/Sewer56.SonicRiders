@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Text;
 using Sewer56.SonicRiders.Structures.Enums;
@@ -50,88 +51,65 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         /// Controls the animations used for the current gear type.
         /// </summary>
         [FieldOffset(0xBF)]
-        public GearType GearTypeAnimation_BF;
+        public GearType GearTypeAnimation;
 
         /// <summary>
-        /// Owned by DirectX?. Written to and accessed every frame.
-        /// Increasing this stretches the Characters in an forward direction (X).
+        /// Controls the rotation of the character. This is a normalized "up" vector.
+        /// Used by DirectX?
         /// </summary>
         [FieldOffset(0xE0)]
-        public float RenderThing_StretchForward;
+        public Vector3 RenderRotation;
 
         /// <summary>
-        /// Owned by DirectX?. Written to and accessed every frame.
-        /// Increasing this stretches the Characters in an upward direction (Y).
-        /// </summary>
-        [FieldOffset(0xE4)]
-        public float RenderThing_StretchUpward;
-
-        /// <summary>
-        /// Owned by DirectX?. Written to and accessed every frame.
-        /// Increasing this stretches the Characters in a sideways direction (Z).
-        /// </summary>
-        [FieldOffset(0xE8)]
-        public float RenderThing_StretchSideways;
-
-        /// <summary>
-        /// Owned by DirectX?. Written to and accessed every frame.
+        /// The position the character is rendered at.
+        /// Used by DirectX.
         /// </summary>
         [FieldOffset(0x100)]
-        public float RenderPositionX;
+        public Vector3 RenderPosition;
 
         /// <summary>
-        /// Owned by DirectX?. Written to and accessed every frame.
+        /// X,Y,Z Positions of the current player.
         /// </summary>
-        [FieldOffset(0x104)]
-        public float RenderPositionY;
-
-        /// <summary>
-        /// Owned by DirectX?. Written to and accessed every frame.
-        /// </summary>
-        [FieldOffset(0x108)]
-        public float RenderPositionZ;
-
         [FieldOffset(0x240)]
-        public float PositionX;
-
-        [FieldOffset(0x244)]
-        public float PositionY;
-
-        [FieldOffset(0x248)]
-        public float PositionZ;
+        public Vector3 Position;
 
         /// <summary>
+        /// X is vertical, Y is horizontal, Z is roll
         /// Measured in Pi. (3.14159265358...)
         /// Full Rotation: 2 Pi
         /// </summary>
         [FieldOffset(0x250)]
-        public float RotationVertical;
-
-        /// <summary>
-        /// Measured in Pi. (3.14159265358...)
-        /// Full Rotation: 2 Pi
-        /// </summary>
-        [FieldOffset(0x254)]
-        public float RotationHorizontal;
-
-        /// <summary>
-        /// Measured in Pi. (3.14159265358...)
-        /// Full Rotation: 2 Pi
-        /// </summary>
-        [FieldOffset(0x258)]
-        public float PositionRoll;
+        public Vector3 Rotation;
 
         /// <summary>
         /// The amount of frames remaining until the individual player's boost ends.
         /// </summary>
         [FieldOffset(0x9D8)]
-        public int BoostCountdown;
+        public int BoostFramesLeft;
 
         /// <summary>
-        /// Acceleration, Final Product of Character and Board Acceleration
+        /// Acceleration.
+        /// Final Product of Character and Board Acceleration
+        /// Affects speeds from 0 to 140. (Speed Type, Default Gear)
         /// </summary>
         [FieldOffset(0xA1C)]
-        public float Acceleration;
+        public float AccelerationThreshold1;
+
+        /// <summary>
+        /// Acceleration.
+        /// Final Product of Character and Board Acceleration
+        /// Affects speeds from 140 to Top Speed. (Speed Type, Default Gear)
+        /// </summary>
+        [FieldOffset(0xA20)]
+        public float AccelerationThreshold2;
+
+        /// <summary>
+        /// Acceleration.
+        /// Final Product of Character and Board Acceleration
+        /// Affects speeds from Top Speed to Beyond. (Speed Type, Default Gear)
+        /// </summary>
+        [FieldOffset(0xA24)]
+        public float AccelerationThreshold3;
 
         /// <summary>
         /// Range 0 - 200,000
@@ -140,32 +118,36 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         public int Air;
 
         /// <summary>
-        /// Affects initial jump acceleration, rail grinding acceleration, Flight flying acceleration,
-        /// start running acceleration, general board movement acceleration.
+        /// The vertical speed in the upwards direction.
+        /// </summary>
+        [FieldOffset(0xBD8)]
+        public float VSpeed;
+
+        /// <summary>
+        /// The current acceleration of the character in the horizontal direction.
+        /// Set by jump, rail grinding, flight, running, board movement.
         /// </summary>
         [FieldOffset(0xBDC)]
-        public float GeneralAcceleration;
+        public float Acceleration;
 
         /// <summary>
-        /// Speed, what is there to say.
+        /// The speed in the current forward direction determined by X,Y,Z rotation.
         /// </summary>
         [FieldOffset(0xBE0)]
-        public float SpeedHorizontal;
+        public float Speed;
 
         /// <summary>
-        /// Goes up if you go down slopes, and down up slopes.
-        /// Affected by holding the jump button.
-        /// Hard to judge in-game effect.
+        /// Indicates player's relative speed to top speed.
         /// </summary>
         [FieldOffset(0xBE4)]
-        public float Momentum;
+        public float PercentageTopSpeed;
 
         /// <summary>
-        /// General Speed Cap
+        /// General Speed Cap.
         /// Applies on rails, tricks, during flight, auto/rotate sections and general movement.
         /// </summary>
         [FieldOffset(0xBE8)]
-        public float GeneralSpeedCap;
+        public float SpeedCap;
 
         [FieldOffset(0xCCC)]
         public int Rings;
