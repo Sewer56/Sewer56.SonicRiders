@@ -1,19 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Sewer56.SonicRiders.Structures.Input.Enums
 {
     [Flags]
     public enum Buttons : int
     {
-        Accept =  0x00000001,
-        Decline = 0x00000002,
-        LBumper = 0x00000200,
-        RBumper = 0x00000400,
-        Up =      0x00001010,
-        Down =    0x00002020,
-        Left =    0x00004040,
-        Right =   0x00008080
-    }
+        Null        = 0x0,
+        Accept      = 0x1,
+        Decline     = 0x2,
+        DPadUp      = 0x10,
+        DPadDown    = 0x20,
+        DPadLeft    = 0x40,
+        DPadRight   = 0x80,
+        Start       = 0x100,
+        LeftDrift   = 0x200,
+        RightDrift  = 0x400,
+        Up          = 0x1000,
+        Down        = 0x2000,
+        Left        = 0x4000,
+        Right       = 0x8000
+    };
 }

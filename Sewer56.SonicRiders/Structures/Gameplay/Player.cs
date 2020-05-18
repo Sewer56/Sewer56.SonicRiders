@@ -12,6 +12,11 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
     public unsafe struct Player
     {
         /// <summary>
+        /// Hardcoded number of players in game code.
+        /// </summary>
+        public const int NumberOfPlayers = 8;
+
+        /// <summary>
         /// Pointer to the player input structure for the current player.
         /// </summary>
         [FieldOffset(0x00)]

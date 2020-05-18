@@ -1,4 +1,5 @@
-﻿using Sewer56.SonicRiders.Structures.Menus;
+﻿using Sewer56.SonicRiders.Structures.Input.Enums;
+using Sewer56.SonicRiders.Structures.Menus;
 
 namespace Sewer56.SonicRiders.Fields
 {
@@ -9,6 +10,17 @@ namespace Sewer56.SonicRiders.Fields
     /// </summary>
     public static unsafe class Menus
     {
+        /// <summary>
+        /// Updated when a button on the main menu is newly pressed.
+        /// </summary>
+        public static Buttons* MenuInputPress = (Buttons*) 0x017E4704;
+
+        /// <summary>
+        /// Updated when holding a button in the main menu every ~3 frames.
+        /// </summary>
+        public static Buttons* MenuInputHold  = (Buttons*) 0x017E470C;
+
+
         public static MainMenu* MainMenu;
         public static CharacterSelectMenu* CharacterSelectMenu;
         public static MenuCommon* MenuCommon;
