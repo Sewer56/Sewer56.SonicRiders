@@ -43,11 +43,11 @@ namespace Sewer56.SonicRiders.Fields
         public static void Refresh()
         {
             MainMenu = (MainMenu*)*(int*)0x16BF1D8;
-            CharacterSelectMenu = (CharacterSelectMenu*)(*(int*)MainMenu + 0x80);
+            CharacterSelectMenu = (CharacterSelectMenu*)((byte*)MainMenu + 0x80);
             MenuCommon = MainMenu->MenuCommonPointer;
             StageSelect = (StageSelect*)*(int*)0x16BF1CC;
             TitleScreen = (TitleScreen*)*(int*)0x16BF1CC;
-            RaceRules = (RaceRules*)(*(int*)MainMenu + 0x80);
+            RaceRules = (RaceRules*)((byte*)MainMenu + 0x80);
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using Sewer56.SonicRiders.Structures.Enums;
 using Sewer56.SonicRiders.Structures.Menus.Enums;
 
 namespace Sewer56.SonicRiders.Structures.Menus
@@ -59,5 +60,11 @@ namespace Sewer56.SonicRiders.Structures.Menus
         /// </summary>
         [FieldOffset(0x39)]
         public MainMenuVariation MainMenuVariation;
+
+        /// <summary>
+        /// The mode the characters will race in.
+        /// </summary>
+        [FieldOffset(0x3C)]
+        public RaceMode RaceMode;
     }
 }
