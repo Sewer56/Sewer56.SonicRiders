@@ -17,17 +17,17 @@ namespace Sewer56.SonicRiders.Fields
         /// To access the individual players, use an array index 0 through 7.
         /// e.g. Player[1] returns 2nd player, Player[3] fourth player.
         /// </summary>
-        public static Player* Player = (Player*)0x006A4B80;
+        public static readonly Player* Player = (Player*)0x006A4B80;
 
         /// <summary>
         /// Pointer to the statically stored player inputs.
         /// Can be indexed from 0 to 7. i.e PlayerInputs[7] is max.
         /// </summary>
-        public static PlayerInput* PlayerInputs = (PlayerInput*) 0x017E4580;
+        public static readonly PlayerInput* PlayerInputs = (PlayerInput*) 0x017E4580;
 
         /// <summary>
         /// Contains the individual statistics/properties Speed, Flight and Power characters.
         /// </summary>
-        public static CharacterTypeStats* CharacterTypeStats = (CharacterTypeStats*)0x005BD4D8;
+        public static readonly CharacterTypeStats* CharacterTypeStats = (CharacterTypeStats*)0x005BD4D8;
     }
 }

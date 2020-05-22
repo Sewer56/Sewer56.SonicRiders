@@ -15,6 +15,6 @@ namespace Sewer56.SonicRiders.Fields
         /// In order to access an individual gear, access this variable like an array, with
         /// <see cref="Sewer56.SonicRiders.Structures.Enums.ExtremeGear"/> as an indexer.
         /// </summary>
-        public static ExtremeGear* ExtremeGear = (ExtremeGear*)0x6575B0;
+        public static readonly ExtremeGear* ExtremeGear = (ExtremeGear*)0x6575B0;
     }
 }

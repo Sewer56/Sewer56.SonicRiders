@@ -20,7 +20,6 @@ namespace Sewer56.SonicRiders.Fields
         /// </summary>
         public static Buttons* MenuInputHold  = (Buttons*) 0x017E470C;
 
-
         public static MainMenu* MainMenu;
         public static CharacterSelectMenu* CharacterSelectMenu;
         public static MenuCommon* MenuCommon;
