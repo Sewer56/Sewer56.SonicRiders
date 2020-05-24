@@ -166,6 +166,12 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         public PlayerDisplayFlags PlayerDisplayFlags;
 
         /// <summary>
+        /// The player's current lap counter.
+        /// </summary>
+        [FieldOffset(0x11B2)]
+        public byte LapCounter;
+
+        /// <summary>
         /// Contains the current state of the player.
         /// </summary>
         [FieldOffset(0x11BC)]
