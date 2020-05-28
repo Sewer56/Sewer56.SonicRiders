@@ -25,7 +25,7 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
 
         public int BoostCost;
         public int TornadoCost;
-        public int SpeedGainedFromDriftDash;
-        public int BoostSpeed;
+        public float SpeedGainedFromDriftDash;
+        public float BoostSpeed;
     }
 }

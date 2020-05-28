@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Sewer56.SonicRiders.Structures.Enums
 {
-    public enum FormationTypes
+    public enum FormationTypes : int
     {
         Speed,
         Fly,
@@ -13,7 +13,7 @@ namespace Sewer56.SonicRiders.Structures.Enums
     }
 
     [Flags]
-    public enum FormationTypesFlags
+    public enum FormationTypesFlags : int
     {
         Speed = 0x1,
         Fly = 0x2,

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Text;
 using Sewer56.SonicRiders.Structures.Enums;
-using Sewer56.SonicRiders.Structures.Misc;
 
 namespace Sewer56.SonicRiders.Structures.Gameplay
 {
@@ -27,7 +27,7 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         /// The model used for the current extreme gear.
         /// </summary>
         [FieldOffset(0x5)]
-        public Enums.ExtremeGear GearModel;
+        public Enums.ExtremeGearModel GearModel;
 
         /// <summary>
         /// [Offset, Base Gear = 0]
@@ -213,10 +213,10 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         public float ExhaustTrail2Width;
 
         [FieldOffset(0x108)]
-        public Vector ExhaustTrail1PositionOffset;
+        public Vector3 ExhaustTrail1PositionOffset;
 
         [FieldOffset(0x114)]
-        public Vector ExhaustTrail2PositionOffset;
+        public Vector3 ExhaustTrail2PositionOffset;
 
         [FieldOffset(0x14C)]
         public float ExhaustTrail1TrickWidth;
@@ -225,9 +225,9 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         public float ExhaustTrail2TrickWidth;
 
         [FieldOffset(0x18C)]
-        public Vector ExhaustTrail1TrickOffset;
+        public Vector3 ExhaustTrail1TrickOffset;
 
         [FieldOffset(0x198)]
-        public Vector ExhaustTrail2TrickOffset;
+        public Vector3 ExhaustTrail2TrickOffset;
     }
 }

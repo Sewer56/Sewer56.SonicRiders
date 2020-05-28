@@ -5,7 +5,7 @@ using System.Text;
 namespace Sewer56.SonicRiders.Structures.Enums
 {
     [Flags]
-    public enum ExtremeGearSpecialFlags
+    public enum ExtremeGearSpecialFlags : int
     {
         /// <summary>
         /// Ignore Turbulence (Heavy Bike)
