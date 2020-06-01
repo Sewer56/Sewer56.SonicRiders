@@ -11,6 +11,11 @@ namespace Sewer56.SonicRiders.Fields
     public static unsafe class ExtremeGears
     {
         /// <summary>
+        /// Number of available gears in Vanilla.
+        /// </summary>
+        public static readonly int NumberOfGears = 41;
+
+        /// <summary>
         /// Allows you to access the information of any particular extreme gear.
         /// In order to access an individual gear, access this variable like an array, with
         /// <see cref="Sewer56.SonicRiders.Structures.Enums.ExtremeGear"/> as an indexer.
