@@ -17,9 +17,9 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         public float GearTwoMaxSpeed;
 
         /// <summary>
-        /// Defines the speed limit for gear 2.
+        /// The maximum speed of gear 3.
         /// </summary>
-        public float MaxSpeed;
+        public float GearThreeMaxSpeed;
 
         /// <summary>
         /// Defines the acceleration of gear 1.
