@@ -13,6 +13,11 @@ namespace Sewer56.SonicRiders.Fields
     public static unsafe class Players
     {
         /// <summary>
+        /// Hardcoded number of players in game code.
+        /// </summary>
+        public const int NumberOfPlayers = 8;
+
+        /// <summary>
         /// Contains an instance of the individual player structure.
         /// To access the individual players, use an array index 0 through 7.
         /// e.g. Player[1] returns 2nd player, Player[3] fourth player.
