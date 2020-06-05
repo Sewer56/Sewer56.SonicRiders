@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Reloaded.Memory.Kernel32;
 using Reloaded.Memory.Pointers;
 using Reloaded.Memory.Sources;
@@ -17,7 +18,10 @@ namespace Sewer56.SonicRiders.API
 
         static Player()
         {
-            Memory.CurrentProcess.ChangePermission((IntPtr) RunPhysics, sizeof(RunningPhysics), Kernel32.MEM_PROTECTION.PAGE_EXECUTE_READWRITE);
+            if (Process.GetCurrentProcess().MainModule.ModuleName.Equals("SonicRiders.exe", StringComparison.OrdinalIgnoreCase))
+            {
+                Memory.CurrentProcess.ChangePermission((IntPtr)RunPhysics, sizeof(RunningPhysics), Kernel32.MEM_PROTECTION.PAGE_EXECUTE_READWRITE);
+            }
         }
 
         /// <summary>
