@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
+﻿using System.Runtime.InteropServices;
 using Sewer56.SonicRiders.Structures.Enums;
 using Sewer56.SonicRiders.Structures.Menus.Enums;
+using Sewer56.SonicRiders.Structures.Tasks;
 
 namespace Sewer56.SonicRiders.Structures.Menus
 {
@@ -14,31 +12,31 @@ namespace Sewer56.SonicRiders.Structures.Menus
     public unsafe struct MainMenu
     {
         /// <summary>
-        /// See <see cref="Enums.MenuState"/>
+        /// Task for the current child menu of this menu.
         /// </summary>
         [FieldOffset(0x0)]
-        public MenuCommon* MenuCommonPointer;
+        public Task* ChildMenuTask;
 
         /// <summary>
         /// See <see cref="Enums.MenuState"/>
         /// </summary>
         [FieldOffset(0xC)]
-        public MenuState MenuState;
+        public MenuState State;
 
         [FieldOffset(0xD)]
-        public byte CurrentSelection;
+        public byte Selection;
 
         /// <summary>
         /// See <see cref="Enums.MainMenuAction"/>
         /// </summary>
         [FieldOffset(0x1C)]
-        public MainMenuAction MainMenuAction;
+        public MainMenuAction Action;
 
         /// <summary>
         /// Changes the colour of the main menu and all submenus.
         /// </summary>
         [FieldOffset(0x1E)]
-        public MenuColour MenuColour;
+        public MenuColour Colour;
 
         /// <summary>
         /// Seems to have more effect than changing the title sprite, but for now, such name will do.
@@ -59,7 +57,7 @@ namespace Sewer56.SonicRiders.Structures.Menus
         /// See <see cref="Enums.MainMenuVariation"/> for more details.
         /// </summary>
         [FieldOffset(0x39)]
-        public MainMenuVariation MainMenuVariation;
+        public MainMenuVariation MenuVariation;
 
         /// <summary>
         /// The mode the characters will race in.

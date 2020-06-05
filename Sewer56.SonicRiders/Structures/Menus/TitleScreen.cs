@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
+﻿using System.Runtime.InteropServices;
 using Sewer56.SonicRiders.Structures.Menus.Enums;
 
 namespace Sewer56.SonicRiders.Structures.Menus
@@ -13,12 +10,12 @@ namespace Sewer56.SonicRiders.Structures.Menus
     public struct TitleScreen
     {
         /// <summary>
-        /// See <see cref="MenuState"/>
+        /// See <see cref="Enums.MenuState"/>
         /// </summary>
         [FieldOffset(0xC)]
-        public MenuState menuState;
+        public MenuState MenuState;
 
         [FieldOffset(0xD)]
-        public byte currentSelection;
+        public byte CurrentSelection;
     }
 }

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Sewer56.SonicRiders.Fields;
+﻿using Sewer56.SonicRiders.API;
 using Sewer56.SonicRiders.Structures.Enums;
 using ExtremeGear = Sewer56.SonicRiders.Structures.Gameplay.ExtremeGear;
 
-namespace Sewer56.SonicRiders.Mathematics
+namespace Sewer56.SonicRiders.Utility
 {
     /// <summary>
     /// Contains various methods to calculate
@@ -21,7 +18,7 @@ namespace Sewer56.SonicRiders.Mathematics
         /// <param name="formationType">The type of the character to calculate the gear speed for.</param>
         public static float GetGearSpeed(ExtremeGear* extremeGear, FormationTypes formationType)
         {
-            float characterTypeSpeedMultiplier = Players.CharacterTypeStats[(int)formationType].MaxSpeedMultiplier;
+            float characterTypeSpeedMultiplier = Player.TypeStats[(int)formationType].MaxSpeedMultiplier;
             float speed = speedToSpeedometerRatio * (characterTypeSpeedMultiplier + extremeGear->SpeedHandlingMultiplier);
 
             // Apply Speed Multiplier

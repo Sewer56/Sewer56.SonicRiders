@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
+﻿using System.Runtime.InteropServices;
 using Sewer56.SonicRiders.Structures.Menus.Enums;
 
 namespace Sewer56.SonicRiders.Structures.Menus
@@ -9,62 +6,62 @@ namespace Sewer56.SonicRiders.Structures.Menus
     /// <summary>
     /// Note: Size is a decent estimate, real size is not known.
     /// </summary>
-    [StructLayout(LayoutKind.Explicit, Size = 0x40)]
+    [StructLayout(LayoutKind.Explicit)]
     public unsafe struct RaceRules
     {
         /// <summary>
-        /// See <see cref="MenuState"/>
+        /// See <see cref="Enums.MenuState"/>
         /// </summary>
         [FieldOffset(0x1C)]
-        public MenuState menuState;
+        public MenuState MenuState;
 
         [FieldOffset(0x1D)]
-        public byte currentHorizontalSelection;
+        public byte CurrentHorizontalSelection;
 
         [FieldOffset(0x1E)]
-        public byte currentVerticalSelection;
+        public byte CurrentVerticalSelection;
 
         [FieldOffset(0x1F)]
-        public byte menuItemCount;
+        public byte VerticalItemCount;
 
         /* Options */
 
         [FieldOffset(0x20)]
-        public byte totalLapsCount;
+        public byte TotalLaps;
 
         [FieldOffset(0x21)]
-        public bool announcer;
+        public bool Announcer;
 
         [FieldOffset(0x22)]
-        public bool level;
+        public bool Level;
 
         [FieldOffset(0x23)]
-        public bool item;
+        public bool Item;
 
         [FieldOffset(0x24)]
-        public bool pit;
+        public bool Pit;
 
         [FieldOffset(0x25)]
-        public AirLostActions airLostAction;
+        public AirLostActions AirLostAction;
 
         /* Max Options */
 
         [FieldOffset(0x26)]
-        public byte maxSelectionLapCount;
+        public byte MaxLapCount;
 
         [FieldOffset(0x27)]
-        public byte maxSelectionAnnouncer;
+        public byte MaxSelectionAnnouncer;
 
         [FieldOffset(0x28)]
-        public byte maxSelectionLevel;
+        public byte MaxSelectionLevel;
 
         [FieldOffset(0x29)]
-        public byte maxSelectionItem;
+        public byte MaxSelectionItem;
 
         [FieldOffset(0x2A)]
-        public byte maxSelectionPit;
+        public byte MaxSelectionPit;
 
         [FieldOffset(0x2B)]
-        public byte maxSelectionAirLostAction;
+        public byte MaxSelectionAirLostAction;
     }
 }

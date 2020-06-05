@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Sewer56.SonicRiders.Structures.Enums
+﻿namespace Sewer56.SonicRiders.Structures.Enums.Task
 {
-    public enum GameState : byte
+    public enum MenuTaskState : byte
     {
         /// <summary>
         /// Set this to 1 and a new race is loaded. Strange, isn't it?

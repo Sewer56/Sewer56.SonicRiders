@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
-using Sewer56.SonicRiders.Structures.Enums;
+﻿using System.Runtime.InteropServices;
 using Sewer56.SonicRiders.Structures.Menus.Enums;
 
 namespace Sewer56.SonicRiders.Structures.Menus
@@ -13,6 +9,12 @@ namespace Sewer56.SonicRiders.Structures.Menus
     [StructLayout(LayoutKind.Explicit, Size = 0x54)]
     public unsafe struct CharacterSelectMenu
     {
+        /// <summary>
+        /// Loads the stage in question.
+        /// </summary>
+        [FieldOffset(0x8)]
+        public byte SelectionIsPerformed;
+
         /// <summary>
         /// See <see cref="Enums.MenuState"/>
         /// </summary>
@@ -77,6 +79,7 @@ namespace Sewer56.SonicRiders.Structures.Menus
 
         /// <summary>
         /// The currently selected Characters on the character list for each player.
+        /// See <see cref="Structures.Enums.Characters"/>.
         /// </summary>
         [FieldOffset(0x3C)]
         public fixed byte PlayerMenuSelections[0x4];

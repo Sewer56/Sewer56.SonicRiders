@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Reloaded.Hooks.Definitions;
+﻿using Reloaded.Hooks.Definitions;
 
 namespace Sewer56.SonicRiders
 {

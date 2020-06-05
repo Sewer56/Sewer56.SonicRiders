@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Sewer56.SonicRiders.Structures.Enums;
+﻿using Sewer56.SonicRiders.Structures.Enums;
+using Sewer56.SonicRiders.Structures.Enums.Task;
 using Sewer56.SonicRiders.Structures.Gameplay;
+using Sewer56.SonicRiders.Structures.Tasks;
 
-namespace Sewer56.SonicRiders.Fields
+namespace Sewer56.SonicRiders.API
 {
     /// <summary>
     /// Contains various miscellaneous variables which do not have enough similar
     /// ones to group in the same category.
     /// </summary>
-    public static unsafe class Variables
+    public static unsafe class State
     {
         /// <summary>
         /// Does not affect level timer/state e.g. starting line, interactive elements.
@@ -27,12 +26,6 @@ namespace Sewer56.SonicRiders.Fields
         /// Declares the level/action stage to be loaded.
         /// </summary>
         public static readonly Levels* Level = (Levels*)0x692B90;
-
-        /// <summary>
-        /// Set to 1 to disable AI opponents entirely.
-        /// The range for this is generally 1-8, else expect crashes.
-        /// </summary>
-        public static readonly byte* PlayerCount = (byte*)0x64B758;
 
         /// <summary>
         /// Manual toggle for the heads up display.
@@ -53,19 +46,41 @@ namespace Sewer56.SonicRiders.Fields
         public static readonly bool* TwoPlayerHUDScale = (bool*)0x696C1C;
 
         /// <summary>
-        /// Gets a pointer to the game state.
+        /// Pointer to the currently loaded task.
         /// </summary>
-        /// <returns>Pointer to the gamestate, else nullptr.</returns>
-        public static bool TryGetGameState(out GameState* state)
+        public static readonly void** CurrentTask = (void**) 0x017B863C;
+
+        /// <summary>
+        /// Gets a pointer to the game (menu task) state.
+        /// </summary>
+        /// <returns>Pointer to the menu task state, else nullptr.</returns>
+        public static bool TryGetGameState(out MenuTaskState* state)
         {
             var baseAddress = *(byte**)0x016BF1D0;
             if (baseAddress != (byte*)0x0)
             {
-                state = (GameState*)(baseAddress + 0x94);
+                state = (MenuTaskState*)(baseAddress + 0x94);
                 return true;
             }
 
-            state = (GameState*) 0x0;
+            state = (MenuTaskState*) 0x0;
+            return false;
+        }
+
+        /// <summary>
+        /// Tries to get the current Task executed by the game.
+        /// You should call this in a function that handles a specific task.
+        /// </summary>
+        /// <param name="task">The executed task.</param>
+        public static bool TryGetCurrentTask(out Task* task)
+        {
+            if (*CurrentTask != (void*) 0x0)
+            {
+                task = (Task*)(*CurrentTask);
+                return true;
+            }
+
+            task = (Task*)0x0;
             return false;
         }
     }
