@@ -27,12 +27,17 @@ namespace Sewer56.SonicRiders.Functions
         /// <summary>
         /// The task handler for the race settings.
         /// </summary>
-        public static readonly IFunction<DefaultTaskFn> RaceSettingTask = SDK.ReloadedHooks.CreateFunction<DefaultTaskFn>(0x00473270);
+        public static readonly IFunction<DefaultFn> RaceSettingTask = SDK.ReloadedHooks.CreateFunction<DefaultFn>(0x00473270);
 
         /// <summary>
         /// The task handler for character select.
         /// </summary>
         public static readonly IFunction<DefaultTaskFnWithReturn> CharaSelectTask = SDK.ReloadedHooks.CreateFunction<DefaultTaskFnWithReturn>(0x00462000);
+
+        /// <summary>
+        /// Sleeps the game until the next frame.
+        /// </summary>
+        public static readonly IFunction<DefaultFn> EndFrame = SDK.ReloadedHooks.CreateFunction<DefaultFn>(0x00527CE0);
 
         [Function(CallingConventions.Cdecl)]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -48,6 +53,6 @@ namespace Sewer56.SonicRiders.Functions
 
         [Function(CallingConventions.Cdecl)]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void DefaultTaskFn();
+        public delegate void DefaultFn();
     }
 }

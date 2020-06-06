@@ -51,6 +51,11 @@ namespace Sewer56.SonicRiders.API
         public static readonly void** CurrentTask = (void**) 0x017B863C;
 
         /// <summary>
+        /// Number of total elapsed frames.
+        /// </summary>
+        public static readonly int* TotalFrameCounter = (int*) 0x00696C08;
+
+        /// <summary>
         /// Gets a pointer to the game (menu task) state.
         /// </summary>
         /// <returns>Pointer to the menu task state, else nullptr.</returns>
