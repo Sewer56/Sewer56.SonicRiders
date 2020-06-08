@@ -1,7 +1,7 @@
-﻿namespace Sewer56.SonicRiders.Structures.Menus.Enums
+﻿namespace Sewer56.SonicRiders.Structures.Tasks.Enums.Structs
 {
     /// <summary>
-    /// Part of the <see cref="MainMenu"/> structure.
+    /// Part of the <see cref="TitleSequence"/> structure.
     /// Toggle this number in order to perform minor adjustments on the
     /// current menu.
     /// </summary>

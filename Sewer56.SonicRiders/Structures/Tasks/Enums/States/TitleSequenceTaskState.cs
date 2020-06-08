@@ -1,6 +1,6 @@
-﻿namespace Sewer56.SonicRiders.Structures.Enums.Task
+﻿namespace Sewer56.SonicRiders.Structures.Tasks.Enums.States
 {
-    public enum MenuTaskState : byte
+    public enum TitleSequenceTaskState : byte
     {
         /// <summary>
         /// Set this to 1 and a new race is loaded. Strange, isn't it?
@@ -20,7 +20,8 @@
         LoadTagSubmenu = 19,
         SurvivalSubmenu = 20,
         LoadShopSubmenu = 21,
-        StageSelect = 22,
+        CourseSelect = 22,
+        TimeTrialSaving = 23,
         CharacterSelect = 24,
         Shop = 25,
         LoadExtras = 26,

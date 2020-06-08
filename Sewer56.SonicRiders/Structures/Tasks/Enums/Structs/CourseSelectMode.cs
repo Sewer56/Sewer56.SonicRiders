@@ -1,9 +1,9 @@
-﻿namespace Sewer56.SonicRiders.Structures.Menus.Enums
+﻿namespace Sewer56.SonicRiders.Structures.Tasks.Enums.Structs
 {
     /// <summary>
     /// Individual states for the <see cref="CourseSelect"/> tasks..
     /// </summary>
-    public enum CourseSelectTaskState : byte
+    public enum CourseSelectMode : byte
     {
         MainMenu = 1,
         Normal = 3,

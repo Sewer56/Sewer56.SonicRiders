@@ -1,15 +1,17 @@
 ﻿using System.Runtime.InteropServices;
 using Sewer56.SonicRiders.Structures.Enums;
-using Sewer56.SonicRiders.Structures.Menus.Enums;
-using Sewer56.SonicRiders.Structures.Tasks;
+using Sewer56.SonicRiders.Structures.Tasks.Base;
+using Sewer56.SonicRiders.Structures.Tasks.Enums;
+using Sewer56.SonicRiders.Structures.Tasks.Enums.Shared;
+using Sewer56.SonicRiders.Structures.Tasks.Enums.Structs;
 
-namespace Sewer56.SonicRiders.Structures.Menus
+namespace Sewer56.SonicRiders.Structures.Tasks
 {
     /// <summary>
     /// Note: Size is a decent estimate, real size is not known.
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 0x40)]
-    public unsafe struct MainMenu
+    public unsafe struct TitleSequence
     {
         /// <summary>
         /// Task for the current child menu of this menu.
@@ -18,7 +20,7 @@ namespace Sewer56.SonicRiders.Structures.Menus
         public Task* ChildMenuTask;
 
         /// <summary>
-        /// See <see cref="Enums.MenuState"/>
+        /// See <see cref="MenuState"/>
         /// </summary>
         [FieldOffset(0xC)]
         public MenuState State;
@@ -27,7 +29,7 @@ namespace Sewer56.SonicRiders.Structures.Menus
         public byte Selection;
 
         /// <summary>
-        /// See <see cref="Enums.MainMenuAction"/>
+        /// See <see cref="MainMenuAction"/>
         /// </summary>
         [FieldOffset(0x1C)]
         public MainMenuAction Action;
@@ -54,7 +56,7 @@ namespace Sewer56.SonicRiders.Structures.Menus
 
         /// <summary>
         /// Used to determine the selectable options on screen by index and menus they will enter.
-        /// See <see cref="Enums.MainMenuVariation"/> for more details.
+        /// See <see cref="MainMenuVariation"/> for more details.
         /// </summary>
         [FieldOffset(0x39)]
         public MainMenuVariation MenuVariation;

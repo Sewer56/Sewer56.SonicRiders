@@ -1,4 +1,4 @@
-﻿namespace Sewer56.SonicRiders.Structures.Menus.Enums
+﻿namespace Sewer56.SonicRiders.Structures.Tasks.Enums.Structs
 {
     /// <summary>
     /// Specifies the variant of the main menu the user is currently in, 

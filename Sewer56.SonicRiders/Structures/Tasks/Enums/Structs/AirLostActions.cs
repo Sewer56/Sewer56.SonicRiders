@@ -1,4 +1,4 @@
-﻿namespace Sewer56.SonicRiders.Structures.Menus.Enums
+﻿namespace Sewer56.SonicRiders.Structures.Tasks.Enums.Structs
 {
     public enum AirLostActions : byte
     {

@@ -35,6 +35,11 @@ namespace Sewer56.SonicRiders.Functions
         public static readonly IFunction<DefaultTaskFnWithReturn> CharaSelectTask = SDK.ReloadedHooks.CreateFunction<DefaultTaskFnWithReturn>(0x00462000);
 
         /// <summary>
+        /// Executed every frame while the character is racing.
+        /// </summary>
+        public static readonly IFunction<DefaultTaskFnWithReturn> UnknownRaceTask = SDK.ReloadedHooks.CreateFunction<DefaultTaskFnWithReturn>(0x004159A0);
+
+        /// <summary>
         /// Sleeps the game until the next frame.
         /// </summary>
         public static readonly IFunction<DefaultFn> EndFrame = SDK.ReloadedHooks.CreateFunction<DefaultFn>(0x00527CE0);

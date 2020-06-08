@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sewer56.SonicRiders.Structures.Menus.Enums
+namespace Sewer56.SonicRiders.Structures.Tasks.Enums.Structs
 {
     [Flags]
     public enum PlayerStatus : byte

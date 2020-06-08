@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Reloaded.Hooks.Definitions;
 using static Sewer56.SonicRiders.Functions.Functions;
 

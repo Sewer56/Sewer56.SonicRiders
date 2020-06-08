@@ -1,7 +1,8 @@
 ﻿using Sewer56.SonicRiders.Structures.Enums;
-using Sewer56.SonicRiders.Structures.Enums.Task;
 using Sewer56.SonicRiders.Structures.Gameplay;
-using Sewer56.SonicRiders.Structures.Tasks;
+using Sewer56.SonicRiders.Structures.Tasks.Base;
+using Sewer56.SonicRiders.Structures.Tasks.Enums;
+using Sewer56.SonicRiders.Structures.Tasks.Enums.States;
 
 namespace Sewer56.SonicRiders.API
 {
@@ -59,16 +60,16 @@ namespace Sewer56.SonicRiders.API
         /// Gets a pointer to the game (menu task) state.
         /// </summary>
         /// <returns>Pointer to the menu task state, else nullptr.</returns>
-        public static bool TryGetGameState(out MenuTaskState* state)
+        public static bool TryGetGameState(out TitleSequenceTaskState* state)
         {
             var baseAddress = *(byte**)0x016BF1D0;
             if (baseAddress != (byte*)0x0)
             {
-                state = (MenuTaskState*)(baseAddress + 0x94);
+                state = (TitleSequenceTaskState*)(baseAddress + 0x94);
                 return true;
             }
 
-            state = (MenuTaskState*) 0x0;
+            state = (TitleSequenceTaskState*) 0x0;
             return false;
         }
 

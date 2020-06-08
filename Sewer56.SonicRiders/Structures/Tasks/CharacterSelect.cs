@@ -1,13 +1,16 @@
 ﻿using System.Runtime.InteropServices;
-using Sewer56.SonicRiders.Structures.Menus.Enums;
+using Sewer56.SonicRiders.Structures.Enums;
+using Sewer56.SonicRiders.Structures.Tasks.Enums;
+using Sewer56.SonicRiders.Structures.Tasks.Enums.Shared;
+using Sewer56.SonicRiders.Structures.Tasks.Enums.Structs;
 
-namespace Sewer56.SonicRiders.Structures.Menus
+namespace Sewer56.SonicRiders.Structures.Tasks
 {
     /// <summary>
     /// Note: Size is a decent estimate, real size is not known.
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 0x54)]
-    public unsafe struct CharacterSelectMenu
+    public unsafe struct CharacterSelect
     {
         /// <summary>
         /// Loads the stage in question.
@@ -16,7 +19,7 @@ namespace Sewer56.SonicRiders.Structures.Menus
         public byte SelectionIsPerformed;
 
         /// <summary>
-        /// See <see cref="Enums.MenuState"/>
+        /// See <see cref="Enums.Shared.MenuState"/>
         /// </summary>
         [FieldOffset(0xC)]
         public MenuState MenuState;
@@ -83,6 +86,12 @@ namespace Sewer56.SonicRiders.Structures.Menus
         /// </summary>
         [FieldOffset(0x3C)]
         public fixed byte PlayerMenuSelections[0x4];
+
+        /// <summary>
+        /// Controls whether you can select a gear.
+        /// </summary>
+        [FieldOffset(0x48)]
+        public RaceMode RaceMode;
 
         /// <summary>
         /// Defines the amount of currently active (joined in) players on the current menu.

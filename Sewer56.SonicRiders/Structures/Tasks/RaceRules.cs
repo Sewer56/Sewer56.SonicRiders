@@ -1,7 +1,9 @@
 ﻿using System.Runtime.InteropServices;
-using Sewer56.SonicRiders.Structures.Menus.Enums;
+using Sewer56.SonicRiders.Structures.Tasks.Enums;
+using Sewer56.SonicRiders.Structures.Tasks.Enums.Shared;
+using Sewer56.SonicRiders.Structures.Tasks.Enums.Structs;
 
-namespace Sewer56.SonicRiders.Structures.Menus
+namespace Sewer56.SonicRiders.Structures.Tasks
 {
     /// <summary>
     /// Note: Size is a decent estimate, real size is not known.
@@ -10,7 +12,7 @@ namespace Sewer56.SonicRiders.Structures.Menus
     public unsafe struct RaceRules
     {
         /// <summary>
-        /// See <see cref="Enums.MenuState"/>
+        /// See <see cref="Enums.Shared.MenuState"/>
         /// </summary>
         [FieldOffset(0x1C)]
         public MenuState MenuState;

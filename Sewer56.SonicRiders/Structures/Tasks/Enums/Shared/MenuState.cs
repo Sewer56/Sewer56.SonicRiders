@@ -1,4 +1,4 @@
-﻿namespace Sewer56.SonicRiders.Structures.Menus.Enums
+﻿namespace Sewer56.SonicRiders.Structures.Tasks.Enums.Shared
 {
     /// <summary>
     /// Defines the menu state for the individual menus used

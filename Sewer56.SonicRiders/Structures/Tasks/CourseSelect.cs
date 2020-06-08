@@ -1,8 +1,9 @@
 ﻿using System.Runtime.InteropServices;
 using Sewer56.SonicRiders.Structures.Enums;
-using Sewer56.SonicRiders.Structures.Menus.Enums;
+using Sewer56.SonicRiders.Structures.Tasks.Enums;
+using Sewer56.SonicRiders.Structures.Tasks.Enums.Shared;
 
-namespace Sewer56.SonicRiders.Structures.Menus
+namespace Sewer56.SonicRiders.Structures.Tasks
 {
     /// <summary>
     /// Note: Size is a decent estimate, real size is not known.
