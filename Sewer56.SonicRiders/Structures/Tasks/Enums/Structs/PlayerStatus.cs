@@ -21,8 +21,18 @@ namespace Sewer56.SonicRiders.Structures.Tasks.Enums.Structs
         GearSelect = 2,
 
         /// <summary>
+        /// Player is currently looking at gear description.
+        /// </summary>
+        GearDescription = 3,
+
+        /// <summary>
         /// Player has selected both gear and character and is ready to race.
         /// </summary>
-        Ready = 4
+        SetReady = 4,
+
+        /// <summary>
+        /// Player has selected both gear and character and is ready to race.
+        /// </summary>
+        Ready = 5,
     }
 }

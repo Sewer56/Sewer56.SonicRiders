@@ -27,7 +27,7 @@ namespace Sewer56.SonicRiders.Functions
         /// <summary>
         /// The task handler for the race settings.
         /// </summary>
-        public static readonly IFunction<DefaultFn> RaceSettingTask = SDK.ReloadedHooks.CreateFunction<DefaultFn>(0x00473270);
+        public static readonly IFunction<DefaultTaskFnWithReturn> RaceSettingTask = SDK.ReloadedHooks.CreateFunction<DefaultTaskFnWithReturn>(0x00473270);
 
         /// <summary>
         /// The task handler for character select.
@@ -40,6 +40,11 @@ namespace Sewer56.SonicRiders.Functions
         public static readonly IFunction<DefaultTaskFnWithReturn> UnknownRaceTask = SDK.ReloadedHooks.CreateFunction<DefaultTaskFnWithReturn>(0x004159A0);
 
         /// <summary>
+        /// Executed when a MessageBox is being displayed.
+        /// </summary>
+        public static readonly IFunction<DefaultTaskFnWithReturn> MessageBoxTask = SDK.ReloadedHooks.CreateFunction<DefaultTaskFnWithReturn>(0x0050DB90);
+
+        /// <summary>
         /// Sleeps the game until the next frame.
         /// </summary>
         public static readonly IFunction<DefaultFn> EndFrame = SDK.ReloadedHooks.CreateFunction<DefaultFn>(0x00527CE0);
@@ -50,11 +55,11 @@ namespace Sewer56.SonicRiders.Functions
 
         [Function(new [] { ecx, edx }, eax, Caller)]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate byte TitleSequenceTaskFn(int a1, int a2);
+        public delegate int TitleSequenceTaskFn(int a1, int a2);
 
         [Function(CallingConventions.Cdecl)]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate byte DefaultTaskFnWithReturn();
+        public delegate int DefaultTaskFnWithReturn();
 
         [Function(CallingConventions.Cdecl)]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
