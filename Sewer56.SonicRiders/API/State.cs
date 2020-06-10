@@ -1,4 +1,5 @@
-﻿using Sewer56.SonicRiders.Structures.Enums;
+﻿using Reloaded.Memory.Pointers;
+using Sewer56.SonicRiders.Structures.Enums;
 using Sewer56.SonicRiders.Structures.Gameplay;
 using Sewer56.SonicRiders.Structures.Tasks.Base;
 using Sewer56.SonicRiders.Structures.Tasks.Enums;
@@ -27,6 +28,26 @@ namespace Sewer56.SonicRiders.API
         /// Declares the level/action stage to be loaded.
         /// </summary>
         public static readonly Levels* Level = (Levels*)0x692B90;
+
+        /// <summary>
+        /// An array of unlocked stages in the game.
+        /// Use <see cref="UnlockedLevels"/> as an indexer.
+        /// </summary>
+        public static RefFixedArrayPtr<bool> UnlockedStages { get; private set; } = new RefFixedArrayPtr<bool>((ulong)0x17BE1A4, (int)UnlockedLevels.SEGAIllusion + 1);
+
+        /// <summary>
+        /// An array of unlocked characters in the game.
+        /// Use <see cref="Characters"/> as an indexer.
+        /// Note: Careful! Exiting character select will freeze if any of the unlocked characters does not have a selectable gear!
+        ///       This will happen if you enable all characters but don't unlock some gears.
+        /// </summary>
+        public static RefFixedArrayPtr<bool> UnlockedCharacters { get; private set; } = new RefFixedArrayPtr<bool>((ulong)0x17BE540, (int)Characters.E10000R + 1);
+
+        /// <summary>
+        /// An array of unlocked gears in the game.
+        /// Use <see cref="ExtremeGearModel"/> as an indexer.
+        /// </summary>
+        public static RefFixedArrayPtr<bool> UnlockedGearModels { get; private set; } = new RefFixedArrayPtr<bool>((ulong)0x017BE4E8, (int)ExtremeGearModel.Cannonball + 1);
 
         /// <summary>
         /// Manual toggle for the heads up display.
