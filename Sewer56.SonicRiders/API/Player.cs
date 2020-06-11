@@ -5,6 +5,7 @@ using Reloaded.Memory.Pointers;
 using Reloaded.Memory.Sources;
 using Sewer56.SonicRiders.Structures.Gameplay;
 using Sewer56.SonicRiders.Structures.Input;
+using Sewer56.SonicRiders.Structures.Input.Enums;
 
 namespace Sewer56.SonicRiders.API
 {
@@ -63,5 +64,15 @@ namespace Sewer56.SonicRiders.API
         /// See <see cref="RunPhysics"/> for the rest.
         /// </summary>
         public static readonly RunningPhysics2* RunPhysics2 = (RunningPhysics2*)0x0065C534;
+
+        /// <summary>
+        /// Updated when a button on the main menu is newly pressed.
+        /// </summary>
+        public static readonly Buttons* MenuInputPress = (Buttons*)0x017E4704;
+
+        /// <summary>
+        /// Updated when holding a button in the main menu every ~3 frames.
+        /// </summary>
+        public static readonly Buttons* MenuInputHold = (Buttons*)0x017E470C;
     }
 }
