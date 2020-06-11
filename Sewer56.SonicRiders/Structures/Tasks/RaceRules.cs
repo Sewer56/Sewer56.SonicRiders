@@ -32,16 +32,16 @@ namespace Sewer56.SonicRiders.Structures.Tasks
         public byte TotalLaps;
 
         [FieldOffset(0x21)]
-        public bool Announcer;
+        public byte Announcer;
 
         [FieldOffset(0x22)]
-        public bool Level;
+        public byte Level;
 
         [FieldOffset(0x23)]
-        public bool Item;
+        public byte Item;
 
         [FieldOffset(0x24)]
-        public bool Pit;
+        public byte Pit;
 
         [FieldOffset(0x25)]
         public AirLostActions AirLostAction;
