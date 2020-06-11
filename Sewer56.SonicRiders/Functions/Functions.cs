@@ -17,7 +17,7 @@ namespace Sewer56.SonicRiders.Functions
         /// <summary>
         /// The task handler for the main menu (title sequence).
         /// </summary>
-        public static readonly IFunction<TitleSequenceTaskFn> TitleSequenceTask = SDK.ReloadedHooks.CreateFunction<TitleSequenceTaskFn>(0x0046ABD0);
+        public static readonly IFunction<DefaultTaskFnWithReturn> TitleSequenceTask = SDK.ReloadedHooks.CreateFunction<DefaultTaskFnWithReturn>(0x0046ABD0);
 
         /// <summary>
         /// The task handler for the stage select.
@@ -53,13 +53,9 @@ namespace Sewer56.SonicRiders.Functions
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int GetInputsFn();
 
-        [Function(new[] { ecx, edx }, eax, Caller, 8)]
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate int TitleSequenceTaskFn(int a1, int a2);
-
         [Function(CallingConventions.Cdecl)]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate int DefaultTaskFnWithReturn();
+        public delegate byte DefaultTaskFnWithReturn();
 
         [Function(CallingConventions.Cdecl)]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]

@@ -26,12 +26,6 @@ namespace Sewer56.SonicRiders.API
         }
 
         /// <summary>
-        /// Number of player characters to spawn. Should be set during stage load.
-        /// The range for this is generally 1-8, else expect crashes.
-        /// </summary>
-        public static readonly byte* NumberOfRacers = (byte*) 0x64B758;
-
-        /// <summary>
         /// The array containing the individual player data.
         /// </summary>
         public static RefFixedArrayPtr<Structures.Gameplay.Player> Players => new RefFixedArrayPtr<Structures.Gameplay.Player>(0x006A4B80, MaxNumberOfPlayers);

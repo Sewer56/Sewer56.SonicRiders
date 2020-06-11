@@ -30,7 +30,7 @@ namespace Sewer56.SonicRiders.Utility
         private IHook<Functions.Functions.DefaultTaskFnWithReturn> _onRaceHook;
         private IHook<Functions.Functions.DefaultTaskFnWithReturn> _onCourseSelectHook;
         private IHook<Functions.Functions.DefaultTaskFnWithReturn> _onCharaSelectHook;
-        private IHook<Functions.Functions.TitleSequenceTaskFn> _onTitleSequenceHook;
+        private IHook<Functions.Functions.DefaultTaskFnWithReturn> _onTitleSequenceHook;
         private IHook<Functions.Functions.DefaultTaskFnWithReturn> _messageBoxHook;
         private IHook<Functions.Functions.DefaultTaskFnWithReturn> _onRaceSettingsHook;
 
@@ -44,43 +44,65 @@ namespace Sewer56.SonicRiders.Utility
             _messageBoxHook = Functions.Functions.MessageBoxTask.Hook(OnMessageBoxTask).Activate();
         }
 
-        private int OnMessageBoxTask()
+        /// <summary>
+        /// Resets the pointers.
+        /// </summary>
+        public void Reset()
+        {
+            ResetMenu();
+            Race = null;
+        }
+
+        /// <summary>
+        /// Resets the menu pointers.
+        /// </summary>
+        public void ResetMenu()
+        {
+            CharacterSelect = null;
+            CourseSelect = null;
+            TitleSequence = null;
+            RaceRules = null;
+            MessageBox = null;
+        }
+
+        private byte OnMessageBoxTask()
         {
             LastTask = Tasks.MessageBox;
             MessageBox = (Task<MessageBox, MessageBoxTaskState>*) (*State.CurrentTask);
             return _messageBoxHook.OriginalFunction();
         }
 
-        private int OnRaceSettingsTask()
+        private byte OnRaceSettingsTask()
         {
             LastTask = Tasks.RaceRules;
             RaceRules = (Task<RaceRules, RaceRulesTaskState>*) *State.CurrentTask;
             return _onRaceSettingsHook.OriginalFunction();
         }
 
-        private int OnCourseSelectTask()
+        private byte OnCourseSelectTask()
         {
             LastTask = Tasks.CourseSelect;
             CourseSelect = (Task<CourseSelect, CourseSelectTaskState>*) *State.CurrentTask;
             return _onCourseSelectHook.OriginalFunction();
         }
 
-        private int OnCharacterSelectTask()
+        private byte OnCharacterSelectTask()
         {
             LastTask = Tasks.CharacterSelect;
             CharacterSelect = (Task<CharacterSelect, CharacterSelectTaskState>*) *State.CurrentTask;
             return _onCharaSelectHook.OriginalFunction();
         }
 
-        private int OnTitleSequenceTask(int a1, int a2)
+        private byte OnTitleSequenceTask()
         {
             LastTask = Tasks.TitleSequence;
             TitleSequence = (Task<TitleSequence, TitleSequenceTaskState>*) *State.CurrentTask;
-            return _onTitleSequenceHook.OriginalFunction(a1, a2);
+            return _onTitleSequenceHook.OriginalFunction();
         }
 
-        private int OnRaceTask()
+        private byte OnRaceTask()
         {
+            ResetMenu();
             LastTask = Tasks.Race;
             Race = (Task<byte, RaceTaskState>*) *State.CurrentTask;
             return _onRaceHook.OriginalFunction();

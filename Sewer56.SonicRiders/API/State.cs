@@ -14,6 +14,32 @@ namespace Sewer56.SonicRiders.API
     public static unsafe class State
     {
         /// <summary>
+        /// Number of player characters to spawn. Should be set during stage load (before Stage Task is added).
+        /// The range for this is generally 1-8, else expect crashes.
+        /// </summary>
+        public static readonly byte* NumberOfRacers = (byte*)0x64B758;
+
+        /// <summary>
+        /// Number of cameras to display.
+        /// This is normally set during stage initialization, specifically when the Race Task is added.
+        /// </summary>
+        public static readonly int* NumberOfCameras = (int*) 0x0046C30F;
+
+        /// <summary>
+        /// True if more than one camera should be rendered, else false.
+        /// This is set during stage initialization, specifically when the Race Task is added.
+        /// </summary>
+        public static readonly int* HasMoreThanOneCamera = (int*) 0x00696C18;
+
+        /// <summary>
+        /// The current race mode of operation.
+        /// This is set during stage initialization, specifically when the Race Task is added.
+        /// That said, it can be changed in real-time for a limited set of scenarios.
+        /// Changing this values enables shortcuts in e.g. Race Stage, or can allow racing in Battle Mode.
+        /// </summary>
+        public static readonly ActiveRaceMode* RaceMode = (ActiveRaceMode*)0x00692B88;
+
+        /// <summary>
         /// Does not affect level timer/state e.g. starting line, interactive elements.
         /// Setting this pauses the game without allowing the user to control the pause menu.
         /// </summary>
