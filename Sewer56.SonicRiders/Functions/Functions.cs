@@ -53,7 +53,7 @@ namespace Sewer56.SonicRiders.Functions
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int GetInputsFn();
 
-        [Function(new [] { ecx, edx }, eax, Caller)]
+        [Function(new[] { ecx, edx }, eax, Caller, 8)]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int TitleSequenceTaskFn(int a1, int a2);
 
