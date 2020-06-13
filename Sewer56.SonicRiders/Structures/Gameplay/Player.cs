@@ -35,13 +35,13 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         /// Toggles showing of tricks, trail/dirt visuals, enables/disables AI Inputs.
         /// </summary>
         [FieldOffset(0xBC)]
-        public PlayerType PlayerController;
+        public PlayerType IsAiLogic;
 
         /// <summary>
         /// Toggles 1P/2P etc indicators and map rendering in proximity of character.
         /// </summary>
         [FieldOffset(0xBD)]
-        public PlayerType PlayerType;
+        public PlayerType IsAiVisual;
 
         /// <summary>
         /// Crashes if changed in race.
