@@ -84,6 +84,21 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         public Vector3 Rotation;
 
         /// <summary>
+        /// Position difference between the current player and another player when the player becomes attacked.
+        /// </summary>
+        [FieldOffset(0x3C0)]
+        public Vector3 AttackedByPosOffset;
+
+        /// <summary>
+        /// Speed set to the player after they are attacked.
+        /// </summary>
+        [FieldOffset(0x9D4)]
+        public float AttackEndSpeed;
+
+        [FieldOffset(0x96C)]
+        public float float_96C;
+
+        /// <summary>
         /// The amount of frames remaining until the individual player's boost ends.
         /// </summary>
         [FieldOffset(0x9D8)]
@@ -118,6 +133,12 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         /// </summary>
         [FieldOffset(0xAB8)]
         public int Air;
+
+        /// <summary>
+        /// Range 0 - 200,000
+        /// </summary>
+        [FieldOffset(0xABC)]
+        public int AirGainedThisFrame;
 
         /// <summary>
         /// The vertical speed in the upwards direction.
@@ -161,6 +182,18 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         /// </summary>
         [FieldOffset(0xCDC)]
         public PlayerDisplayFlags PlayerDisplayFlags;
+
+        /// <summary>
+        /// Pointer to the player which the player is currently being attacked by.
+        /// </summary>
+        [FieldOffset(0x10C0)]
+        public Player* PtrAttackedBy;
+
+        /// <summary>
+        /// Pointer to the player the player is currently attacking.
+        /// </summary>
+        [FieldOffset(0x10C4)]
+        public Player* PtrAttacking;
 
         /// <summary>
         /// The player's current lap counter.

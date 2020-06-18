@@ -45,6 +45,11 @@ namespace Sewer56.SonicRiders.Functions
         public static readonly IFunction<DefaultTaskFnWithReturn> MessageBoxTask = SDK.ReloadedHooks.CreateFunction<DefaultTaskFnWithReturn>(0x0050DB90);
 
         /// <summary>
+        /// Starts an attack task, making <param name="playerOne"/> attack <param name="playerTwo"/>.
+        /// </summary>
+        public static readonly IFunction<StartAttackTaskFn> StartAttackTask = SDK.ReloadedHooks.CreateFunction<StartAttackTaskFn>(0x004CDE60);
+
+        /// <summary>
         /// Sleeps the game until the next frame.
         /// </summary>
         public static readonly IFunction<DefaultFn> EndFrame = SDK.ReloadedHooks.CreateFunction<DefaultFn>(0x00527CE0);
@@ -60,5 +65,13 @@ namespace Sewer56.SonicRiders.Functions
         [Function(CallingConventions.Cdecl)]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void DefaultFn();
+
+        /// <summary>
+        /// Starts an attack task, making <param name="playerOne"/> attack <param name="playerTwo"/>.
+        /// </summary>
+        /// <param name="playerOne">The player attacking the other player.</param>
+        /// <param name="playerTwo">The player getting attacked by.</param>
+        /// <param name="a3">Unknown, typically 1.</param>
+        public unsafe delegate int StartAttackTaskFn(Structures.Gameplay.Player* playerOne, Structures.Gameplay.Player* playerTwo, int a3);
     }
 }
