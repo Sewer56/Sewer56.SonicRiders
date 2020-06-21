@@ -90,6 +90,11 @@
         GettingAttacked = 0x16,
 
         /// <summary>
+        /// Running state after the player crosses the start line.
+        /// </summary>
+        RunningAfterStart = 0x19,
+
+        /// <summary>
         /// Triggers the electric shock encountered if the player passes the start
         /// line too early.
         /// </summary>

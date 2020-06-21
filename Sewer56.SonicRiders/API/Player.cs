@@ -68,5 +68,21 @@ namespace Sewer56.SonicRiders.API
         /// Updated when holding a button in the main menu every ~3 frames.
         /// </summary>
         public static readonly Buttons* MenuInputHold = (Buttons*)0x017E470C;
+
+        /// <summary>
+        /// Gets the player index of an individual pointer.
+        /// </summary>
+        /// <param name="ptr">The pointer to the player structure.</param>
+        /// <returns>Returns the player index based off of the player pointer. Otherwise -1 if not found.</returns>
+        public static unsafe int GetPlayerIndex(Structures.Gameplay.Player* ptr)
+        {
+            for (int x = 0; x < Players.Count; x++)
+            {
+                if (ptr == &Players.Pointer[x])
+                    return x;
+            }
+
+            return -1;
+        }
     }
 }

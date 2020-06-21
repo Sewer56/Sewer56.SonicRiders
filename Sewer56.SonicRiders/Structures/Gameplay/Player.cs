@@ -143,6 +143,38 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         /// <summary>
         /// The vertical speed in the upwards direction.
         /// </summary>
+        [FieldOffset(0xB5C)]
+        public MovementFlags NewMovementFlags;
+
+        /// <summary>
+        /// The vertical speed in the upwards direction.
+        /// </summary>
+        [FieldOffset(0xB60)]
+        public MovementFlags CurrentMovementFlags;
+
+        /// <summary>
+        /// Movement of analog on X axis.
+        /// Range -100 to 100
+        /// </summary>
+        [FieldOffset(0xB6C)]
+        public sbyte AnalogX;
+
+        /// <summary>
+        /// Movement of analog on Y axis.
+        /// Range -100 to 100
+        /// </summary>
+        [FieldOffset(0xB6D)]
+        public sbyte AnalogY;
+
+        /// <summary>
+        /// Pressure on the trigger button(s).
+        /// </summary>
+        [FieldOffset(0xB6E)]
+        public byte TriggerPressure;
+
+        /// <summary>
+        /// The vertical speed in the upwards direction.
+        /// </summary>
         [FieldOffset(0xBD8)]
         public float VSpeed;
 
@@ -172,6 +204,24 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         [FieldOffset(0xBE8)]
         public float SpeedCap;
 
+        /// <summary>
+        /// Copy of <see cref="DriftAngle"/>, purpose unknown.
+        /// </summary>
+        [FieldOffset(0xC54)]
+        public float DriftAngleCopy;
+
+        /// <summary>
+        /// The current angle at which the character is drifting.
+        /// </summary>
+        [FieldOffset(0xC58)]
+        public float DriftAngle;
+
+        /// <summary>
+        /// The current amount by which the player is turning.
+        /// </summary>
+        [FieldOffset(0xC60)]
+        public float TurningAmount;
+
         [FieldOffset(0xCCC)]
         public int Rings;
 
@@ -200,6 +250,12 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         /// </summary>
         [FieldOffset(0x11B2)]
         public byte LapCounter;
+
+        /// <summary>
+        /// Current player level. Auto-set by game depending on player's ring counter.
+        /// </summary>
+        [FieldOffset(0x11B6)]
+        public byte Level;
 
         /// <summary>
         /// Contains the current state of the player.

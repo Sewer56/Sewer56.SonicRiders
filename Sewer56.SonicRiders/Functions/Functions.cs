@@ -54,6 +54,18 @@ namespace Sewer56.SonicRiders.Functions
         /// </summary>
         public static readonly IFunction<DefaultFn> EndFrame = SDK.ReloadedHooks.CreateFunction<DefaultFn>(0x00527CE0);
 
+        /// <summary>
+        /// Handles various movement flags that player has.
+        /// See: <see cref="Structures.Gameplay.Player.NewMovementFlags"/>
+        /// </summary>
+        public static readonly IFunction<PlayerFn> HandleBoostMovementFlagsFn = SDK.ReloadedHooks.CreateFunction<PlayerFn>(0x004CFD70);
+
+        /// <summary>
+        /// Sets player movement flags based on player inputs.
+        /// <see cref="Structures.Gameplay.Player.NewMovementFlags"/>
+        /// </summary>
+        public static readonly IFunction<SetMovementFlagsBasedOnInputFn> SetMovementFlagsOnInput = SDK.ReloadedHooks.CreateFunction<SetMovementFlagsBasedOnInputFn>(0x004B37F0);
+
         [Function(CallingConventions.Cdecl)]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int GetInputsFn();
@@ -72,6 +84,16 @@ namespace Sewer56.SonicRiders.Functions
         /// <param name="playerOne">The player attacking the other player.</param>
         /// <param name="playerTwo">The player getting attacked by.</param>
         /// <param name="a3">Unknown, typically 1.</param>
+        [Function(CallingConventions.Cdecl)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate int StartAttackTaskFn(Structures.Gameplay.Player* playerOne, Structures.Gameplay.Player* playerTwo, int a3);
+
+        [Function(CallingConventions.Cdecl)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate int PlayerFn(Structures.Gameplay.Player* player);
+
+        [Function(eax, eax, Caller)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate Structures.Gameplay.Player* SetMovementFlagsBasedOnInputFn(Structures.Gameplay.Player* player);
     }
 }
