@@ -2,6 +2,8 @@
 {
     public enum PlayerState : byte
     {
+        None = 0x00,
+
         /// <summary>
         /// The running state that is applied at the start of a race.
         /// </summary>

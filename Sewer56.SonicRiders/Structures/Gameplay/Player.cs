@@ -90,6 +90,12 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         public Vector3 AttackedByPosOffset;
 
         /// <summary>
+        /// Unknown state. Set after attacking. Can disable attacks.
+        /// </summary>
+        [FieldOffset(0x7B8)]
+        public PlayerState MaybeAttackLastState;
+
+        /// <summary>
         /// Speed set to the player after they are attacked.
         /// </summary>
         [FieldOffset(0x9D4)]
@@ -226,12 +232,11 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         public int Rings;
 
         /// <summary>
-        /// [Flags]
-        /// Seems to be affected by both player actions such as e.g. grinding on a rail but also 
-        /// other settings and parameters e.g. whether to use cinematic camera.
+        /// Various seemingly unrelated flags which control current player state.
+        /// Affects things such as if speedometer is shown or what the camera is doing.
         /// </summary>
         [FieldOffset(0xCDC)]
-        public PlayerDisplayFlags PlayerDisplayFlags;
+        public PlayerControlFlags PlayerControlFlags;
 
         /// <summary>
         /// Pointer to the player which the player is currently being attacked by.
