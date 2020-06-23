@@ -2,6 +2,7 @@
 using Reloaded.Hooks.Definitions;
 using Reloaded.Hooks.Definitions.X86;
 using Sewer56.SonicRiders.API;
+using Sewer56.SonicRiders.Structures.Enums;
 using static Reloaded.Hooks.Definitions.X86.FunctionAttribute.Register;
 using static Reloaded.Hooks.Definitions.X86.FunctionAttribute.StackCleanup;
 
@@ -66,6 +67,11 @@ namespace Sewer56.SonicRiders.Functions
         /// </summary>
         public static readonly IFunction<SetMovementFlagsBasedOnInputFn> SetMovementFlagsOnInput = SDK.ReloadedHooks.CreateFunction<SetMovementFlagsBasedOnInputFn>(0x004B37F0);
 
+        /// <summary>
+        /// Sets the next player state. Called typically at the end of a state handler.
+        /// </summary>
+        public static readonly IFunction<SetNewPlayerStateFn> SetPlayerState = SDK.ReloadedHooks.CreateFunction<SetNewPlayerStateFn>(0x004BD850);
+
         [Function(CallingConventions.Cdecl)]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int GetInputsFn();
@@ -91,6 +97,10 @@ namespace Sewer56.SonicRiders.Functions
         [Function(CallingConventions.Cdecl)]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate int PlayerFn(Structures.Gameplay.Player* player);
+
+        [Function(CallingConventions.Cdecl)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate byte SetNewPlayerStateFn(Structures.Gameplay.Player* player, PlayerState state);
 
         [Function(eax, eax, Caller)]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
