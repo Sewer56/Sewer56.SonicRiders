@@ -3,6 +3,7 @@ using Reloaded.Hooks.Definitions;
 using Reloaded.Hooks.Definitions.X86;
 using Sewer56.SonicRiders.API;
 using Sewer56.SonicRiders.Structures.Enums;
+using Sewer56.SonicRiders.Structures.Tasks.Base;
 using static Reloaded.Hooks.Definitions.X86.FunctionAttribute.Register;
 using static Reloaded.Hooks.Definitions.X86.FunctionAttribute.StackCleanup;
 
@@ -72,6 +73,11 @@ namespace Sewer56.SonicRiders.Functions
         /// </summary>
         public static readonly IFunction<SetNewPlayerStateFn> SetPlayerState = SDK.ReloadedHooks.CreateFunction<SetNewPlayerStateFn>(0x004BD850);
 
+        /// <summary>
+        /// Sets an itembox pickup to be rendered to the screen.
+        /// </summary>
+        public static readonly IFunction<SetRenderItemPickupTaskFn> SetRenderItemPickupTask = SDK.ReloadedHooks.CreateFunction<SetRenderItemPickupTaskFn>(0x004C5C50);
+
         [Function(CallingConventions.Cdecl)]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int GetInputsFn();
@@ -105,5 +111,9 @@ namespace Sewer56.SonicRiders.Functions
         [Function(eax, eax, Caller)]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate Structures.Gameplay.Player* SetMovementFlagsBasedOnInputFn(Structures.Gameplay.Player* player);
+
+        [Function(esi, eax, Caller)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate Task* SetRenderItemPickupTaskFn(Structures.Gameplay.Player* player, byte a2, ushort a3);
     }
 }

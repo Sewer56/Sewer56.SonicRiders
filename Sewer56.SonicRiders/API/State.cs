@@ -23,7 +23,7 @@ namespace Sewer56.SonicRiders.API
         /// Number of cameras to display.
         /// This is normally set during stage initialization, specifically when the Race Task is added.
         /// </summary>
-        public static readonly int* NumberOfCameras = (int*) 0x0046C30F;
+        public static readonly int* NumberOfCameras = (int*) 0x0064B760;
 
         /// <summary>
         /// True if more than one camera should be rendered, else false.
