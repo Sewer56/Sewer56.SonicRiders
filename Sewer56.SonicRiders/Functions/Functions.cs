@@ -78,6 +78,22 @@ namespace Sewer56.SonicRiders.Functions
         /// </summary>
         public static readonly IFunction<SetRenderItemPickupTaskFn> SetRenderItemPickupTask = SDK.ReloadedHooks.CreateFunction<SetRenderItemPickupTaskFn>(0x004C5C50);
 
+        /// <summary>
+        /// Sets the spawn locations for all players at the start of race.
+        /// Parameter: Number of players 0-7
+        /// </summary>
+        public static readonly IFunction<SetSpawnLocationsStartOfRaceFn> SetSpawnLocationsStartOfRace = SDK.ReloadedHooks.CreateFunction<SetSpawnLocationsStartOfRaceFn>(0x004139F0);
+
+        /// <summary>
+        /// C srand
+        /// </summary>
+        public static readonly IFunction<SRandFn> SRand = SDK.ReloadedHooks.CreateFunction<SRandFn>(0x0059B7BD);
+
+        /// <summary>
+        /// C rand
+        /// </summary>
+        public static readonly IFunction<RandFn> Rand = SDK.ReloadedHooks.CreateFunction<RandFn>(0x0059B7CA);
+
         [Function(CallingConventions.Cdecl)]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int GetInputsFn();
@@ -115,5 +131,17 @@ namespace Sewer56.SonicRiders.Functions
         [Function(esi, eax, Caller)]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate Task* SetRenderItemPickupTaskFn(Structures.Gameplay.Player* player, byte a2, ushort a3);
+
+        [Function(CallingConventions.Cdecl)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate int SetSpawnLocationsStartOfRaceFn(int numberOfPlayers);
+
+        [Function(CallingConventions.Cdecl)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate void SRandFn(uint seed);
+
+        [Function(CallingConventions.Cdecl)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate int RandFn();
     }
 }
