@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using Reloaded.Memory.Kernel32;
 using Reloaded.Memory.Pointers;
 using Reloaded.Memory.Sources;
+using Sewer56.SonicRiders.Structures.Enums;
 using Sewer56.SonicRiders.Structures.Gameplay;
 using Sewer56.SonicRiders.Structures.Input;
 using Sewer56.SonicRiders.Structures.Input.Enums;
+using ExtremeGear = Sewer56.SonicRiders.Structures.Gameplay.ExtremeGear;
 
 namespace Sewer56.SonicRiders.API
 {
@@ -19,9 +22,10 @@ namespace Sewer56.SonicRiders.API
 
         static Player()
         {
-            if (Process.GetCurrentProcess().MainModule.ModuleName.Equals("SonicRiders.exe", StringComparison.OrdinalIgnoreCase))
+            if (Misc.IsSonicRiders)
             {
                 Memory.CurrentProcess.ChangePermission((IntPtr)RunPhysics, sizeof(RunningPhysics), Kernel32.MEM_PROTECTION.PAGE_EXECUTE_READWRITE);
+                Memory.CurrentProcess.ChangePermission((IntPtr)Colours.Pointer, sizeof(int) * Colours.Count, Kernel32.MEM_PROTECTION.PAGE_EXECUTE_READWRITE);
             }
         }
 
@@ -41,6 +45,12 @@ namespace Sewer56.SonicRiders.API
         /// <see cref="Sewer56.SonicRiders.Structures.Enums.ExtremeGear"/> as an indexer.
         /// </summary>
         public static FixedArrayPtr<ExtremeGear> Gears => new FixedArrayPtr<ExtremeGear>(0x6575B0, NumberOfGears);
+
+        /// <summary>
+        /// Contains the character colours in RGBA format (1 byte per color).
+        /// Last slot is used by COM.
+        /// </summary>
+        public static RefFixedArrayPtr<int> Colours => new RefFixedArrayPtr<int>(0x005B2538, 18);
 
         /// <summary>
         /// Contains the individual statistics/properties Speed, Flight and Power characters.
