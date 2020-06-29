@@ -56,6 +56,12 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         public GearType GearTypeAnimation;
 
         /// <summary>
+        /// Controls the rotation of the character. This is sometimes used instead of the other one?
+        /// </summary>
+        [FieldOffset(0xD0)]
+        public Vector3 RenderRotationAlt;
+
+        /// <summary>
         /// Controls the rotation of the character. This is a normalized "up" vector.
         /// Used by DirectX?
         /// </summary>
@@ -94,6 +100,46 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         /// </summary>
         [FieldOffset(0x7B8)]
         public PlayerState MaybeAttackLastState;
+
+        [FieldOffset(0x860)]
+        public CharacterAnimation LastAnimation;
+
+        [FieldOffset(0x864)]
+        public CharacterAnimation Animation;
+
+        /// <summary>
+        /// Frame counter for the current animation.
+        /// Generally counts up to 60.
+        /// </summary>
+        [FieldOffset(0x870)]
+        public float AnimationFramecounter;
+
+        /// <summary>
+        /// Frame counter for the last animation.
+        /// Generally counts up to 60.
+        /// </summary>
+        [FieldOffset(0x874)]
+        public float LastAnimationFramecounter;
+
+        /// <summary>
+        /// Scale 0.0 to 1.0
+        /// </summary>
+        [FieldOffset(0x878)]
+        public float AnimationInterpolationProgress;
+
+        /// <summary>
+        /// How fast animation interpolates up to 1.0.
+        /// See <see cref="AnimationInterpolationProgress"/>
+        /// </summary>
+        [FieldOffset(0x880)]
+        public float AnimationInterpolationIncreaseRate;
+
+        /// <summary>
+        /// The ratio between the old and the new animation.
+        /// See <see cref="AnimationInterpolationProgress"/>
+        /// </summary>
+        [FieldOffset(0x884)]
+        public float AnimationInterpolationRatio;
 
         /// <summary>
         /// Speed set to the player after they are attacked.
@@ -261,6 +307,12 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         /// </summary>
         [FieldOffset(0x11B6)]
         public byte Level;
+
+        /// <summary>
+        /// Current mode of falling from the air.
+        /// </summary>
+        [FieldOffset(0x11B7)]
+        public FallingMode FallingMode;
 
         /// <summary>
         /// Contains the current state of the player.
