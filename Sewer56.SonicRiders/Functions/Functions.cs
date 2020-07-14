@@ -3,6 +3,7 @@ using Reloaded.Hooks.Definitions;
 using Reloaded.Hooks.Definitions.X86;
 using Sewer56.SonicRiders.API;
 using Sewer56.SonicRiders.Structures.Enums;
+using Sewer56.SonicRiders.Structures.Functions;
 using Sewer56.SonicRiders.Structures.Tasks.Base;
 using static Reloaded.Hooks.Definitions.X86.FunctionAttribute.Register;
 using static Reloaded.Hooks.Definitions.X86.FunctionAttribute.StackCleanup;
@@ -94,6 +95,41 @@ namespace Sewer56.SonicRiders.Functions
         /// </summary>
         public static readonly IFunction<RandFn> Rand = SDK.ReloadedHooks.CreateFunction<RandFn>(0x0059B7CA);
 
+        /// <summary>
+        /// Sets a new file to be opened by the game.
+        /// </summary>
+        public static readonly IFunction<ArchiveSetLoadFileFn> ArchiveAddLoadFile      = SDK.ReloadedHooks.CreateFunction<ArchiveSetLoadFileFn>(0x0041FA10);
+
+        /// <summary>
+        /// Sets a new file to be opened by the game.
+        /// </summary>
+        public static readonly IFunction<ArchiveInGameSetLoadFileFn> ArchiveInGameLoadFile = SDK.ReloadedHooks.CreateFunction<ArchiveInGameSetLoadFileFn>(0x00514570);
+
+        /// <summary>
+        /// Removes a file opened by the game.
+        /// </summary>
+        public static readonly IFunction<ArchiveUnsetLoadFileFn> ArchiveRemoveLoadFile  = SDK.ReloadedHooks.CreateFunction<ArchiveUnsetLoadFileFn>(0x0041F540);
+
+        /// <summary>
+        /// Sets up the <see cref="CompressorData"/> structure.
+        /// </summary>
+        public static readonly IFunction<InitDecompressionFn> InitDecompression         = SDK.ReloadedHooks.CreateFunction<InitDecompressionFn>(0x004110B0);
+
+        /// <summary>
+        /// Decompresses a block of data.
+        /// </summary>
+        public static readonly IFunction<DecompressFn> Decompress                       = SDK.ReloadedHooks.CreateFunction<DecompressFn>(0x004111B0);
+
+        /// <summary>
+        /// Deallocates a file from shared buffer space.
+        /// </summary>
+        public static readonly IFunction<FileDeallocateFn> FileDeallocate = SDK.ReloadedHooks.CreateFunction<FileDeallocateFn>(0x005278E0);
+
+        /// <summary>
+        /// Initializes third party libraries.
+        /// </summary>
+        public static readonly IFunction<DefaultReturnFn> InitThirdPartyLibraries       = SDK.ReloadedHooks.CreateFunction<DefaultReturnFn>(0x004EDE50);
+
         [Function(CallingConventions.Cdecl)]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int GetInputsFn();
@@ -105,6 +141,10 @@ namespace Sewer56.SonicRiders.Functions
         [Function(CallingConventions.Cdecl)]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void DefaultFn();
+
+        [Function(CallingConventions.Cdecl)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int DefaultReturnFn();
 
         /// <summary>
         /// Starts an attack task, making <param name="playerOne"/> attack <param name="playerTwo"/>.
@@ -143,5 +183,55 @@ namespace Sewer56.SonicRiders.Functions
         [Function(CallingConventions.Cdecl)]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate int RandFn();
+
+        /// <returns>Unique index for the file</returns>
+        [Function(CallingConventions.Cdecl)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate int ArchiveSetLoadFileFn(void* fileName, int typicallyOne, int typicallyOne_1, int typicallyZero, void* someKindOfBuffer, void* someKindOfOtherBuffer, int typicallyOne_2, int typicallyOne_3, int playerIndex);
+
+        /// <summary>
+        /// Unloads a file from memory.
+        /// </summary>
+        /// <param name="fileIndex">File index returned from <see cref="ArchiveSetLoadFileFn"/></param>
+        [Function(CallingConventions.Cdecl)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate int ArchiveUnsetLoadFileFn(int fileIndex);
+
+        /// <param name="comp">Pointer to compressor data to initialize.</param>
+        /// <param name="pUncompressedData">Pointer to uncompressed buffer.</param>
+        /// <param name="archiveType">Archive type (of some kind).</param>
+        /// <param name="archiveSize">Size of uncompressed data (<see cref="pUncompressedData"/>)</param>
+        /// <param name="a5"></param>
+        /// <param name="blockSize">Block size.</param>
+        /// <returns></returns>
+        [Function(CallingConventions.Cdecl)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate CompressorData* InitDecompressionFn(CompressorData* comp, void* pUncompressedData, byte archiveType, int archiveSize, byte a5, int blockSize);
+
+        /// <param name="comp">Compressor data.</param>
+        /// <param name="pCompressedData">Pointer to the compressed data.</param>
+        /// <param name="blockSize">Block size.</param>
+        /// <param name="pBlockSizeRead">Amount of data in the current block that has been read.</param>
+        /// <param name="pMaybeFinishedDecompressing">Set to 1 if end of data.</param>
+        /// <returns></returns>
+        [Function(CallingConventions.Cdecl)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate byte DecompressFn(CompressorData* comp, void* pCompressedData, int blockSize, int* pBlockSizeRead, bool* pMaybeFinishedDecompressing);
+
+        /// <summary>
+        /// Sets a file to be loaded in-game.
+        /// </summary>
+        /// <param name="fileName">The name of the file.</param>
+        /// <param name="header">Shared file buffer header</param>
+        [Function(CallingConventions.Cdecl)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate SharedFileBufferHeader* ArchiveInGameSetLoadFileFn(string fileName, SharedFileBufferHeader* header);
+
+        /// <summary>
+        /// Deallocates a file from shared buffer space.
+        /// </summary>
+        [Function(CallingConventions.Cdecl)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate int FileDeallocateFn(SharedFileBufferHeader* header);
     }
 }
