@@ -7,6 +7,10 @@
         /// </summary>
         LoadRace = 1,
         Race = 2,
+        
+        SetSplashScreen = 10,
+        CheckHeapAndSetSplashScreen = 11,
+        SplashScreen = 12,
         TitleScreen = 13,
 
         /// <summary>
