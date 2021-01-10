@@ -23,7 +23,7 @@ namespace Sewer56.SonicRiders.API
             if (IsSonicRiders)
             {
                 Memory.CurrentProcess.ChangePermission((IntPtr)RelativeSpawnPosition.Pointer, sizeof(Vector3) * Player.MaxNumberOfPlayers, Kernel32.MEM_PROTECTION.PAGE_EXECUTE_READWRITE);
-                DX9Hook = new DX9Hook(SDK.ReloadedHooks);
+                DX9Hook = new Lazy<DX9Hook>(() => new DX9Hook(SDK.ReloadedHooks));
             }
         }
 
@@ -35,7 +35,7 @@ namespace Sewer56.SonicRiders.API
         /// <summary>
         /// Utility class that allows you to access the DirectX 9 VTable.
         /// </summary>
-        public static DX9Hook DX9Hook { get; set; }
+        public static Lazy<DX9Hook> DX9Hook { get; set; }
 
         /// <summary>
         /// Swaps the spawn positions of two players.
