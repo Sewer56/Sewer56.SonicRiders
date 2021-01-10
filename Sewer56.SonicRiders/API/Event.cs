@@ -13,8 +13,7 @@ namespace Sewer56.SonicRiders.API
 
         static Event()
         {
-            var dx9Hook   = new DX9Hook(SDK.ReloadedHooks);
-            _endSceneHook = dx9Hook.DeviceVTable.CreateFunctionHook<DX9Hook.EndScene>((int) IDirect3DDevice9.EndScene, EndSceneHook).Activate();
+            _endSceneHook = Misc.DX9Hook.DeviceVTable.CreateFunctionHook<DX9Hook.EndScene>((int) IDirect3DDevice9.EndScene, EndSceneHook).Activate();
         }
 
         /// <summary>

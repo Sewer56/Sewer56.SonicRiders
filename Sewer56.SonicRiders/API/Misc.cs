@@ -6,6 +6,7 @@ using System.Text;
 using Reloaded.Memory.Kernel32;
 using Reloaded.Memory.Pointers;
 using Reloaded.Memory.Sources;
+using Sewer56.SonicRiders.Internal.DirectX;
 using Sewer56.SonicRiders.Structures.Gameplay;
 
 namespace Sewer56.SonicRiders.API
@@ -22,6 +23,7 @@ namespace Sewer56.SonicRiders.API
             if (IsSonicRiders)
             {
                 Memory.CurrentProcess.ChangePermission((IntPtr)RelativeSpawnPosition.Pointer, sizeof(Vector3) * Player.MaxNumberOfPlayers, Kernel32.MEM_PROTECTION.PAGE_EXECUTE_READWRITE);
+                DX9Hook = new DX9Hook(SDK.ReloadedHooks);
             }
         }
 
@@ -29,6 +31,11 @@ namespace Sewer56.SonicRiders.API
         /// Relative spawn positions for each player.
         /// </summary>
         public static RefFixedArrayPtr<Vector3> RelativeSpawnPosition = new RefFixedArrayPtr<Vector3>(0x5F8760, Player.MaxNumberOfPlayers);
+
+        /// <summary>
+        /// Utility class that allows you to access the DirectX 9 VTable.
+        /// </summary>
+        public static DX9Hook DX9Hook { get; set; }
 
         /// <summary>
         /// Swaps the spawn positions of two players.
