@@ -31,9 +31,9 @@ namespace Sewer56.SonicRiders.Structures.Enums
         NoHoverAndTrail = 0x100,
 
         /// <summary>
-        /// Shows the Hairpin Turn Symbol/HUD element near hairpin turns.
+        /// Shows the Hairpin Turn Symbol/HUD element near hairpin turns when the player enters turbulence.
         /// </summary>
-        HairpinTurnSymbol = 0x800,
+        TurbulenceHairpinTurnSymbol = 0x800,
 
         /// <summary>
         /// Enabled while performing tricks, disables the boost indicator
