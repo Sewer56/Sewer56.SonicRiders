@@ -1,11 +1,14 @@
 ﻿using System.Numerics;
 using System.Runtime.InteropServices;
 using Reloaded.Hooks.Definitions;
+using Reloaded.Hooks.Definitions.Structs;
 using Reloaded.Hooks.Definitions.X86;
+using Reloaded.Memory.Pointers;
 using Sewer56.SonicRiders.API;
 using Sewer56.SonicRiders.Structures.Enums;
 using Sewer56.SonicRiders.Structures.Functions;
 using Sewer56.SonicRiders.Structures.Tasks.Base;
+using static Reloaded.Hooks.Definitions.X86.FunctionAttribute;
 using static Reloaded.Hooks.Definitions.X86.FunctionAttribute.Register;
 using static Reloaded.Hooks.Definitions.X86.FunctionAttribute.StackCleanup;
 
@@ -141,6 +144,21 @@ namespace Sewer56.SonicRiders.Functions
         /// </summary>
         public static readonly IFunction<RenderTexture2DFn> RenderTexture2D = SDK.ReloadedHooks.CreateFunction<RenderTexture2DFn>(0x005327F0);
 
+        /// <summary>
+        /// Renders a 2 dimensional texture to the screen. (Function Pointer Version)
+        /// </summary>
+        public static readonly IFunction<RenderTexture2DFnPtr> RenderTexture2DPtr = SDK.ReloadedHooks.CreateFunction<RenderTexture2DFnPtr>(0x005327F0);
+
+        /// <summary>
+        /// Renders an individual player indicator to the screen.
+        /// </summary>
+        public static readonly IFunction<RenderPlayerIndicatorFn> RenderPlayerIndicator = SDK.ReloadedHooks.CreateFunction<RenderPlayerIndicatorFn>(0x00426980);
+
+        /// <summary>
+        /// Renders an individual player indicator to the screen.
+        /// </summary>
+        public static readonly IFunction<RenderPlayerIndicatorFnPtr> RenderPlayerIndicatorPtr = SDK.ReloadedHooks.CreateFunction<RenderPlayerIndicatorFnPtr>(0x00426980);
+
         [Function(CallingConventions.Cdecl)]
         public delegate int GetInputsFn();
 
@@ -233,5 +251,18 @@ namespace Sewer56.SonicRiders.Functions
         /// <returns></returns>
         [Function(CallingConventions.Cdecl)]
         public unsafe delegate int RenderTexture2DFn(int isQuad, Vector3* a3, int numVertices, float opacity);
+
+        [Function(CallingConventions.Cdecl)]
+        public struct RenderTexture2DFnPtr { public FuncPtr<int, BlittablePointer<Vector3>, int, float, int> Value; }
+
+        /// <summary>
+        /// Renders a player indicator to the screen
+        /// </summary>
+        [Function(new Register[] { eax, ecx, edi, esi }, eax, Caller)]
+        public unsafe delegate int RenderPlayerIndicatorFn(int a1, int a2, int a3, int a4, int horizontalOffset, int a6, int a7, int a8, int a9, int a10);
+
+        // signed int *a1@<eax>, int a2@<ecx>, int a3@<edi>, int a4@<esi>, int a5, int a6, float *a7, unsigned int a8, unsigned int a9, int a10
+        [Function(new Register[] { eax, ecx, edi, esi }, eax, Caller)]
+        public struct RenderPlayerIndicatorFnPtr { public FuncPtr<int, int, int, int, int, int, int, int, int, int, int> Value; }
     }
 }
