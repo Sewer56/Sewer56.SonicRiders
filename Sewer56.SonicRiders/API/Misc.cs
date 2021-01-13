@@ -20,11 +20,8 @@ namespace Sewer56.SonicRiders.API
 
         static Misc()
         {
-            if (IsSonicRiders)
-            {
-                Memory.CurrentProcess.ChangePermission((IntPtr)RelativeSpawnPosition.Pointer, sizeof(Vector3) * Player.MaxNumberOfPlayers, Kernel32.MEM_PROTECTION.PAGE_EXECUTE_READWRITE);
-                DX9Hook = new Lazy<DX9Hook>(() => new DX9Hook(SDK.ReloadedHooks));
-            }
+            Memory.CurrentProcess.ChangePermission((IntPtr)RelativeSpawnPosition.Pointer, sizeof(Vector3) * Player.MaxNumberOfPlayers, Kernel32.MEM_PROTECTION.PAGE_EXECUTE_READWRITE);
+            DX9Hook = new Lazy<DX9Hook>(() => new DX9Hook(SDK.ReloadedHooks));
         }
 
         /// <summary>

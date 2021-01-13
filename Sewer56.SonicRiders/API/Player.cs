@@ -22,11 +22,8 @@ namespace Sewer56.SonicRiders.API
 
         static Player()
         {
-            if (Misc.IsSonicRiders)
-            {
-                Memory.CurrentProcess.ChangePermission((IntPtr)RunPhysics, sizeof(RunningPhysics), Kernel32.MEM_PROTECTION.PAGE_EXECUTE_READWRITE);
-                Memory.CurrentProcess.ChangePermission((IntPtr)Colours.Pointer, sizeof(int) * Colours.Count, Kernel32.MEM_PROTECTION.PAGE_EXECUTE_READWRITE);
-            }
+            Memory.CurrentProcess.ChangePermission((IntPtr)RunPhysics, sizeof(RunningPhysics), Kernel32.MEM_PROTECTION.PAGE_EXECUTE_READWRITE);
+            Memory.CurrentProcess.ChangePermission((IntPtr)Colours.Pointer, sizeof(int) * Colours.Count, Kernel32.MEM_PROTECTION.PAGE_EXECUTE_READWRITE);
         }
 
         /// <summary>
