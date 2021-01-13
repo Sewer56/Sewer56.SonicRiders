@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Numerics;
+using System.Runtime.InteropServices;
 using Reloaded.Hooks.Definitions;
 using Reloaded.Hooks.Definitions.X86;
 using Sewer56.SonicRiders.API;
@@ -128,22 +129,28 @@ namespace Sewer56.SonicRiders.Functions
         /// <summary>
         /// Initializes third party libraries.
         /// </summary>
-        public static readonly IFunction<DefaultReturnFn> InitThirdPartyLibraries       = SDK.ReloadedHooks.CreateFunction<DefaultReturnFn>(0x004EDE50);
+        public static readonly IFunction<DefaultReturnFn> InitThirdPartyLibraries = SDK.ReloadedHooks.CreateFunction<DefaultReturnFn>(0x004EDE50);
+
+        /// <summary>
+        /// Reads the user config file.
+        /// </summary>
+        public static readonly IFunction<DefaultReturnFn> ReadConfigFile = SDK.ReloadedHooks.CreateFunction<DefaultReturnFn>(0x005128C0);
+
+        /// <summary>
+        /// Renders a 2 dimensional texture to the screen.
+        /// </summary>
+        public static readonly IFunction<RenderTexture2DFn> RenderTexture2D = SDK.ReloadedHooks.CreateFunction<RenderTexture2DFn>(0x005327F0);
 
         [Function(CallingConventions.Cdecl)]
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int GetInputsFn();
 
         [Function(CallingConventions.Cdecl)]
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate byte DefaultTaskFnWithReturn();
 
         [Function(CallingConventions.Cdecl)]
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void DefaultFn();
 
         [Function(CallingConventions.Cdecl)]
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int DefaultReturnFn();
 
         /// <summary>
@@ -153,40 +160,31 @@ namespace Sewer56.SonicRiders.Functions
         /// <param name="playerTwo">The player getting attacked by.</param>
         /// <param name="a3">Unknown, typically 1.</param>
         [Function(CallingConventions.Cdecl)]
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate int StartAttackTaskFn(Structures.Gameplay.Player* playerOne, Structures.Gameplay.Player* playerTwo, int a3);
 
         [Function(CallingConventions.Cdecl)]
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate int PlayerFn(Structures.Gameplay.Player* player);
 
         [Function(CallingConventions.Cdecl)]
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate byte SetNewPlayerStateFn(Structures.Gameplay.Player* player, PlayerState state);
 
         [Function(eax, eax, Caller)]
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate Structures.Gameplay.Player* SetMovementFlagsBasedOnInputFn(Structures.Gameplay.Player* player);
 
         [Function(esi, eax, Caller)]
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate Task* SetRenderItemPickupTaskFn(Structures.Gameplay.Player* player, byte a2, ushort a3);
 
         [Function(CallingConventions.Cdecl)]
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate int SetSpawnLocationsStartOfRaceFn(int numberOfPlayers);
 
         [Function(CallingConventions.Cdecl)]
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate void SRandFn(uint seed);
 
         [Function(CallingConventions.Cdecl)]
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate int RandFn();
 
         /// <returns>Unique index for the file</returns>
         [Function(CallingConventions.Cdecl)]
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate int ArchiveSetLoadFileFn(void* fileName, int typicallyOne, int typicallyOne_1, int typicallyZero, void* someKindOfBuffer, void* someKindOfOtherBuffer, int typicallyOne_2, int typicallyOne_3, int playerIndex);
 
         /// <summary>
@@ -194,7 +192,6 @@ namespace Sewer56.SonicRiders.Functions
         /// </summary>
         /// <param name="fileIndex">File index returned from <see cref="ArchiveSetLoadFileFn"/></param>
         [Function(CallingConventions.Cdecl)]
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate int ArchiveUnsetLoadFileFn(int fileIndex);
 
         /// <param name="comp">Pointer to compressor data to initialize.</param>
@@ -205,7 +202,6 @@ namespace Sewer56.SonicRiders.Functions
         /// <param name="blockSize">Block size.</param>
         /// <returns></returns>
         [Function(CallingConventions.Cdecl)]
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate CompressorData* InitDecompressionFn(CompressorData* comp, void* pUncompressedData, byte archiveType, int archiveSize, byte a5, int blockSize);
 
         /// <param name="comp">Compressor data.</param>
@@ -215,7 +211,6 @@ namespace Sewer56.SonicRiders.Functions
         /// <param name="pMaybeFinishedDecompressing">Set to 1 if end of data.</param>
         /// <returns></returns>
         [Function(CallingConventions.Cdecl)]
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate byte DecompressFn(CompressorData* comp, void* pCompressedData, int blockSize, int* pBlockSizeRead, bool* pMaybeFinishedDecompressing);
 
         /// <summary>
@@ -224,14 +219,19 @@ namespace Sewer56.SonicRiders.Functions
         /// <param name="fileName">The name of the file.</param>
         /// <param name="header">Shared file buffer header</param>
         [Function(CallingConventions.Cdecl)]
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate SharedFileBufferHeader* ArchiveInGameSetLoadFileFn(string fileName, SharedFileBufferHeader* header);
 
         /// <summary>
         /// Deallocates a file from shared buffer space.
         /// </summary>
         [Function(CallingConventions.Cdecl)]
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate int FileDeallocateFn(SharedFileBufferHeader* header);
+
+        /// <summary>
+        /// Renders a 2D texture to the screen.
+        /// </summary>
+        /// <returns></returns>
+        [Function(CallingConventions.Cdecl)]
+        public unsafe delegate int RenderTexture2DFn(int isQuad, Vector3* a3, int numVertices, float opacity);
     }
 }
