@@ -14,7 +14,8 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         public static readonly BitField AirPitBitfield      = new BitField(10, 1);
         public static readonly BitField GhostBitfield       = new BitField(11, 1);
         public static readonly BitField TimeLimitBitfield   = new BitField(12, 7);
-        public static readonly BitField UnknownBitfield     = new BitField(19, 4);
+        public static readonly BitField RunOnAirLossBitfield = new BitField(19, 1);
+        public static readonly BitField UnknownBitfield      = new BitField(20, 3);
         public static readonly BitField NumberOfPointsBitfield = new BitField(23, 8);
 
         /// <summary>
@@ -74,6 +75,15 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         {
             get => (byte) TimeLimitBitfield.GetValue(Value);
             set => TimeLimitBitfield.SetValue(ref Value, value);
+        }
+
+        /// <summary>
+        /// Disables/enables ghosts.
+        /// </summary>
+        public byte RunOnAirLoss
+        {
+            get => (byte) RunOnAirLossBitfield.GetValue(Value);
+            set => RunOnAirLossBitfield.SetValue(ref Value, value);
         }
 
         /// <summary>
