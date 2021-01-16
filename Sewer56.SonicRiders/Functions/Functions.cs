@@ -159,6 +159,16 @@ namespace Sewer56.SonicRiders.Functions
         /// </summary>
         public static readonly IFunction<RenderPlayerIndicatorFnPtr> RenderPlayerIndicatorPtr = SDK.ReloadedHooks.CreateFunction<RenderPlayerIndicatorFnPtr>(0x00426980);
 
+        /// <summary>
+        /// Sets the task which presents the final results screen onto the screen.
+        /// </summary>
+        public static readonly IFunction<SetGoalRaceFinishTaskFn> SetGoalRaceFinishTask = SDK.ReloadedHooks.CreateFunction<SetGoalRaceFinishTaskFn>(0x00426040);
+
+        /// <summary>
+        /// Updates the lap counter of the individual player once they cross the finish line.
+        /// </summary>
+        public static readonly IFunction<UpdateLapCounterFn> UpdateLapCounter = SDK.ReloadedHooks.CreateFunction<UpdateLapCounterFn>(0x004B3E70);
+
         [Function(CallingConventions.Cdecl)]
         public delegate int GetInputsFn();
 
@@ -264,5 +274,18 @@ namespace Sewer56.SonicRiders.Functions
         // signed int *a1@<eax>, int a2@<ecx>, int a3@<edi>, int a4@<esi>, int a5, int a6, float *a7, unsigned int a8, unsigned int a9, int a10
         [Function(new Register[] { eax, ecx, edi, esi }, eax, Caller)]
         public struct RenderPlayerIndicatorFnPtr { public FuncPtr<int, int, int, int, int, int, int, int, int, int, int> Value; }
+
+        /// <summary>
+        /// Sets up the task that displays the new lap and results screen once the player crosses for a new lap.
+        /// </summary>
+        /// <param name="player">The player to show the results screen for.</param>
+        [Function(new[] { esi }, eax, Caller)]
+        public unsafe delegate int SetGoalRaceFinishTaskFn(Structures.Gameplay.Player* player);
+
+        /// <summary>
+        /// Updates the player's lap counter.
+        /// </summary>
+        [Function(new[] { eax }, eax, Caller)]
+        public unsafe delegate int UpdateLapCounterFn(Structures.Gameplay.Player* player, int a2);
     }
 }
