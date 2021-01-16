@@ -104,6 +104,12 @@ namespace Sewer56.SonicRiders.API
         public static readonly int* TotalFrameCounter = (int*) 0x00696C08;
 
         /// <summary>
+        /// Current race settings which were set in the race rules menu.
+        /// This is a packed bitfield.
+        /// </summary>
+        public static readonly RaceSettings* CurrentRaceSettings = (RaceSettings*) 0x005F8758;
+
+        /// <summary>
         /// Gets a pointer to the game (menu task) state.
         /// </summary>
         /// <returns>Pointer to the menu task state, else nullptr.</returns>
