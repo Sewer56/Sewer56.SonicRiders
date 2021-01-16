@@ -20,8 +20,16 @@ namespace Sewer56.SonicRiders.API
 
         static Misc()
         {
-            // Make rdata and data read/write/execute.
-            Memory.CurrentProcess.ChangePermission((IntPtr) 0x005AF358, 0x1366CA8, Kernel32.MEM_PROTECTION.PAGE_EXECUTE_READWRITE);
+            try
+            {
+                // Make rdata and data read/write/execute.
+                Memory.CurrentProcess.ChangePermission((IntPtr)0x005AF358, 0x1366CA8, Kernel32.MEM_PROTECTION.PAGE_EXECUTE_READWRITE);
+            }
+            catch (Exception e)
+            {
+                // ignored
+            }
+
             DX9Hook = new Lazy<DX9Hook>(() => new DX9Hook(SDK.ReloadedHooks));
         }
 
