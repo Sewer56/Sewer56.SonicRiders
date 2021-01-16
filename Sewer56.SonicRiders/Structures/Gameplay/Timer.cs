@@ -4,9 +4,9 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
 {
     public struct Timer
     {
-        public byte Milliseconds { get; set; }
-        public byte Seconds { get; set; }
-        public byte Minutes { get; set; }
+        public byte Milliseconds;
+        public byte Seconds;
+        public byte Minutes;
 
         public Timer(byte milliseconds, byte seconds, byte minutes)
         {
