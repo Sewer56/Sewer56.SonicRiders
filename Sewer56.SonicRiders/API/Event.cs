@@ -9,12 +9,7 @@ namespace Sewer56.SonicRiders.API
     public static class Event
     {
         private static IHook<DefaultFn> _endFrameHook = EndFrame.Hook(SleepAndRender).Activate();
-        private static IHook<DX9Hook.EndScene> _endSceneHook;
-
-        static Event()
-        {
-            _endSceneHook = Misc.DX9Hook.Value.DeviceVTable.CreateFunctionHook<DX9Hook.EndScene>((int) IDirect3DDevice9.EndScene, EndSceneHook).Activate();
-        }
+        private static IHook<DX9Hook.EndScene> _endSceneHook = Misc.DX9Hook.Value.DeviceVTable.CreateFunctionHook<DX9Hook.EndScene>((int)IDirect3DDevice9.EndScene, EndSceneHook).Activate();
 
         /// <summary>
         /// Executed on sleeping and rendering the frame..

@@ -14,26 +14,6 @@ namespace Sewer56.SonicRiders.API
     public static unsafe class Misc
     {
         /// <summary>
-        /// True if the current process is Sonic Riders, else false.
-        /// </summary>
-        public static bool IsSonicRiders = Process.GetCurrentProcess().MainModule.ModuleName.Equals("SonicRiders.exe", StringComparison.OrdinalIgnoreCase);
-
-        static Misc()
-        {
-            try
-            {
-                // Make rdata and data read/write/execute.
-                Memory.CurrentProcess.ChangePermission((IntPtr)0x005AF358, 0x1366CA8, Kernel32.MEM_PROTECTION.PAGE_EXECUTE_READWRITE);
-            }
-            catch (Exception e)
-            {
-                // ignored
-            }
-
-            DX9Hook = new Lazy<DX9Hook>(() => new DX9Hook(SDK.ReloadedHooks));
-        }
-
-        /// <summary>
         /// Relative spawn positions for each player.
         /// </summary>
         public static RefFixedArrayPtr<Vector3> RelativeSpawnPosition = new RefFixedArrayPtr<Vector3>(0x5F8760, Player.MaxNumberOfPlayers);
@@ -41,7 +21,7 @@ namespace Sewer56.SonicRiders.API
         /// <summary>
         /// Utility class that allows you to access the DirectX 9 VTable.
         /// </summary>
-        public static Lazy<DX9Hook> DX9Hook { get; set; }
+        public static Lazy<DX9Hook> DX9Hook { get; set; } = DX9Hook = new Lazy<DX9Hook>(() => new DX9Hook(SDK.ReloadedHooks));
 
         /// <summary>
         /// Horizontal resolution of the game (as configured in launcher).

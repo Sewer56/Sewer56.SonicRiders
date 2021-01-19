@@ -20,19 +20,6 @@ namespace Sewer56.SonicRiders.API
         public const int MaxNumberOfPlayers = 8;
         public static readonly int NumberOfGears = 41;
 
-        static Player()
-        {
-            try
-            {
-                Memory.CurrentProcess.ChangePermission((IntPtr)RunPhysics, sizeof(RunningPhysics), Kernel32.MEM_PROTECTION.PAGE_EXECUTE_READWRITE);
-                Memory.CurrentProcess.ChangePermission((IntPtr)Colours.Pointer, sizeof(int) * Colours.Count, Kernel32.MEM_PROTECTION.PAGE_EXECUTE_READWRITE);
-            }
-            catch (Exception e)
-            {
-                // ignored
-            }
-        }
-
         /// <summary>
         /// The array containing the individual player data.
         /// </summary>

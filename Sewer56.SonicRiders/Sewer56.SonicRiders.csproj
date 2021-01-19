@@ -1,12 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Version>1.1.0</Version>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Reloaded.Hooks.Definitions" Version="1.7.1" />
+    <Compile Remove="Packages\**" />
+    <EmbeddedResource Remove="Packages\**" />
+    <None Remove="Packages\**" />
+  </ItemGroup>
+  <ItemGroup>
+	<PackageReference Include="Reloaded.Hooks.Definitions" Version="1.7.1" />
     <PackageReference Include="Reloaded.Memory" Version="3.1.1" />
     <PackageReference Include="SharpDX.Direct3D9" Version="4.2.0" />
   </ItemGroup>
