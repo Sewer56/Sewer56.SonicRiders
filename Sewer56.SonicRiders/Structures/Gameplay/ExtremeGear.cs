@@ -35,25 +35,31 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
 
         /// <summary>
         /// [Offset, Base Gear = 0]
-        /// The speed multiplier for this board with which handling is adjusted proportionally.
+        /// Additive amount of cruising speed to add to this gear.
         /// </summary>
         [FieldOffset(0x10)]
-        public float SpeedHandlingMultiplier;
+        public float AdditiveSpeed;
 
         /// <summary>
         /// [Offset, Base Gear = 0]
         /// Affects acceleration/speed when the character goes off-road.
         /// </summary>
         [FieldOffset(0x14)]
-        public float Field_14;
+        public float OffroadSpeed;
 
         /// <summary>
         /// [Offset, Base Gear = 0]
-        /// The same as the speed and handling multiplier, does not affect handling, thus making it harder to steer at high speeds.
-        /// This value however multiplies the final speed after it's been processed by the character and <see cref="SpeedHandlingMultiplier"/>.
+        /// Negative values = slower max speed but better turning.
+        /// Positive values = higher max speed but worse turning.
         /// </summary>
         [FieldOffset(0x18)]
-        public float SpeedMultiplier;
+        public float SpeedHandlingMultiplier;
+
+        /// <summary>
+        /// Weight (affects bumping into people).
+        /// </summary>
+        [FieldOffset(0x1C)]
+        public float Weight;
 
         /// <summary>
         /// Allows the board wielder to grind/fly/punch.
@@ -62,8 +68,14 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         public FormationTypesFlags ExtraTypes;
 
         /// <summary>
+        /// Amount of speed lost while turning with the gear.
+        /// </summary>
+        [FieldOffset(0x24)]
+        public float TurnSpeedLoss;
+
+        /// <summary>
         /// [Offset, Base Gear = 0]
-        /// The same as the speed and handling multiplier, does not
+        /// The same as the <see cref="SpeedHandlingMultiplier"/>, does not
         /// affect handling, thus making it harder to steer at high speeds.
         /// </summary>
         [FieldOffset(0x28)]

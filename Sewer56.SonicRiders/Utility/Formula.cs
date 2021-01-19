@@ -19,10 +19,10 @@ namespace Sewer56.SonicRiders.Utility
         public static float GetGearSpeed(ExtremeGear* extremeGear, FormationTypes formationType)
         {
             float characterTypeSpeedMultiplier = Player.TypeStats[(int)formationType].MaxSpeedMultiplier;
-            float speed = speedToSpeedometerRatio * (characterTypeSpeedMultiplier + extremeGear->SpeedHandlingMultiplier);
+            float speed = speedToSpeedometerRatio * (characterTypeSpeedMultiplier + extremeGear->AdditiveSpeed);
 
             // Apply Speed Multiplier
-            return speed * (extremeGear->SpeedMultiplier + 1);
+            return speed * (extremeGear->SpeedHandlingMultiplier + 1);
         }
 
         /// <summary>
