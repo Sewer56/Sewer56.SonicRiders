@@ -73,7 +73,7 @@ namespace Sewer56.SonicRiders.Structures.Enums
         /// <summary>
         /// Unknown (Chaos Emerald/SS)
         /// </summary>
-        Unknown1 = 0x4000,
+        CannotUsePits = 0x4000,
 
         /// <summary>
         /// Start with 30% Air (Chaos Emerald/SS)
@@ -86,9 +86,9 @@ namespace Sewer56.SonicRiders.Structures.Enums
         StartFiftyPercentAir = 0x10000,
 
         /// <summary>
-        /// Unknown (Powerful Gear)
+        /// Immune to ice physics.
         /// </summary>
-        Unknown2 = 0x20000,
+        ImmuneToIce = 0x20000,
 
         /// <summary>
         /// Light Board Flag (Light Board)
@@ -99,8 +99,8 @@ namespace Sewer56.SonicRiders.Structures.Enums
         LightBoard = 0x40000,
 
         /// <summary>
-        /// Unknown (The Crazy)
+        /// Gains rings on attack if gear is powered by rings.
         /// </summary>
-        Unknown3 = 0x80000
+        RingGearGainRingsOnAttack = 0x80000
     }
 }

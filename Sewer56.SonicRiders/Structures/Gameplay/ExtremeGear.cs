@@ -158,9 +158,7 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         public float AirGainAutorotateMultiplier;
 
         /// <summary>
-        /// Default Value = 2 (200% Passive Drain)
-        /// Air cost multiplier when charging jump.
-        /// Multiplies the air cost of passive air drain when the jump button is held.
+        /// Special flags which describe the gear behaviour.
         /// </summary>
         [FieldOffset(0x60)]
         public ExtremeGearSpecialFlags SpecialFlags;
