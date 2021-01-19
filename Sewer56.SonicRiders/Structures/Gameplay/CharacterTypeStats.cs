@@ -3,14 +3,26 @@
 namespace Sewer56.SonicRiders.Structures.Gameplay
 {
     [StructLayout(LayoutKind.Explicit, Size = 0x64)]
-    public struct CharacterTypeStats
+    public unsafe struct CharacterTypeStats
     {
-        /// <summary>
-        /// Default 0.75 for Speed Type.
-        /// Multiplier for the default maximum speed the character can have onboard.
-        /// </summary>
         [FieldOffset(0x00)]
-        public float MaxSpeedMultiplier;
-    }
+        public CharacterTypeLevelStats LevelOne;
 
+        [FieldOffset(0x1C)]
+        public CharacterTypeLevelStats LevelTwo;
+
+        [FieldOffset(0x38)]
+        public CharacterTypeLevelStats LevelThree;
+
+        /// <summary>
+        /// Returns the type stats for a specific level.
+        /// </summary>
+        /// <param name="stats">Pointer to type stats.</param>
+        /// <param name="level">Current character level.</param>
+        public static CharacterTypeLevelStats* GetLevelStats(CharacterTypeStats* stats, int level)
+        {
+            var levelOne = &stats->LevelOne;
+            return &levelOne[level];
+        }
+    }
 }
