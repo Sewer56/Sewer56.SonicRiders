@@ -7,7 +7,9 @@ using Reloaded.Memory.Pointers;
 using Sewer56.SonicRiders.API;
 using Sewer56.SonicRiders.Structures.Enums;
 using Sewer56.SonicRiders.Structures.Functions;
+using Sewer56.SonicRiders.Structures.Tasks;
 using Sewer56.SonicRiders.Structures.Tasks.Base;
+using Sewer56.SonicRiders.Structures.Tasks.Enums.States;
 using static Reloaded.Hooks.Definitions.X86.FunctionAttribute;
 using static Reloaded.Hooks.Definitions.X86.FunctionAttribute.Register;
 using static Reloaded.Hooks.Definitions.X86.FunctionAttribute.StackCleanup;
@@ -169,6 +171,11 @@ namespace Sewer56.SonicRiders.Functions
         /// </summary>
         public static readonly IFunction<UpdateLapCounterFn> UpdateLapCounter = SDK.ReloadedHooks.CreateFunction<UpdateLapCounterFn>(0x004B3E70);
 
+        /// <summary>
+        /// Saves current settings set inside the rule settings menu.
+        /// </summary>
+        public static readonly IFunction<RuleSettingsSaveCurrentSettingsFn> RuleSettingsSaveCurrentSettings = SDK.ReloadedHooks.CreateFunction<RuleSettingsSaveCurrentSettingsFn>(0x00472AE0);
+
         [Function(CallingConventions.Cdecl)]
         public delegate int GetInputsFn();
 
@@ -287,5 +294,11 @@ namespace Sewer56.SonicRiders.Functions
         /// </summary>
         [Function(new[] { eax }, eax, Caller)]
         public unsafe delegate int UpdateLapCounterFn(Structures.Gameplay.Player* player, int a2);
+
+        /// <summary>
+        /// Saves the current rule settings menu content to game memory
+        /// </summary>
+        [Function(new[] { eax }, eax, Caller)]
+        public unsafe delegate int RuleSettingsSaveCurrentSettingsFn(RaceRules* taskData);
     }
 }
