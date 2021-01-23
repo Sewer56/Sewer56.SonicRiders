@@ -6,9 +6,9 @@ namespace Sewer56.SonicRiders.Structures.Enums
     public enum PlayerControlFlags : int
     {
         /// <summary>
-        /// Set while the player is running.
+        /// Set while the player is touching the ground.
         /// </summary>
-        RunningMode = 0x01,
+        IsFloored = 0x01,
 
         /// <summary>
         /// Player is currently falling.
