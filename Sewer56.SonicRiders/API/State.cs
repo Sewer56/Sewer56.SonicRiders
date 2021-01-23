@@ -56,6 +56,11 @@ namespace Sewer56.SonicRiders.API
         public static readonly Levels* Level = (Levels*)0x692B90;
 
         /// <summary>
+        /// True if babylon cup is unlocked, else false.
+        /// </summary>
+        public static readonly bool* IsBabylonCupUnlocked = (bool*) 0x17BE1B8;
+
+        /// <summary>
         /// An array of unlocked stages in the game.
         /// Use <see cref="UnlockedLevels"/> as an indexer.
         /// </summary>
