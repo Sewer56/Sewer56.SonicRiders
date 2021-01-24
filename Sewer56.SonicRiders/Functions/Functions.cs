@@ -197,6 +197,11 @@ namespace Sewer56.SonicRiders.Functions
         /// </summary>
         public static readonly IFunction<KillTaskFnPtr> KillTaskPtr = SDK.ReloadedHooks.CreateFunction<KillTaskFnPtr>(0x00527F20);
 
+        /// <summary>
+        /// The task used to render the race finish sequence after the final player crosses the finish line.
+        /// </summary>
+        public static readonly IFunction<DefaultTaskFnWithReturn> GoalRaceFinishTask = SDK.ReloadedHooks.CreateFunction<DefaultTaskFnWithReturn>(0x0043AC20);
+
         [Function(CallingConventions.Cdecl)]
         public delegate int GetInputsFn();
 
