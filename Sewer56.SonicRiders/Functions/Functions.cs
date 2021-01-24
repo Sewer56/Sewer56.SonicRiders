@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using System.Runtime.InteropServices;
 using Reloaded.Hooks.Definitions;
 using Reloaded.Hooks.Definitions.Structs;
@@ -176,6 +177,26 @@ namespace Sewer56.SonicRiders.Functions
         /// </summary>
         public static readonly IFunction<RuleSettingsSaveCurrentSettingsFn> RuleSettingsSaveCurrentSettings = SDK.ReloadedHooks.CreateFunction<RuleSettingsSaveCurrentSettingsFn>(0x00472AE0);
 
+        /// <summary>
+        /// Sets a new task to be executed on the game's native task heap.
+        /// </summary>
+        public static readonly IFunction<SetTaskFn> SetTask = SDK.ReloadedHooks.CreateFunction<SetTaskFn>(0x00527E00);
+
+        /// <summary>
+        /// Sets a new task to be executed on the game's native task heap.
+        /// </summary>
+        public static readonly IFunction<SetTaskFnPtr> SetTaskPtr = SDK.ReloadedHooks.CreateFunction<SetTaskFnPtr>(0x00527E00);
+
+        /// <summary>
+        /// Sets a new task to be executed on the game's native task heap.
+        /// </summary>
+        public static readonly IFunction<KillTaskFn> KillTask = SDK.ReloadedHooks.CreateFunction<KillTaskFn>(0x00527F20);
+
+        /// <summary>
+        /// Sets a new task to be executed on the game's native task heap.
+        /// </summary>
+        public static readonly IFunction<KillTaskFnPtr> KillTaskPtr = SDK.ReloadedHooks.CreateFunction<KillTaskFnPtr>(0x00527F20);
+
         [Function(CallingConventions.Cdecl)]
         public delegate int GetInputsFn();
 
@@ -300,5 +321,21 @@ namespace Sewer56.SonicRiders.Functions
         /// </summary>
         [Function(new[] { eax }, eax, Caller)]
         public unsafe delegate int RuleSettingsSaveCurrentSettingsFn(RaceRules* taskData);
+
+        /// <summary>
+        /// Sets a new task to be executed.
+        /// </summary>
+        [Function(CallingConventions.Cdecl)]
+        public unsafe delegate Task* SetTaskFn(void* methodPtr, uint maybeMaxTaskHeapSize, int heapType);
+        [Function(CallingConventions.Cdecl)] 
+        public struct SetTaskFnPtr { public FuncPtr<IntPtr, uint, int, BlittablePointer<Task>> Value; }
+
+        /// <summary>
+        /// Kills the current task (<see cref="State.CurrentTask"/>).
+        /// </summary>
+        [Function(CallingConventions.Cdecl)]
+        public unsafe delegate Task* KillTaskFn();
+        [Function(CallingConventions.Cdecl)]
+        public struct KillTaskFnPtr { public FuncPtr<BlittablePointer<Task>> Value; }
     }
 }
