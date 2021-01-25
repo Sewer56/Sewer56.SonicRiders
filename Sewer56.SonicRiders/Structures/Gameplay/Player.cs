@@ -297,10 +297,22 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         public Player* PtrAttacking;
 
         /// <summary>
+        /// The player's time in which they finished the race.
+        /// </summary>
+        [FieldOffset(0x117C)]
+        public Timer FinishTime;
+
+        /// <summary>
         /// The player's current lap counter.
         /// </summary>
         [FieldOffset(0x11B2)]
         public byte LapCounter;
+
+        /// <summary>
+        /// The player's current placement in the race.
+        /// </summary>
+        [FieldOffset(0x11B4)]
+        public byte RacePosition;
 
         /// <summary>
         /// Current player level. Auto-set by game depending on player's ring counter.
