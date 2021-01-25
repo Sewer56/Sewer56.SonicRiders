@@ -202,6 +202,11 @@ namespace Sewer56.SonicRiders.Functions
         /// </summary>
         public static readonly IFunction<DefaultTaskFnWithReturn> GoalRaceFinishTask = SDK.ReloadedHooks.CreateFunction<DefaultTaskFnWithReturn>(0x0043AC20);
 
+        /// <summary>
+        /// Removes all the tasks from the task heap.
+        /// </summary>
+        public static readonly IFunction<DefaultReturnFn> RemoveAllTasks = SDK.ReloadedHooks.CreateFunction<DefaultReturnFn>(0x00527F80);
+
         [Function(CallingConventions.Cdecl)]
         public delegate int GetInputsFn();
 
