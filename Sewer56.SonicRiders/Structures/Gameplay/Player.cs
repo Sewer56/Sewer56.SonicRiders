@@ -278,6 +278,18 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         public int Rings;
 
         /// <summary>
+        /// Current player checkpoint progression where 10000 represents every stage checkpoint.
+        /// </summary>
+        [FieldOffset(0xCF8)]
+        public float CheckpointProgression;
+
+        /// <summary>
+        /// Current player checkpoint progression where 10000 represents every stage checkpoint.
+        /// </summary>
+        [FieldOffset(0xCFC)]
+        public float CheckpointProgressionCopy;
+
+        /// <summary>
         /// Various seemingly unrelated flags which control current player state.
         /// Affects things such as if speedometer is shown or what the camera is doing.
         /// </summary>
