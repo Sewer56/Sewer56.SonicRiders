@@ -25,6 +25,22 @@ namespace Sewer56.SonicRiders.Utility
         public int NumBits;
 
         /// <summary>
+        /// Maximum value representable by the number of bits given.
+        /// </summary>
+        public int MaxValue => (int) MathF.Pow(2, NumBits) - 1;
+
+        /// <summary>
+        /// Generates a bitfield given a number of bits.
+        /// </summary>
+        /// <param name="numBits">Number of bits used by the value.</param>
+        public BitField(int numBits)
+        {
+            Mask = Bitfields.GetMask(numBits);
+            OffsetBits = 0;
+            NumBits = numBits;
+        }
+
+        /// <summary>
         /// Generates a bitfield given a number of bits and an offset to the first bit.
         /// </summary>
         /// <param name="offset">Offset of the first bit of the value.</param>
