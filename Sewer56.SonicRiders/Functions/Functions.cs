@@ -14,6 +14,7 @@ using Sewer56.SonicRiders.Structures.Tasks.Enums.States;
 using static Reloaded.Hooks.Definitions.X86.FunctionAttribute;
 using static Reloaded.Hooks.Definitions.X86.FunctionAttribute.Register;
 using static Reloaded.Hooks.Definitions.X86.FunctionAttribute.StackCleanup;
+using Void = Reloaded.Hooks.Definitions.Structs.Void;
 
 namespace Sewer56.SonicRiders.Functions
 {
@@ -22,37 +23,37 @@ namespace Sewer56.SonicRiders.Functions
         /// <summary>
         /// Writes the inputs to the current input struct at <see cref="Player.Inputs"/>
         /// </summary>
-        public static readonly IFunction<GetInputsFn> GetInputs = SDK.ReloadedHooks.CreateFunction<GetInputsFn>(0x00513B70);
+        public static readonly IFunction<CdeclReturnIntFn> GetInputs = SDK.ReloadedHooks.CreateFunction<CdeclReturnIntFn>(0x00513B70);
 
         /// <summary>
         /// The task handler for the main menu (title sequence).
         /// </summary>
-        public static readonly IFunction<DefaultTaskFnWithReturn> TitleSequenceTask = SDK.ReloadedHooks.CreateFunction<DefaultTaskFnWithReturn>(0x0046ABD0);
+        public static readonly IFunction<CdeclReturnByteFn> TitleSequenceTask = SDK.ReloadedHooks.CreateFunction<CdeclReturnByteFn>(0x0046ABD0);
 
         /// <summary>
         /// The task handler for the stage select.
         /// </summary>
-        public static readonly IFunction<DefaultTaskFnWithReturn> CourseSelectTask = SDK.ReloadedHooks.CreateFunction<DefaultTaskFnWithReturn>(0x00465070);
+        public static readonly IFunction<CdeclReturnByteFn> CourseSelectTask = SDK.ReloadedHooks.CreateFunction<CdeclReturnByteFn>(0x00465070);
 
         /// <summary>
         /// The task handler for the race settings.
         /// </summary>
-        public static readonly IFunction<DefaultTaskFnWithReturn> RaceSettingTask = SDK.ReloadedHooks.CreateFunction<DefaultTaskFnWithReturn>(0x00473270);
+        public static readonly IFunction<CdeclReturnByteFn> RaceSettingTask = SDK.ReloadedHooks.CreateFunction<CdeclReturnByteFn>(0x00473270);
 
         /// <summary>
         /// The task handler for character select.
         /// </summary>
-        public static readonly IFunction<DefaultTaskFnWithReturn> CharaSelectTask = SDK.ReloadedHooks.CreateFunction<DefaultTaskFnWithReturn>(0x00462000);
+        public static readonly IFunction<CdeclReturnByteFn> CharaSelectTask = SDK.ReloadedHooks.CreateFunction<CdeclReturnByteFn>(0x00462000);
 
         /// <summary>
         /// Executed every frame while the character is racing.
         /// </summary>
-        public static readonly IFunction<DefaultTaskFnWithReturn> UnknownRaceTask = SDK.ReloadedHooks.CreateFunction<DefaultTaskFnWithReturn>(0x004159A0);
+        public static readonly IFunction<CdeclReturnByteFn> UnknownRaceTask = SDK.ReloadedHooks.CreateFunction<CdeclReturnByteFn>(0x004159A0);
 
         /// <summary>
         /// Executed when a MessageBox is being displayed.
         /// </summary>
-        public static readonly IFunction<DefaultTaskFnWithReturn> MessageBoxTask = SDK.ReloadedHooks.CreateFunction<DefaultTaskFnWithReturn>(0x0050DB90);
+        public static readonly IFunction<CdeclReturnByteFn> MessageBoxTask = SDK.ReloadedHooks.CreateFunction<CdeclReturnByteFn>(0x0050DB90);
 
         /// <summary>
         /// Starts an attack task, making <param name="playerOne"/> attack <param name="playerTwo"/>.
@@ -62,7 +63,7 @@ namespace Sewer56.SonicRiders.Functions
         /// <summary>
         /// Sleeps the game until the next frame.
         /// </summary>
-        public static readonly IFunction<DefaultFn> EndFrame = SDK.ReloadedHooks.CreateFunction<DefaultFn>(0x00527CE0);
+        public static readonly IFunction<ReturnVoidFn> EndFrame = SDK.ReloadedHooks.CreateFunction<ReturnVoidFn>(0x00527CE0);
 
         /// <summary>
         /// Handles various movement flags that player has.
@@ -90,7 +91,7 @@ namespace Sewer56.SonicRiders.Functions
         /// Sets the spawn locations for all players at the start of race.
         /// Parameter: Number of players 0-7
         /// </summary>
-        public static readonly IFunction<SetSpawnLocationsStartOfRaceFn> SetSpawnLocationsStartOfRace = SDK.ReloadedHooks.CreateFunction<SetSpawnLocationsStartOfRaceFn>(0x004139F0);
+        public static readonly IFunction<StartLineSetSpawnLocationsFn> SetSpawnLocationsStartOfRace = SDK.ReloadedHooks.CreateFunction<StartLineSetSpawnLocationsFn>(0x004139F0);
 
         /// <summary>
         /// C srand
@@ -135,12 +136,12 @@ namespace Sewer56.SonicRiders.Functions
         /// <summary>
         /// Initializes third party libraries.
         /// </summary>
-        public static readonly IFunction<DefaultReturnFn> InitThirdPartyLibraries = SDK.ReloadedHooks.CreateFunction<DefaultReturnFn>(0x004EDE50);
+        public static readonly IFunction<CdeclReturnIntFn> InitThirdPartyLibraries = SDK.ReloadedHooks.CreateFunction<CdeclReturnIntFn>(0x004EDE50);
 
         /// <summary>
         /// Reads the user config file.
         /// </summary>
-        public static readonly IFunction<DefaultReturnFn> ReadConfigFile = SDK.ReloadedHooks.CreateFunction<DefaultReturnFn>(0x005128C0);
+        public static readonly IFunction<CdeclReturnIntFn> ReadConfigFile = SDK.ReloadedHooks.CreateFunction<CdeclReturnIntFn>(0x005128C0);
 
         /// <summary>
         /// Renders a 2 dimensional texture to the screen.
@@ -148,19 +149,9 @@ namespace Sewer56.SonicRiders.Functions
         public static readonly IFunction<RenderTexture2DFn> RenderTexture2D = SDK.ReloadedHooks.CreateFunction<RenderTexture2DFn>(0x005327F0);
 
         /// <summary>
-        /// Renders a 2 dimensional texture to the screen. (Function Pointer Version)
-        /// </summary>
-        public static readonly IFunction<RenderTexture2DFnPtr> RenderTexture2DPtr = SDK.ReloadedHooks.CreateFunction<RenderTexture2DFnPtr>(0x005327F0);
-
-        /// <summary>
         /// Renders an individual player indicator to the screen.
         /// </summary>
         public static readonly IFunction<RenderPlayerIndicatorFn> RenderPlayerIndicator = SDK.ReloadedHooks.CreateFunction<RenderPlayerIndicatorFn>(0x00426980);
-
-        /// <summary>
-        /// Renders an individual player indicator to the screen.
-        /// </summary>
-        public static readonly IFunction<RenderPlayerIndicatorFnPtr> RenderPlayerIndicatorPtr = SDK.ReloadedHooks.CreateFunction<RenderPlayerIndicatorFnPtr>(0x00426980);
 
         /// <summary>
         /// Sets the task which presents the final results screen onto the screen.
@@ -185,39 +176,33 @@ namespace Sewer56.SonicRiders.Functions
         /// <summary>
         /// Sets a new task to be executed on the game's native task heap.
         /// </summary>
-        public static readonly IFunction<SetTaskFnPtr> SetTaskPtr = SDK.ReloadedHooks.CreateFunction<SetTaskFnPtr>(0x00527E00);
-
-        /// <summary>
-        /// Sets a new task to be executed on the game's native task heap.
-        /// </summary>
         public static readonly IFunction<KillTaskFn> KillTask = SDK.ReloadedHooks.CreateFunction<KillTaskFn>(0x00527F20);
-
-        /// <summary>
-        /// Sets a new task to be executed on the game's native task heap.
-        /// </summary>
-        public static readonly IFunction<KillTaskFnPtr> KillTaskPtr = SDK.ReloadedHooks.CreateFunction<KillTaskFnPtr>(0x00527F20);
 
         /// <summary>
         /// The task used to render the race finish sequence after the final player crosses the finish line.
         /// </summary>
-        public static readonly IFunction<DefaultTaskFnWithReturn> GoalRaceFinishTask = SDK.ReloadedHooks.CreateFunction<DefaultTaskFnWithReturn>(0x0043AC20);
+        public static readonly IFunction<CdeclReturnByteFn> GoalRaceFinishTask = SDK.ReloadedHooks.CreateFunction<CdeclReturnByteFn>(0x0043AC20);
 
         /// <summary>
         /// Removes all the tasks from the task heap.
         /// </summary>
-        public static readonly IFunction<DefaultReturnFn> RemoveAllTasks = SDK.ReloadedHooks.CreateFunction<DefaultReturnFn>(0x00527F80);
+        public static readonly IFunction<CdeclReturnIntFn> RemoveAllTasks = SDK.ReloadedHooks.CreateFunction<CdeclReturnIntFn>(0x00527F80);
+
+        /* Defintiions */
+        [Function(CallingConventions.Cdecl)]
+        public delegate int CdeclReturnIntFn();
+        [Function(CallingConventions.Cdecl)]
+        public struct CdeclReturnIntFnPtr { public FuncPtr<int> Value; }
 
         [Function(CallingConventions.Cdecl)]
-        public delegate int GetInputsFn();
+        public delegate byte CdeclReturnByteFn();
+        [Function(CallingConventions.Cdecl)]
+        public struct CdeclReturnByteFnPtr { public FuncPtr<byte> Value; }
 
         [Function(CallingConventions.Cdecl)]
-        public delegate byte DefaultTaskFnWithReturn();
-
+        public delegate void ReturnVoidFn();
         [Function(CallingConventions.Cdecl)]
-        public delegate void DefaultFn();
-
-        [Function(CallingConventions.Cdecl)]
-        public delegate int DefaultReturnFn();
+        public struct ReturnVoidFnPtr { public FuncPtr<Void> Value; }
 
         /// <summary>
         /// Starts an attack task, making <param name="playerOne"/> attack <param name="playerTwo"/>.
@@ -227,28 +212,68 @@ namespace Sewer56.SonicRiders.Functions
         /// <param name="a3">Unknown, typically 1.</param>
         [Function(CallingConventions.Cdecl)]
         public unsafe delegate int StartAttackTaskFn(Structures.Gameplay.Player* playerOne, Structures.Gameplay.Player* playerTwo, int a3);
+        [Function(CallingConventions.Cdecl)]
+        public struct StartAttackTaskFnPtr { public FuncPtr<BlittablePointer<Structures.Gameplay.Player>, BlittablePointer<Structures.Gameplay.Player>, int, int> Value; }
 
+        /// <summary>
+        /// Used for functions which accept a singular player as a parameter.
+        /// </summary>
         [Function(CallingConventions.Cdecl)]
         public unsafe delegate int PlayerFn(Structures.Gameplay.Player* player);
+        [Function(CallingConventions.Cdecl)]
+        public struct PlayerFnPtr { public FuncPtr<BlittablePointer<Structures.Gameplay.Player>, int> Value; }
 
+        /// <summary>
+        /// Updates the current <see cref="PlayerState"/> for the player.
+        /// </summary>
         [Function(CallingConventions.Cdecl)]
         public unsafe delegate byte SetNewPlayerStateFn(Structures.Gameplay.Player* player, PlayerState state);
+        [Function(CallingConventions.Cdecl)]
+        public struct SetNewPlayerStateFnPtr { public FuncPtr<BlittablePointer<Structures.Gameplay.Player>, PlayerState, byte> Value; }
 
+        /// <summary>
+        /// Checks for player input and sets movement flags (<see cref="MovementFlags"/>) such as Boost and Tornado.
+        /// </summary>
         [Function(eax, eax, Caller)]
         public unsafe delegate Structures.Gameplay.Player* SetMovementFlagsBasedOnInputFn(Structures.Gameplay.Player* player);
+        [Function(eax, eax, Caller)]
+        public struct SetMovementFlagsBasedOnInputFnPtr { public FuncPtr<BlittablePointer<Structures.Gameplay.Player>, BlittablePointer<Structures.Gameplay.Player>> Value; }
 
+        /// <summary>
+        /// Adds a task onto the game's task heap that renders the pickup of a new item onto the HUD.
+        /// </summary>
         [Function(esi, eax, Caller)]
         public unsafe delegate Task* SetRenderItemPickupTaskFn(Structures.Gameplay.Player* player, byte a2, ushort a3);
+        [Function(esi, eax, Caller)]
+        public struct SetRenderItemPickupTaskFnPtr { public FuncPtr<BlittablePointer<Structures.Gameplay.Player>, byte, ushort, BlittablePointer<Task>> Value; }
 
+        /// <summary>
+        /// Sets the spawn locations at the start of race for each player depending on the location of the start line.
+        /// </summary>
         [Function(CallingConventions.Cdecl)]
-        public unsafe delegate int SetSpawnLocationsStartOfRaceFn(int numberOfPlayers);
+        public unsafe delegate int StartLineSetSpawnLocationsFn(int numberOfPlayers);
+        [Function(CallingConventions.Cdecl)]
+        public struct StartLineSetSpawnLocationsFnPtr { public FuncPtr<int, int> Value; }
 
+        /// <summary>
+        /// Visual C++'s implementation of srand.
+        /// </summary>
         [Function(CallingConventions.Cdecl)]
         public unsafe delegate void SRandFn(uint seed);
+        [Function(CallingConventions.Cdecl)]
+        public struct SRandFnPtr { public FuncPtr<uint, Void> Value; }
 
+        /// <summary>
+        /// Visual C++'s implementation of rand.
+        /// </summary>
         [Function(CallingConventions.Cdecl)]
         public unsafe delegate int RandFn();
+        [Function(CallingConventions.Cdecl)]
+        public struct RandFnPtr { public FuncPtr<int> Value; }
 
+        /// <summary>
+        /// Adds a file to the linked list of loaded files such that the game will load it.
+        /// </summary>
         /// <returns>Unique index for the file</returns>
         [Function(CallingConventions.Cdecl)]
         public unsafe delegate int ArchiveSetLoadFileFn(void* fileName, int typicallyOne, int typicallyOne_1, int typicallyZero, void* someKindOfBuffer, void* someKindOfOtherBuffer, int typicallyOne_2, int typicallyOne_3, int playerIndex);
@@ -263,7 +288,7 @@ namespace Sewer56.SonicRiders.Functions
         /// <param name="comp">Pointer to compressor data to initialize.</param>
         /// <param name="pUncompressedData">Pointer to uncompressed buffer.</param>
         /// <param name="archiveType">Archive type (of some kind).</param>
-        /// <param name="archiveSize">Size of uncompressed data (<see cref="pUncompressedData"/>)</param>
+        /// <param name="archiveSize">Size of uncompressed data (<see paramref="pUncompressedData"/>)</param>
         /// <param name="a5"></param>
         /// <param name="blockSize">Block size.</param>
         /// <returns></returns>
@@ -296,21 +321,17 @@ namespace Sewer56.SonicRiders.Functions
         /// <summary>
         /// Renders a 2D texture to the screen.
         /// </summary>
-        /// <returns></returns>
         [Function(CallingConventions.Cdecl)]
-        public unsafe delegate int RenderTexture2DFn(int isQuad, Vector3* a3, int numVertices, float opacity);
-
+        public unsafe delegate int RenderTexture2DFn(int isQuad, Vector3* vertices, int numVertices, float opacity);
         [Function(CallingConventions.Cdecl)]
         public struct RenderTexture2DFnPtr { public FuncPtr<int, BlittablePointer<Vector3>, int, float, int> Value; }
 
         /// <summary>
-        /// Renders a player indicator to the screen
+        /// Renders a player indicator to the screen.
         /// </summary>
-        [Function(new Register[] { eax, ecx, edi, esi }, eax, Caller)]
+        [Function(new[] { eax, ecx, edi, esi }, eax, Caller)]
         public unsafe delegate int RenderPlayerIndicatorFn(int a1, int a2, int a3, int a4, int horizontalOffset, int a6, int a7, int a8, int a9, int a10);
-
-        // signed int *a1@<eax>, int a2@<ecx>, int a3@<edi>, int a4@<esi>, int a5, int a6, float *a7, unsigned int a8, unsigned int a9, int a10
-        [Function(new Register[] { eax, ecx, edi, esi }, eax, Caller)]
+        [Function(new[] { eax, ecx, edi, esi }, eax, Caller)]
         public struct RenderPlayerIndicatorFnPtr { public FuncPtr<int, int, int, int, int, int, int, int, int, int, int> Value; }
 
         /// <summary>
@@ -335,8 +356,14 @@ namespace Sewer56.SonicRiders.Functions
         /// <summary>
         /// Sets a new task to be executed.
         /// </summary>
+        /// <param name="methodPtr">Address of the method to be executed. Method is of type <see cref="CdeclReturnIntFn"/>.</param>
+        /// <param name="maybeMaxTaskHeapSize"></param>
+        /// <param name="taskDataSize">
+        ///     If value is 1, task data pointer has a size of 30 bytes.
+        ///     If value is 2, task data pointer has a size of 126 bytes.
+        /// </param>
         [Function(CallingConventions.Cdecl)]
-        public unsafe delegate Task* SetTaskFn(void* methodPtr, uint maybeMaxTaskHeapSize, int heapType);
+        public unsafe delegate Task* SetTaskFn(void* methodPtr, uint maybeMaxTaskHeapSize, int taskDataSize);
         [Function(CallingConventions.Cdecl)] 
         public struct SetTaskFnPtr { public FuncPtr<IntPtr, uint, int, BlittablePointer<Task>> Value; }
 

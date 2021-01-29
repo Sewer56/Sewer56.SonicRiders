@@ -42,12 +42,12 @@ namespace Sewer56.SonicRiders.Utility
         public Task<byte, RaceTaskState>* Race { get; private set; }
         public Task<MessageBox, MessageBoxTaskState>* MessageBox { get; private set; }
 
-        private IHook<Functions.Functions.DefaultTaskFnWithReturn> _onRaceHook;
-        private IHook<Functions.Functions.DefaultTaskFnWithReturn> _onCourseSelectHook;
-        private IHook<Functions.Functions.DefaultTaskFnWithReturn> _onCharaSelectHook;
-        private IHook<Functions.Functions.DefaultTaskFnWithReturn> _onTitleSequenceHook;
-        private IHook<Functions.Functions.DefaultTaskFnWithReturn> _messageBoxHook;
-        private IHook<Functions.Functions.DefaultTaskFnWithReturn> _onRaceSettingsHook;
+        private IHook<Functions.Functions.CdeclReturnByteFn> _onRaceHook;
+        private IHook<Functions.Functions.CdeclReturnByteFn> _onCourseSelectHook;
+        private IHook<Functions.Functions.CdeclReturnByteFn> _onCharaSelectHook;
+        private IHook<Functions.Functions.CdeclReturnByteFn> _onTitleSequenceHook;
+        private IHook<Functions.Functions.CdeclReturnByteFn> _messageBoxHook;
+        private IHook<Functions.Functions.CdeclReturnByteFn> _onRaceSettingsHook;
 
         public TaskEvents()
         {

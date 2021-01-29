@@ -11,7 +11,7 @@ namespace Sewer56.SonicRiders.API
 {
     public static unsafe class Event
     {
-        private static IHook<DefaultFn>        _endFrameHook;
+        private static IHook<ReturnVoidFn>        _endFrameHook;
         private static IHook<DX9Hook.EndScene> _endSceneHook;
         private static IHook<SetTaskFnPtr>     _setTaskFnPtr;
         private static IHook<KillTaskFnPtr>    _killTaskFnPtr;
@@ -76,7 +76,7 @@ namespace Sewer56.SonicRiders.API
         {
             add
             {
-                _setTaskFnPtr ??= SetTaskPtr.Hook(new SetTaskFnPtr() { Value = (delegate* unmanaged[Stdcall]<void*, uint, int, Task*>)&SetTaskFnHook }).Activate();
+                _setTaskFnPtr ??= SetTask.HookAs<SetTaskFnPtr>(typeof(Event), nameof(SetTaskFnHook)).Activate();
                 _onSetTask += value;
             }
             remove => _onSetTask -= value;
@@ -89,7 +89,7 @@ namespace Sewer56.SonicRiders.API
         {
             add
             {
-                _setTaskFnPtr ??= SetTaskPtr.Hook(new SetTaskFnPtr() { Value = (delegate* unmanaged[Stdcall]<void*, uint, int, Task*>)&SetTaskFnHook }).Activate();
+                _setTaskFnPtr ??= SetTask.HookAs<SetTaskFnPtr>(typeof(Event), nameof(SetTaskFnHook)).Activate();
                 _afterSetTask += value;
             }
             remove => _afterSetTask -= value;
@@ -102,7 +102,7 @@ namespace Sewer56.SonicRiders.API
         {
             add
             {
-                _killTaskFnPtr ??= KillTaskPtr.Hook(new KillTaskFnPtr() { Value = (delegate* unmanaged[Stdcall]<Task*>)&KillTaskFnHook }).Activate();
+                _killTaskFnPtr ??= KillTask.HookAs<KillTaskFnPtr>(typeof(Event), nameof(KillTaskFnHook)).Activate();
                 _onKillTask += value;
             }
             remove => _onKillTask -= value;
@@ -115,7 +115,7 @@ namespace Sewer56.SonicRiders.API
         {
             add
             {
-                _killTaskFnPtr ??= KillTaskPtr.Hook(new KillTaskFnPtr() { Value = (delegate* unmanaged[Stdcall]<Task*>)&KillTaskFnHook }).Activate();
+                _killTaskFnPtr ??= KillTask.HookAs<KillTaskFnPtr>(typeof(Event), nameof(KillTaskFnHook)).Activate();
                 _afterKillTask += value;
             }
             remove => _afterKillTask -= value;
@@ -167,7 +167,14 @@ namespace Sewer56.SonicRiders.API
             return result.Pointer;
         }
 
-        public unsafe delegate void SetTaskFn(void* methodPtr, uint maybeMaxTaskHeapSize, int heapType);
+        /// <summary>
+        /// See <see cref="Functions.Functions.SetTaskFn"/>
+        /// </summary>
+        public unsafe delegate void SetTaskFn(void* methodPtr, uint maybeMaxTaskHeapSize, int taskDataSize);
+
+        /// <summary>
+        /// See <see cref="Functions.Functions.KillTaskFn"/>
+        /// </summary>
         public unsafe delegate void KillTaskFn();
     }
 }
