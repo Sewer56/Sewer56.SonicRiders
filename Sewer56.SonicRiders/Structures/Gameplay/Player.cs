@@ -193,13 +193,13 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         public int AirGainedThisFrame;
 
         /// <summary>
-        /// The vertical speed in the upwards direction.
+        /// Movement flags for the current frame.
         /// </summary>
         [FieldOffset(0xB5C)]
         public MovementFlags NewMovementFlags;
 
         /// <summary>
-        /// The vertical speed in the upwards direction.
+        /// Movement flags for the last frame.
         /// </summary>
         [FieldOffset(0xB60)]
         public MovementFlags CurrentMovementFlags;
