@@ -196,13 +196,13 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         /// Movement flags for the current frame.
         /// </summary>
         [FieldOffset(0xB5C)]
-        public MovementFlags NewMovementFlags;
+        public MovementFlags MovementFlags;
 
         /// <summary>
         /// Movement flags for the last frame.
         /// </summary>
         [FieldOffset(0xB60)]
-        public MovementFlags CurrentMovementFlags;
+        public MovementFlags LastMovementFlags;
 
         /// <summary>
         /// Movement of analog on X axis.

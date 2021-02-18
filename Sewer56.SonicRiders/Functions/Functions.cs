@@ -67,13 +67,13 @@ namespace Sewer56.SonicRiders.Functions
 
         /// <summary>
         /// Handles various movement flags that player has.
-        /// See: <see cref="Structures.Gameplay.Player.NewMovementFlags"/>
+        /// See: <see cref="Structures.Gameplay.Player.MovementFlags"/>
         /// </summary>
         public static readonly IFunction<PlayerFn> HandleBoostMovementFlagsFn = SDK.ReloadedHooks.CreateFunction<PlayerFn>(0x004CFD70);
 
         /// <summary>
         /// Sets player movement flags based on player inputs.
-        /// <see cref="Structures.Gameplay.Player.NewMovementFlags"/>
+        /// <see cref="Structures.Gameplay.Player.MovementFlags"/>
         /// </summary>
         public static readonly IFunction<SetMovementFlagsBasedOnInputFn> SetMovementFlagsOnInput = SDK.ReloadedHooks.CreateFunction<SetMovementFlagsBasedOnInputFn>(0x004B37F0);
 
