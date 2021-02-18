@@ -26,6 +26,11 @@ namespace Sewer56.SonicRiders.Functions
         public static readonly IFunction<CdeclReturnIntFn> GetInputs = SDK.ReloadedHooks.CreateFunction<CdeclReturnIntFn>(0x00513B70);
 
         /// <summary>
+        /// Task responsible for player movement, physics simulation and various other similar traits.
+        /// </summary>
+        public static readonly IFunction<CdeclReturnByteFn> PlayerCtrlTask = SDK.ReloadedHooks.CreateFunction<CdeclReturnByteFn>(0x004BCEC0);
+
+        /// <summary>
         /// The task handler for the main menu (title sequence).
         /// </summary>
         public static readonly IFunction<CdeclReturnByteFn> TitleSequenceTask = SDK.ReloadedHooks.CreateFunction<CdeclReturnByteFn>(0x0046ABD0);
