@@ -20,6 +20,12 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         public PlayerInput* PlayerInput;
 
         /// <summary>
+        /// Used to track total time in Grand Prix mode.
+        /// </summary>
+        [FieldOffset(0x04)]
+        public Timer GrandPrixTimer;
+
+        /// <summary>
         /// The character currently assigned to the player.
         /// </summary>
         [FieldOffset(0xBA)]
