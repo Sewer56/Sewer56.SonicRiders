@@ -193,6 +193,11 @@ namespace Sewer56.SonicRiders.Functions
         /// </summary>
         public static readonly IFunction<CdeclReturnIntFn> RemoveAllTasks = SDK.ReloadedHooks.CreateFunction<CdeclReturnIntFn>(0x00527F80);
 
+        /// <summary>
+        /// Removes all the tasks from the task heap.
+        /// </summary>
+        public static readonly IFunction<RunPlayerPhysicsSimulationFn> RunPlayerPhysicsSimulation = SDK.ReloadedHooks.CreateFunction<RunPlayerPhysicsSimulationFn>(0x004BAE00);
+
         /* Defintiions */
         [Function(CallingConventions.Cdecl)]
         public delegate int CdeclReturnIntFn();
@@ -379,5 +384,14 @@ namespace Sewer56.SonicRiders.Functions
         public unsafe delegate Task* KillTaskFn();
         [Function(CallingConventions.Cdecl)]
         public struct KillTaskFnPtr { public FuncPtr<BlittablePointer<Task>> Value; }
+
+        /// <summary>
+        /// Kills the current task (<see cref="State.CurrentTask"/>).
+        /// </summary>
+        [Function(CallingConventions.Cdecl)]
+        public unsafe delegate void RunPlayerPhysicsSimulationFn(void* somePhysicsObjectPtr, Vector4* vector, int* playerIndex);
+        
+        [Function(CallingConventions.Cdecl)]
+        public struct RunPlayerPhysicsSimulationFnPtr { public FuncPtr<BlittablePointer<Void>, BlittablePointer<Vector4>, BlittablePointer<int>, Void> Value; }
     }
 }
