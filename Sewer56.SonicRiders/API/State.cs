@@ -17,7 +17,13 @@ namespace Sewer56.SonicRiders.API
         /// Number of player characters to spawn. Should be set during stage load (before Stage Task is added).
         /// The range for this is generally 1-8, else expect crashes.
         /// </summary>
-        public static readonly byte* NumberOfRacers = (byte*)0x64B758;
+        public static readonly int* NumberOfRacers = (int*)0x64B758;
+
+        /// <summary>
+        /// Number of human characters in game.
+        /// Setting this value to 0 prevents pausing.
+        /// </summary>
+        public static readonly int* NumberOfHumanRacers = (int*)0x64B75C;
 
         /// <summary>
         /// Number of cameras to display.
