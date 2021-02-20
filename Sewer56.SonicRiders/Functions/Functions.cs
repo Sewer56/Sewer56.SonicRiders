@@ -198,7 +198,18 @@ namespace Sewer56.SonicRiders.Functions
         /// </summary>
         public static readonly IFunction<RunPlayerPhysicsSimulationFn> RunPlayerPhysicsSimulation = SDK.ReloadedHooks.CreateFunction<RunPlayerPhysicsSimulationFn>(0x004BAE00);
 
-        /* Defintiions */
+        /// <summary>
+        /// Loads the assets to be used during the race.
+        /// The stage geometry, survival items, gears, etc.
+        /// </summary>
+        public static readonly IFunction<CdeclReturnIntFn> LoadWorldAssets = SDK.ReloadedHooks.CreateFunction<CdeclReturnIntFn>(0x00408A10);
+
+        /// <summary>
+        /// Reads the object layout data from memory and 
+        /// </summary>
+        public static readonly IFunction<CdeclReturnByteFn> InitializeStageObjects = SDK.ReloadedHooks.CreateFunction<CdeclReturnByteFn>(0x004196D0);
+
+        /* Definitions */
         [Function(CallingConventions.Cdecl)]
         public delegate int CdeclReturnIntFn();
         [Function(CallingConventions.Cdecl)]
