@@ -107,7 +107,7 @@ namespace Sewer56.SonicRiders.Structures.Tasks
         public byte MaximumPlayerCount;
 
         /// <summary>
-        /// 0xFF if a player can join in current slot, else 0x00.
+        /// 0xFF if a player can join in current slot, else index of player (0 = P1, 1 = P2 etc.).
         /// </summary>
         [FieldOffset(0x4B)]
         public fixed byte OpenPlayerSlots[0x4];
