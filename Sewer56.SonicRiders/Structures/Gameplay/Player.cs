@@ -50,16 +50,17 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         public PlayerType IsAiVisual;
 
         /// <summary>
-        /// Crashes if changed in race.
+        /// Controls the animations used. Likely to crash.
         /// </summary>
         [FieldOffset(0xBE)]
-        public GearType GearType;
+        public CharacterAnimationKind CharacterAnimationType;
 
         /// <summary>
-        /// Controls the animations used for the current gear type.
+        /// Copy of <see cref="Character"/>.
+        /// Used for initializing camera (determining height offset).
         /// </summary>
         [FieldOffset(0xBF)]
-        public GearType GearTypeAnimation;
+        public Characters CharacterForCamera;
 
         /// <summary>
         /// Controls the rotation of the character. This is sometimes used instead of the other one?
