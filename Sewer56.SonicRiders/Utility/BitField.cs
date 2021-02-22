@@ -27,7 +27,7 @@ namespace Sewer56.SonicRiders.Utility
         /// <summary>
         /// Maximum value representable by the number of bits given.
         /// </summary>
-        public int MaxValue => (int) MathF.Pow(2, NumBits) - 1;
+        public int MaxValue => (int) (1 << NumBits) - 1;
 
         /// <summary>
         /// Generates a bitfield given a number of bits.
