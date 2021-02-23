@@ -23,6 +23,17 @@ namespace Sewer56.SonicRiders.Internal.DirectX
         /// </summary>
         public IVirtualFunctionTable Direct3D9VTable { get; private set; }
 
+
+        /// <summary>
+        /// Contains the DX9 device VTable.
+        /// </summary>
+        public IVirtualFunctionTable DeviceExVTable { get; private set; }
+
+        /// <summary>
+        /// Contains the DX9 VTable.
+        /// </summary>
+        public IVirtualFunctionTable Direct3D9ExFunctionTableVTable { get; private set; }
+
         public DX9Hook(IReloadedHooks _hooks)
         {
             // Obtain the pointer to the IDirect3DDevice9 instance by creating our own blank windows form and creating a  
@@ -33,6 +44,14 @@ namespace Sewer56.SonicRiders.Internal.DirectX
             {
                 Direct3D9VTable = _hooks.VirtualFunctionTableFromObject(direct3D.NativePointer, Enum.GetNames(typeof(IDirect3D9)).Length);
                 DeviceVTable = _hooks.VirtualFunctionTableFromObject(device.NativePointer, Enum.GetNames(typeof(IDirect3DDevice9)).Length);
+            }
+
+            using (var direct3D = new Direct3DEx())
+            using (var renderForm = new Form())
+            using (var device = new DeviceEx(direct3D, 0, DeviceType.NullReference, IntPtr.Zero, CreateFlags.HardwareVertexProcessing, new PresentParameters() { BackBufferWidth = 1, BackBufferHeight = 1, DeviceWindowHandle = renderForm.Handle }))
+            {
+                DeviceExVTable = _hooks.VirtualFunctionTableFromObject(direct3D.NativePointer, Enum.GetNames(typeof(IDirect3D9)).Length);
+                Direct3D9ExFunctionTableVTable = _hooks.VirtualFunctionTableFromObject(device.NativePointer, Enum.GetNames(typeof(IDirect3DDevice9)).Length);
             }
         }
 
