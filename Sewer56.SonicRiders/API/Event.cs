@@ -15,7 +15,7 @@ namespace Sewer56.SonicRiders.API
         private static IHook<DX9Hook.EndScene> _endSceneHook;
         private static IHook<SetTaskFnPtr>     _setTaskFnPtr;
         private static IHook<KillTaskFnPtr>    _killTaskFnPtr;
-
+        private static IHook<CdeclReturnIntFnPtr> _killAllTasksFnPtr;
 
         /// <summary>
         /// Executed on sleeping and rendering the frame.
@@ -121,6 +121,32 @@ namespace Sewer56.SonicRiders.API
             remove => _afterKillTask -= value;
         }
 
+        /// <summary>
+        /// Executed before a task is about to be killed.
+        /// </summary>
+        public static event Action OnKillAllTasks
+        {
+            add
+            {
+                _killAllTasksFnPtr ??= RemoveAllTasks.HookAs<CdeclReturnIntFnPtr>(typeof(Event), nameof(KillAllTasksFnHook)).Activate();
+                _onKillAllTasks += value;
+            }
+            remove => _onKillAllTasks -= value;
+        }
+
+        /// <summary>
+        /// Executed before a task is about to be killed.
+        /// </summary>
+        public static event Action AfterKillAllTasks
+        {
+            add
+            {
+                _killAllTasksFnPtr ??= RemoveAllTasks.HookAs<CdeclReturnIntFnPtr>(typeof(Event), nameof(KillAllTasksFnHook)).Activate();
+                _afterKillAllTasks += value;
+            }
+            remove => _afterKillAllTasks -= value;
+        }
+
         /* Private Events */  
         private static event Action _onSleep;
         private static event Action _afterSleep;
@@ -130,6 +156,8 @@ namespace Sewer56.SonicRiders.API
         private static event SetTaskFn _afterSetTask;
         private static event KillTaskFn _onKillTask;
         private static event KillTaskFn _afterKillTask;
+        private static event Action _onKillAllTasks;
+        private static event Action _afterKillAllTasks;
 
         /* Hooks */
 
@@ -165,6 +193,15 @@ namespace Sewer56.SonicRiders.API
             var result = _killTaskFnPtr.OriginalFunction.Value.Invoke();
             _afterKillTask?.Invoke();
             return result.Pointer;
+        }
+
+        [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvStdcall) })]
+        private static unsafe int KillAllTasksFnHook()
+        {
+            _onKillAllTasks?.Invoke();
+            var result = _killAllTasksFnPtr.OriginalFunction.Value.Invoke();
+            _afterKillAllTasks?.Invoke();
+            return result;
         }
 
         /// <summary>
