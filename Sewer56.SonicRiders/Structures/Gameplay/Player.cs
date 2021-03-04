@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using System.Runtime.InteropServices;
+using Sewer56.SonicRiders.API;
 using Sewer56.SonicRiders.Structures.Enums;
 using Sewer56.SonicRiders.Structures.Input;
 
@@ -363,5 +364,19 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         /// </summary>
         [FieldOffset(0x11BF)]
         public PlayerRestrictions PlayerRestrictions;
+
+        /// <summary>
+        /// Index of the player who created the turbulence we are currently on (0 - (<see cref="State.NumberOfRacers"/> - 1)).
+        /// If this value is <see cref="State.NumberOfRacers"/>, we are on big "special" Babylon Garden turbulence.
+        /// </summary>
+        [FieldOffset(0x11C5)] 
+        public byte TurbulencePlayerIndex;
+
+        /// <summary>
+        /// Turbulence type.
+        /// There's some special behaviour related to this value hardcoded for Babylon Guardian but otherwise it's consistent.
+        /// </summary>
+        [FieldOffset(0x11CA)] 
+        public TurbulenceType TurbulenceType;
     }
 }

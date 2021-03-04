@@ -49,6 +49,11 @@ namespace Sewer56.SonicRiders.API
         public static RefFixedArrayPtr<CharacterTypeStats> TypeStats => new RefFixedArrayPtr<CharacterTypeStats>(0x005BD4D8, 3);
 
         /// <summary>
+        /// Provides you control over the turbulence in the game.
+        /// </summary>
+        public static RefFixedArrayPtr<TurbulenceProperties> TurbulenceProperties { get; private set; } = new RefFixedArrayPtr<TurbulenceProperties>((ulong)0x005C4500, (int)(TurbulenceType.TrickRainbowTopPath + 1) * 3);
+
+        /// <summary>
         /// The first set of Running Physics values.
         /// See <see cref="RunPhysics2"/> for the rest.
         /// </summary>
