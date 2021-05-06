@@ -1,10 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using Reloaded.Memory.Kernel32;
-using Reloaded.Memory.Pointers;
-using Reloaded.Memory.Sources;
-using Sewer56.SonicRiders.Structures.Enums;
+﻿using Reloaded.Memory.Pointers;
 using Sewer56.SonicRiders.Structures.Gameplay;
 using Sewer56.SonicRiders.Structures.Input;
 using Sewer56.SonicRiders.Structures.Input.Enums;

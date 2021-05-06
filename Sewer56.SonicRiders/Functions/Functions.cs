@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Numerics;
-using System.Runtime.InteropServices;
 using Reloaded.Hooks.Definitions;
 using Reloaded.Hooks.Definitions.Structs;
 using Reloaded.Hooks.Definitions.X86;
@@ -10,8 +9,6 @@ using Sewer56.SonicRiders.Structures.Enums;
 using Sewer56.SonicRiders.Structures.Functions;
 using Sewer56.SonicRiders.Structures.Tasks;
 using Sewer56.SonicRiders.Structures.Tasks.Base;
-using Sewer56.SonicRiders.Structures.Tasks.Enums.States;
-using static Reloaded.Hooks.Definitions.X86.FunctionAttribute;
 using static Reloaded.Hooks.Definitions.X86.FunctionAttribute.Register;
 using static Reloaded.Hooks.Definitions.X86.FunctionAttribute.StackCleanup;
 using Void = Reloaded.Hooks.Definitions.Structs.Void;

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Sewer56.SonicRiders.Utility
+﻿namespace Sewer56.SonicRiders.Utility
 {
     public static class Bitfields
     {

@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Numerics;
-using System.Text;
-using Reloaded.Memory.Kernel32;
 using Reloaded.Memory.Pointers;
-using Reloaded.Memory.Sources;
 using Sewer56.SonicRiders.Internal.DirectX;
-using Sewer56.SonicRiders.Structures.Gameplay;
 
 namespace Sewer56.SonicRiders.API
 {

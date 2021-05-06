@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using Sewer56.SonicRiders.Structures.Tasks.Enums;
 using Sewer56.SonicRiders.Structures.Tasks.Enums.States;
 
 namespace Sewer56.SonicRiders.Structures.Tasks.Base

@@ -1,5 +1,4 @@
-﻿using Accessibility;
-using Sewer56.SonicRiders.Structures.Enums;
+﻿using Sewer56.SonicRiders.Structures.Enums;
 using Sewer56.SonicRiders.Structures.Gameplay;
 using ExtremeGear = Sewer56.SonicRiders.Structures.Gameplay.ExtremeGear;
 using Player = Sewer56.SonicRiders.API.Player;

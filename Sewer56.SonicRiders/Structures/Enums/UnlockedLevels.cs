@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace Sewer56.SonicRiders.Structures.Enums
+﻿namespace Sewer56.SonicRiders.Structures.Enums
 {
     public enum UnlockedLevels : byte
     {
