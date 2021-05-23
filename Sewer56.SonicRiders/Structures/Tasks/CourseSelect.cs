@@ -14,10 +14,11 @@ namespace Sewer56.SonicRiders.Structures.Tasks
         public byte HighlightedHorizontalItem;
 
         /// <summary>
-        /// If to 1 and task state 0, enters menu.
+        /// If to 1 and task state 0, enters next menu.
+        /// If to 0 and task state 0, leaves current menu.
         /// </summary>
         [FieldOffset(0x08)]
-        public int EnterCharacterSelectFlag;
+        public int NextMenu;
 
         [FieldOffset(0x0C)]
         public MenuState MenuState;

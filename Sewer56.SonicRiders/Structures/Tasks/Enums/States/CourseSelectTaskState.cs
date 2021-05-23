@@ -2,6 +2,8 @@
 {
     public enum CourseSelectTaskState : byte
     {
+        Exit = 0,
+
         Normal = 3,
         HeroBabylonPicker = 5,
         Closing = 6,
