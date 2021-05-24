@@ -33,6 +33,8 @@
         ExtrasSubmenus = 28,
         OptionsSubmenus = 29,
         LoadTitleScreen = 30,
+
+        LoadSubmenuAfterReturnToTitleSequence = 34,
         LoadMainMenu = 31,
         MissionSelect = 38
     }

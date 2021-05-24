@@ -24,8 +24,18 @@ namespace Sewer56.SonicRiders.Structures.Tasks
         [FieldOffset(0xC)]
         public MenuState State;
 
+        /// <summary>
+        /// The current vertical menu selection.
+        /// </summary>
         [FieldOffset(0xD)]
         public byte Selection;
+
+        /// <summary>
+        /// The saved submenu selection for the previous menu.
+        /// Used to restore cursor when leaving from Course Select or returning from a stage.
+        /// </summary>
+        [FieldOffset(0xE)]
+        public byte SavedSubmenuSelection;
 
         /// <summary>
         /// See <see cref="MainMenuAction"/>
@@ -46,12 +56,10 @@ namespace Sewer56.SonicRiders.Structures.Tasks
         public byte MenuTitleSprite;
 
         /// <summary>
-        /// Defined as this based off of observation.
-        /// Something related to the last menu the user exited from.
-        /// It is unknown what this is used for.
+        /// Pointer to the task that plays the video in the main menu.
         /// </summary>
         [FieldOffset(0x28)]
-        public int* LastMenuPointer;
+        public Task* VideoTaskPointer;
 
         /// <summary>
         /// Used to determine the selectable options on screen by index and menus they will enter.
