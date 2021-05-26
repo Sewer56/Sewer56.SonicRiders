@@ -32,7 +32,7 @@ namespace Sewer56.SonicRiders.Internal.DirectX
         /// <summary>
         /// Contains the DX9 VTable.
         /// </summary>
-        public IVirtualFunctionTable Direct3D9ExFunctionTableVTable { get; private set; }
+        public IVirtualFunctionTable Direct3D9ExVTable { get; private set; }
 
         public DX9Hook(IReloadedHooks _hooks)
         {
@@ -51,7 +51,7 @@ namespace Sewer56.SonicRiders.Internal.DirectX
             using (var device = new DeviceEx(direct3D, 0, DeviceType.NullReference, IntPtr.Zero, CreateFlags.HardwareVertexProcessing, new PresentParameters() { BackBufferWidth = 1, BackBufferHeight = 1, DeviceWindowHandle = renderForm.Handle }))
             {
                 DeviceExVTable = _hooks.VirtualFunctionTableFromObject(direct3D.NativePointer, Enum.GetNames(typeof(IDirect3D9)).Length);
-                Direct3D9ExFunctionTableVTable = _hooks.VirtualFunctionTableFromObject(device.NativePointer, Enum.GetNames(typeof(IDirect3DDevice9)).Length);
+                Direct3D9ExVTable = _hooks.VirtualFunctionTableFromObject(device.NativePointer, Enum.GetNames(typeof(IDirect3DDevice9)).Length);
             }
         }
 
