@@ -211,6 +211,16 @@ namespace Sewer56.SonicRiders.Functions
         /// </summary>
         public static readonly IFunction<CdeclReturnByteFn> InitializeStageObjects = SDK.ReloadedHooks.CreateFunction<CdeclReturnByteFn>(0x004196D0);
 
+        /// <summary>
+        /// Internal game function to reset the D3D9 device.
+        /// </summary>
+        public static readonly IFunction<ResetDeviceFn> ResetDevice = SDK.ReloadedHooks.CreateFunction<ResetDeviceFn>(0x00519F70);
+
+        /// <summary>
+        /// Internal game function which sets up viewports for all players and menus.
+        /// </summary>
+        public static readonly IFunction<SetupViewportsFn> SetupViewports = SDK.ReloadedHooks.CreateFunction<SetupViewportsFn>(0x0050F9E0);
+
         /* Definitions */
         [Function(CallingConventions.Cdecl)]
         public delegate int CdeclReturnIntFn();
@@ -406,5 +416,17 @@ namespace Sewer56.SonicRiders.Functions
         
         [Function(CallingConventions.Cdecl)]
         public struct RunPlayerPhysicsSimulationFnPtr { public FuncPtr<BlittablePointer<Void>, BlittablePointer<Vector4>, BlittablePointer<int>, int> Value; }
+
+        /// <summary>
+        /// Internal game function to reset the D3D9 device.
+        /// </summary>
+        [Function(CallingConventions.Cdecl)]
+        public delegate void ResetDeviceFn();
+
+        /// <summary>
+        /// Internal game function which sets up viewports for all players and menus.
+        /// </summary>
+        [Function(CallingConventions.Cdecl)]
+        public delegate void SetupViewportsFn();
     }
 }
