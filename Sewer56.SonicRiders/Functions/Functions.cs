@@ -226,6 +226,12 @@ namespace Sewer56.SonicRiders.Functions
         /// </summary>
         public static readonly IFunction<PauseGameFn> PauseGame = SDK.ReloadedHooks.CreateFunction<PauseGameFn>(0x004149F0);
 
+        /// <summary>
+        /// Allows you to set the end of game task.
+        /// You can restart or quit the stage using this function.
+        /// </summary>
+        public static readonly IFunction<SetEndOfGameTaskFn> SetEndOfGameTask = SDK.ReloadedHooks.CreateFunction<SetEndOfGameTaskFn>(0x004134C0);
+
         /* Definitions */
         [Function(CallingConventions.Cdecl)]
         public delegate int CdeclReturnIntFn();
@@ -436,5 +442,12 @@ namespace Sewer56.SonicRiders.Functions
 
         [Function(esi, eax, Caller)]
         public delegate int PauseGameFn(int a1, int a2, byte a3);
+
+        /// <summary>
+        /// Sets a task which ends the current game.
+        /// </summary>
+        /// <param name="endOfGameType">The end of game state. Can be restart, quit, or other.</param>
+        [Function(CallingConventions.Cdecl)]
+        public unsafe delegate Task* SetEndOfGameTaskFn(EndOfGameMode mode);
     }
 }
