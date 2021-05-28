@@ -221,6 +221,11 @@ namespace Sewer56.SonicRiders.Functions
         /// </summary>
         public static readonly IFunction<SetupViewportsFn> SetupViewports = SDK.ReloadedHooks.CreateFunction<SetupViewportsFn>(0x0050F9E0);
 
+        /// <summary>
+        /// Called when the player wishes to pause the game.
+        /// </summary>
+        public static readonly IFunction<PauseGameFn> PauseGame = SDK.ReloadedHooks.CreateFunction<PauseGameFn>(0x004149F0);
+
         /* Definitions */
         [Function(CallingConventions.Cdecl)]
         public delegate int CdeclReturnIntFn();
@@ -428,5 +433,8 @@ namespace Sewer56.SonicRiders.Functions
         /// </summary>
         [Function(CallingConventions.Cdecl)]
         public delegate void SetupViewportsFn();
+
+        [Function(esi, eax, Caller)]
+        public delegate int PauseGameFn(int a1, int a2, byte a3);
     }
 }
