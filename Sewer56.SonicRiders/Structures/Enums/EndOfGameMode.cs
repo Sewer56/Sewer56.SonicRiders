@@ -5,6 +5,6 @@
         Null = 0,
         Exit = 1,
         Restart = 2,
-        OtherRestart = 3,
+        GrandPrixNextTrack = 3,
     }
 }
