@@ -176,7 +176,7 @@ namespace Sewer56.SonicRiders.Functions
         public static readonly IFunction<SetTaskFn> SetTask = SDK.ReloadedHooks.CreateFunction<SetTaskFn>(0x00527E00);
 
         /// <summary>
-        /// Sets a new task to be executed on the game's native task heap.
+        /// Kills the current executing task.
         /// </summary>
         public static readonly IFunction<KillTaskFn> KillTask = SDK.ReloadedHooks.CreateFunction<KillTaskFn>(0x00527F20);
 
@@ -231,6 +231,12 @@ namespace Sewer56.SonicRiders.Functions
         /// You can restart or quit the stage using this function.
         /// </summary>
         public static readonly IFunction<SetEndOfGameTaskFn> SetEndOfGameTask = SDK.ReloadedHooks.CreateFunction<SetEndOfGameTaskFn>(0x004134C0);
+
+        /// <summary>
+        /// Allows you to set the end of race task which displays the restart dialog.
+        /// This applies to game-modes without a replay function.
+        /// </summary>
+        public static readonly IFunction<SetEndOfRaceDialogTaskFn> SetEndOfRaceDialogTask = SDK.ReloadedHooks.CreateFunction<SetEndOfRaceDialogTaskFn>(0x0043ABD0);
 
         /* Definitions */
         [Function(CallingConventions.Cdecl)]
@@ -401,13 +407,14 @@ namespace Sewer56.SonicRiders.Functions
         /// Sets a new task to be executed.
         /// </summary>
         /// <param name="methodPtr">Address of the method to be executed. Method is of type <see cref="CdeclReturnIntFn"/>.</param>
-        /// <param name="maybeMaxTaskHeapSize"></param>
+        /// <param name="maybeTaskGroup">Might be the group the task belongs to.</param>
         /// <param name="taskDataSize">
-        ///     If value is 1, task data pointer has a size of 30 bytes.
-        ///     If value is 2, task data pointer has a size of 126 bytes.
+        ///     If value is 0, task data has a size of 0 bytes.
+        ///     If value is 1, task data has a size of 30 bytes.
+        ///     If value is 2, task data has a size of 126 bytes.
         /// </param>
         [Function(CallingConventions.Cdecl)]
-        public unsafe delegate Task* SetTaskFn(void* methodPtr, uint maybeMaxTaskHeapSize, int taskDataSize);
+        public unsafe delegate Task* SetTaskFn(void* methodPtr, uint maybeTaskGroup, int taskDataSize);
         [Function(CallingConventions.Cdecl)] 
         public struct SetTaskFnPtr { public FuncPtr<IntPtr, uint, int, BlittablePointer<Task>> Value; }
 
@@ -446,8 +453,15 @@ namespace Sewer56.SonicRiders.Functions
         /// <summary>
         /// Sets a task which ends the current game.
         /// </summary>
-        /// <param name="endOfGameType">The end of game state. Can be restart, quit, or other.</param>
+        /// <param name="mode">The end of game state. Can be restart, quit, or other.</param>
         [Function(CallingConventions.Cdecl)]
         public unsafe delegate Task* SetEndOfGameTaskFn(EndOfGameMode mode);
+
+        /// <summary>
+        /// Sets a task which displays the restart dialog after results screen.
+        /// </summary>
+        /// <param name="mode">The end of race state.</param>
+        [Function(CallingConventions.Cdecl)]
+        public unsafe delegate Task* SetEndOfRaceDialogTaskFn(EndOfRaceDialogMode mode);
     }
 }
