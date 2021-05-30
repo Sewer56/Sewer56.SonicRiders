@@ -11,7 +11,7 @@
     <None Remove="Packages\**" />
   </ItemGroup>
   <ItemGroup>
-	<PackageReference Include="Reloaded.Hooks.Definitions" Version="1.8.0" />
+	<PackageReference Include="Reloaded.Hooks.Definitions" Version="1.9.0" />
     <PackageReference Include="Reloaded.Memory" Version="4.1.1" />
     <PackageReference Include="SharpDX.Direct3D9" Version="4.2.0" />
   </ItemGroup>

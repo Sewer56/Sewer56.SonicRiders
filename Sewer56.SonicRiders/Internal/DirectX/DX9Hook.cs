@@ -23,7 +23,6 @@ namespace Sewer56.SonicRiders.Internal.DirectX
         /// </summary>
         public IVirtualFunctionTable Direct3D9VTable { get; private set; }
 
-
         /// <summary>
         /// Contains the DX9 device VTable.
         /// </summary>
@@ -33,6 +32,11 @@ namespace Sewer56.SonicRiders.Internal.DirectX
         /// Contains the DX9 VTable.
         /// </summary>
         public IVirtualFunctionTable Direct3D9ExVTable { get; private set; }
+
+        /// <summary>
+        /// VTable for <see cref="IDirect3DTexture9"/>
+        /// </summary>
+        public IVirtualFunctionTable Texture9VTable { get; private set; }
 
         public DX9Hook(IReloadedHooks _hooks)
         {
@@ -44,6 +48,9 @@ namespace Sewer56.SonicRiders.Internal.DirectX
             {
                 Direct3D9VTable = _hooks.VirtualFunctionTableFromObject(direct3D.NativePointer, Enum.GetNames(typeof(IDirect3D9)).Length);
                 DeviceVTable = _hooks.VirtualFunctionTableFromObject(device.NativePointer, Enum.GetNames(typeof(IDirect3DDevice9)).Length);
+
+                using var texture = new Texture(device, 128, 128, 0, Usage.None, Format.X8R8G8B8, Pool.Default);
+                Texture9VTable = _hooks.VirtualFunctionTableFromObject(texture.NativePointer, Enum.GetNames(typeof(IDirect3DTexture9)).Length);
             }
 
             using (var direct3D = new Direct3DEx())
@@ -256,5 +263,65 @@ namespace Sewer56.SonicRiders.Internal.DirectX
         GetDeviceCaps,
         GetAdapterMonitor,
         CreateDevice
+    }
+
+    /// <summary>
+    /// Contains the D3D9 interface.
+    /// </summary>
+    public enum IDirect3DBaseTexture9
+    {
+        /*** IUnknown methods ***/
+        QueryInterface,
+        AddRef,
+        Release,
+
+        /* Others */
+        GetDevice,
+        SetPrivateData,
+        GetPrivateData,
+        FreePrivateData,
+        SetPriority,
+        GetPriority,
+        PreLoad,
+        GetType,
+        SetLOD,
+        GetLOD,
+        GetLevelCount,
+        SetAutoGenFilterType,
+        GetAutoGenFilterType,
+        GenerateMipSubLevels,
+    }
+
+    /// <summary>
+    /// Contains the D3D9 interface.
+    /// </summary>
+    public enum IDirect3DTexture9
+    {
+        /*** IUnknown methods ***/
+        QueryInterface,
+        AddRef,
+        Release,
+
+        /* Others */
+        GetDevice,
+        SetPrivateData,
+        GetPrivateData,
+        FreePrivateData,
+        SetPriority,
+        GetPriority,
+        PreLoad,
+        GetType,
+        SetLOD,
+        GetLOD,
+        GetLevelCount,
+        SetAutoGenFilterType,
+        GetAutoGenFilterType,
+        GenerateMipSubLevels,
+
+        GetLevelDesc,
+        GetSurfaceLevel,
+        LockRect,
+        UnlockRect,
+        AddDirtyRect,
     }
 }
