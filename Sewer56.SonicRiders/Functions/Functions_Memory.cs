@@ -16,47 +16,47 @@ namespace Sewer56.SonicRiders.Functions
         /// <summary>
         /// Sets up the pointers for the game's native heap.
         /// </summary>
-        public static IFunction<InitHeapFn> InitHeap = SDK.ReloadedHooks.CreateFunction<InitHeapFn>(0x00527840);
+        public static readonly IFunction<InitHeapFn> InitHeap = SDK.ReloadedHooks.CreateFunction<InitHeapFn>(0x00527840);
 
         /// <summary>
         /// Frees an object from the game's native heap.
         /// </summary>
-        public static IFunction<FreeFn> Free = SDK.ReloadedHooks.CreateFunction<FreeFn>(0x00527890);
+        public static readonly IFunction<FreeFn> Free = SDK.ReloadedHooks.CreateFunction<FreeFn>(0x00527890);
 
         /// <summary>
         /// Sets the header of the game's native heap to a new location.
         /// </summary>
-        public static IFunction<FreeFn> FreeFrame = SDK.ReloadedHooks.CreateFunction<FreeFn>(0x005278B0);
+        public static readonly IFunction<FreeFn> FreeFrame = SDK.ReloadedHooks.CreateFunction<FreeFn>(0x005278B0);
 
         /// <summary>
         /// Frees a memory region allocated with <see cref="MallocHigh"/> or <see cref="CallocHigh"/>.
         /// </summary>
-        public static IFunction<FreeFn> FreeHigh = SDK.ReloadedHooks.CreateFunction<FreeFn>(0x005278E0);
+        public static readonly IFunction<FreeFn> FreeHigh = SDK.ReloadedHooks.CreateFunction<FreeFn>(0x005278E0);
 
         /// <summary>
         /// Frees all memory allocated with <see cref="MallocHigh"/> or <see cref="CallocHigh"/>.
         /// </summary>
-        public static IFunction<CdeclReturnIntFn> FreeAllHigh = SDK.ReloadedHooks.CreateFunction<CdeclReturnIntFn>(0x00527950);
+        public static readonly IFunction<CdeclReturnIntFn> FreeAllHigh = SDK.ReloadedHooks.CreateFunction<CdeclReturnIntFn>(0x00527950);
 
         /// <summary>
         /// Allocates memory in the game's managed heap.
         /// </summary>
-        public static IFunction<AllocFn> Malloc = SDK.ReloadedHooks.CreateFunction<AllocFn>(0x005279B0);
+        public static readonly IFunction<AllocFn> Malloc = SDK.ReloadedHooks.CreateFunction<AllocFn>(0x005279B0);
 
         /// <summary>
         /// Allocates an object on the game's managed heap. (Zeroes memory)
         /// </summary>
-        public static IFunction<AllocFn> Calloc = SDK.ReloadedHooks.CreateFunction<AllocFn>(0x00527A00);
+        public static readonly IFunction<AllocFn> Calloc = SDK.ReloadedHooks.CreateFunction<AllocFn>(0x00527A00);
 
         /// <summary>
         /// Allocates memory from the end of the game's managed heap.
         /// </summary>
-        public static IFunction<AllocFn> MallocHigh = SDK.ReloadedHooks.CreateFunction<AllocFn>(0x00527A70);
+        public static readonly IFunction<AllocFn> MallocHigh = SDK.ReloadedHooks.CreateFunction<AllocFn>(0x00527A70);
 
         /// <summary>
         /// Allocates an object from the end of the game's managed heap. (Zeroes memory)
         /// </summary>
-        public static IFunction<AllocFn> CallocHigh = SDK.ReloadedHooks.CreateFunction<AllocFn>(0x00527B50);
+        public static readonly IFunction<AllocFn> CallocHigh = SDK.ReloadedHooks.CreateFunction<AllocFn>(0x00527B50);
 
         /// <summary>
         /// Allocates memory on the game's native heap.
