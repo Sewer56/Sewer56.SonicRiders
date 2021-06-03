@@ -85,7 +85,7 @@ namespace Sewer56.SonicRiders.API
         /// <summary>
         /// Executed after a new task is set.
         /// </summary>
-        public static event SetTaskFn AfterSetTask
+        public static event SetTaskResultFn AfterSetTask
         {
             add
             {
@@ -153,7 +153,7 @@ namespace Sewer56.SonicRiders.API
         private static event Action _onEndScene;
         private static event Action _afterEndScene;
         private static event SetTaskFn _onSetTask;
-        private static event SetTaskFn _afterSetTask;
+        private static event SetTaskResultFn _afterSetTask;
         private static event KillTaskFn _onKillTask;
         private static event KillTaskFn _afterKillTask;
         private static event Action _onKillAllTasks;
@@ -182,7 +182,7 @@ namespace Sewer56.SonicRiders.API
         {
             _onSetTask?.Invoke(methodPtr, maybeMaxTaskHeapSize, heapType);
             var result = _setTaskFnPtr.OriginalFunction.Value.Invoke((IntPtr) methodPtr, maybeMaxTaskHeapSize, heapType);
-            _afterSetTask?.Invoke(methodPtr, maybeMaxTaskHeapSize, heapType);
+            _afterSetTask?.Invoke(methodPtr, maybeMaxTaskHeapSize, heapType, result.Pointer);
             return result.Pointer;
         }
 
@@ -208,6 +208,11 @@ namespace Sewer56.SonicRiders.API
         /// See <see cref="Functions.Functions.SetTaskFn"/>
         /// </summary>
         public unsafe delegate void SetTaskFn(void* methodPtr, uint maybeMaxTaskHeapSize, int taskDataSize);
+
+        /// <summary>
+        /// See <see cref="Functions.Functions.SetTaskFn"/>
+        /// </summary>
+        public unsafe delegate void SetTaskResultFn(void* methodPtr, uint maybeMaxTaskHeapSize, int taskDataSize, Task* result);
 
         /// <summary>
         /// See <see cref="Functions.Functions.KillTaskFn"/>
