@@ -19,5 +19,12 @@
         /// unknown section after the object array.
         /// </summary>
         public int ObjectCountMultiplyBy46Add8;
+
+        public void Initialise(int objectCount)
+        {
+            ObjectCount = (ushort) objectCount;
+            Magic = 0x8000;
+            ObjectCountMultiplyBy46Add8 = (objectCount * 46) + 8;
+        }
     }
 }
