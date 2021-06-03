@@ -80,7 +80,7 @@ namespace Sewer56.SonicRiders.Structures.Tasks.Base
         /// <summary>
         /// Status of the individual task, such as <see cref="TitleSequenceTaskState"/>
         /// </summary>
-        public byte TaskStatus;
+        public uint TaskStatus;
 
         /// <summary>
         /// Pointer to previous task.
@@ -130,7 +130,7 @@ namespace Sewer56.SonicRiders.Structures.Tasks.Base
         /// Status of the individual task, such as <see cref="TitleSequenceTaskState"/>
         /// </summary>
         [FieldOffset(0x14)]
-        public byte TaskStatus;
+        public uint TaskStatus;
 
         /// <summary>
         /// Pointer to previous task.

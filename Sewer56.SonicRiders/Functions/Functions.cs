@@ -15,7 +15,7 @@ using Void = Reloaded.Hooks.Definitions.Structs.Void;
 
 namespace Sewer56.SonicRiders.Functions
 {
-    public static class Functions
+    public static partial class Functions
     {
         /// <summary>
         /// Writes the inputs to the current input struct at <see cref="Player.Inputs"/>
@@ -131,11 +131,6 @@ namespace Sewer56.SonicRiders.Functions
         public static readonly IFunction<DecompressFn> Decompress                       = SDK.ReloadedHooks.CreateFunction<DecompressFn>(0x004111B0);
 
         /// <summary>
-        /// Deallocates a file from shared buffer space.
-        /// </summary>
-        public static readonly IFunction<FileDeallocateFn> FileDeallocate = SDK.ReloadedHooks.CreateFunction<FileDeallocateFn>(0x005278E0);
-
-        /// <summary>
         /// Initializes third party libraries.
         /// </summary>
         public static readonly IFunction<CdeclReturnIntFn> InitThirdPartyLibraries = SDK.ReloadedHooks.CreateFunction<CdeclReturnIntFn>(0x004EDE50);
@@ -242,6 +237,11 @@ namespace Sewer56.SonicRiders.Functions
         /// Allows you to play a music track.
         /// </summary>
         public static readonly IFunction<PlayMusicFn> PlayMusic = SDK.ReloadedHooks.CreateFunction<PlayMusicFn>(0x0054EB30);
+
+        /// <summary>
+        /// Reads the object layout file specified at <see cref="State.CurrentStageObjectLayout"/> and spawns the required objects.
+        /// </summary>
+        public static readonly IFunction<InitializeObjectLayoutFn> InitializeObjectLayout = SDK.ReloadedHooks.CreateFunction<InitializeObjectLayoutFn>(0x004196D0);
 
         /* Definitions */
         [Function(CallingConventions.Cdecl)]
@@ -368,12 +368,6 @@ namespace Sewer56.SonicRiders.Functions
         public unsafe delegate SharedFileBufferHeader* ArchiveInGameSetLoadFileFn(string fileName, SharedFileBufferHeader* header);
 
         /// <summary>
-        /// Deallocates a file from shared buffer space.
-        /// </summary>
-        [Function(CallingConventions.Cdecl)]
-        public unsafe delegate int FileDeallocateFn(SharedFileBufferHeader* header);
-
-        /// <summary>
         /// Renders a 2D texture to the screen.
         /// </summary>
         [Function(CallingConventions.Cdecl)]
@@ -477,5 +471,11 @@ namespace Sewer56.SonicRiders.Functions
         /// <remarks>ADXT_StartFname</remarks>
         [Function(CallingConventions.Cdecl)]
         public unsafe delegate int PlayMusicFn(void* unknown, string song);
+
+        /// <summary>
+        /// Reads the object layout file specified at <see cref="State.CurrentStageObjectLayout"/> and spawns the required objects.
+        /// </summary>
+        [Function(CallingConventions.Cdecl)]
+        public unsafe delegate int InitializeObjectLayoutFn();
     }
 }
