@@ -66,6 +66,11 @@ namespace Sewer56.SonicRiders.API
         public static readonly bool* IsBabylonCupUnlocked = (bool*) 0x17BE1B8;
 
         /// <summary>
+        /// Pointer to the current stage object layout data.
+        /// </summary>
+        public static readonly void** CurrentStageObjectLayout = (void**) 0x00696C68;
+
+        /// <summary>
         /// An array of unlocked stages in the game.
         /// Use <see cref="UnlockedLevels"/> as an indexer.
         /// </summary>

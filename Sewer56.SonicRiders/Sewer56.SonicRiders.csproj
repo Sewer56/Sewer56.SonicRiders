@@ -17,7 +17,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Parser\010 Template\" />
-    <Folder Include="Parser\Layout\" />
     <Folder Include="Parser\TrickSprite\Formatter\" />
   </ItemGroup>
 </Project>
