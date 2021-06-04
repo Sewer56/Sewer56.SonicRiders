@@ -20,10 +20,18 @@
         /// </summary>
         public int ObjectCountMultiplyBy46Add8;
 
-        public void Initialise(int objectCount)
+        public LayoutHeader(int objectCount, bool useFileMagic = false)
+        {
+            ObjectCount = default;
+            Magic = default;
+            ObjectCountMultiplyBy46Add8 = default;
+            Initialise(objectCount, useFileMagic);
+        }
+
+        public void Initialise(int objectCount, bool useFileMagic = false)
         {
             ObjectCount = (ushort) objectCount;
-            Magic = 0;
+            Magic = useFileMagic ? (ushort) 0x8000 : (ushort) 0;
             ObjectCountMultiplyBy46Add8 = (objectCount * 46) + 8;
         }
     }
