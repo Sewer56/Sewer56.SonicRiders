@@ -5,6 +5,8 @@
         Player = 0,
         eSunShine = 1003,
         Se = 1100,
+
+        // Common
         oStGate = 2000,
         oItemBox = 2010,
         oSign = 2040,
@@ -25,7 +27,8 @@
         oMoveFloor = 2131,
         oRunWall = 2140,
         oChao3D = 2160,
-        oCh5SpaceDoor = 12550,
+
+        // Stage Specific
         oDoor = 5000,
         oSkyRoad = 5010,
         oRopeWayBase = 5020,
@@ -39,14 +42,24 @@
         oTRobot = 7020,
         oTRobotPath = 7021,
         oLavaWall = 7040,
+        oCrane = 7400,
+        oBreakFan = 7410,
+        oColdEggRobo = 7420,
         oCobweb = 8000,
         oCentipedeNest = 8010,
+        oCollapseTree = 8500,
         oArrow = 9250,
         oArrowEndPoint = 9251,
         oArrowColli = 9252,
         oeDPole = 9261,
         oeDBird = 9262,
         oeDownPole = 9263,
+        oSolarEclipse = 9270,
+        oDebris = 9280,
+        oEnergyBeam = 9290,
+        oEnergyBarrier = 9300,
+        oSandChasm = 9500,
+        oGakeLightData = 9501,
         oTurObject = 10001,
         oAirForce = 10002,
         oFractureTower = 10010,
@@ -62,18 +75,10 @@
         oFaceStoneSwitch = 11061,
         oNightsMoon = 12010,
         oBatteryLaunchColli = 12060,
-        oBreakFan = 7410,
-        oColdEggRobo = 7420,
-        oCollapseTree = 8500,
-        oSolarEclipse = 9270,
-        oDebris = 9280,
-        oEnergyBeam = 9290,
-        oEnergyBarrier = 9300,
-        oSandChasm = 9500,
-        oGakeLightData = 9501,
         oOphaopha = 12520,
         eFireWorks = 12530,
         oStardustRoad = 12540,
+        oCh5SpaceDoor = 12550,
         oCCDashB = 12571,
         oCCDashR = 12572,
         oCCDashY = 12573,
@@ -111,19 +116,25 @@
         eParSet27 = 33027,
         eParSet28 = 33028,
         eParSet29 = 33029,
+
+        // Mission
         oMiJunk = 44100,
         oMiPosData = 44130,
         oMiChkPnt = 44140,
         oMiBomb = 44160,
+
+        // Survival
         oSvlBall = 48000,
         oSvlGate = 48030,
         oSvlWall = 48040,
         oSvlItem = 48050,
         oSvlTranItem = 48060,
+
+        // Experimental??
         oFlyJump = 60005,
         oDipsTest = 60007,
-        oCrane = 7400,
 
+        // Custom
         oInvalid = 65535,
     }
 }
