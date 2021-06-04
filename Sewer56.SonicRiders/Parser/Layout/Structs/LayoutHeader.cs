@@ -9,7 +9,7 @@
 
         /// <summary>
         /// Unknown use.
-        /// Always 0x8000
+        /// Always 0x8000, until it is loaded in by game.
         /// </summary>
         public ushort Magic;
 
@@ -23,7 +23,7 @@
         public void Initialise(int objectCount)
         {
             ObjectCount = (ushort) objectCount;
-            Magic = 0x8000;
+            Magic = 0;
             ObjectCountMultiplyBy46Add8 = (objectCount * 46) + 8;
         }
     }
