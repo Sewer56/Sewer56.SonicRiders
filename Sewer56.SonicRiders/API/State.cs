@@ -114,6 +114,19 @@ namespace Sewer56.SonicRiders.API
         public static readonly void** CurrentTask = (void**) 0x017B863C;
 
         /// <summary>
+        /// This value uses a two digit encoding where the 10s column indicates the main menu and 0s submenu
+        /// 
+        /// 40 = Free Race Submenu
+        /// 41 = Time Trial
+        /// 42 = Grand Prix
+        ///
+        /// 50 = Story Hero
+        /// 51 = Story Babylon
+        /// etc.
+        /// </summary>
+        public static readonly int* MenuToReturnToFromRace = (int*) 0x6A21D8;
+
+        /// <summary>
         /// Number of total elapsed frames.
         /// </summary>
         public static readonly int* TotalFrameCounter = (int*) 0x00696C08;
