@@ -178,25 +178,27 @@ namespace Sewer56.SonicRiders.Structures.Tasks.Base
         public T* TaskData;
 
         /// <summary>
+        /// Status of the individual task.
+        /// </summary>
+        public ushort TaskStatus;
+
+        /// <summary>
         /// ID of the indvidual object.
         /// </summary>
         public ushort ItemId;
 
         /// <summary>
-        /// Status of the individual task, such as <see cref="TitleSequenceTaskState"/>
+        /// The ASCII character used to denote the "portal" the object belongs to.
+        /// Portals are bounding box regions. If the object is outside the portal, it is not rendered.
         /// </summary>
-        public ushort TaskStatus;
+        public byte Portal;
+
+        public byte field_19;
 
         /// <summary>
         /// The individual attribute assigned to this task.
         /// </summary>
         public ushort Attribute;
-
-        /// <summary>
-        /// The ASCII character used to denote the "portal" the object belongs to.
-        /// Portals are bounding box regions. If the object is outside the portal, it is not rendered.
-        /// </summary>
-        public ushort Portal;
 
         /// <summary>
         /// Seems to hold an index in the object layout, or some other count.
