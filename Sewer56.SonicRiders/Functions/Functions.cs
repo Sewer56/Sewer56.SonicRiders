@@ -243,6 +243,11 @@ namespace Sewer56.SonicRiders.Functions
         /// </summary>
         public static readonly IFunction<InitializeObjectLayoutFn> InitializeObjectLayout = SDK.ReloadedHooks.CreateFunction<InitializeObjectLayoutFn>(0x004196D0);
 
+        /// <summary>
+        /// Checks if a task to reset the game has been set, and resets the game followed by executing the task.
+        /// </summary>
+        public static readonly IFunction<CheckResetTaskFn> CheckResetTask = SDK.ReloadedHooks.CreateFunction<CheckResetTaskFn>(0x00416ED0);
+
         /* Definitions */
         [Function(CallingConventions.Cdecl)]
         public delegate int CdeclReturnIntFn();
@@ -477,5 +482,17 @@ namespace Sewer56.SonicRiders.Functions
         /// </summary>
         [Function(CallingConventions.Cdecl)]
         public unsafe delegate int InitializeObjectLayoutFn();
+
+        /// <summary>
+        /// Reads the object layout file specified at <see cref="State.CurrentStageObjectLayout"/> and spawns the required objects.
+        /// </summary>
+        [Function(new []{ esi, ebp }, eax, Caller)]
+        public unsafe delegate int CheckResetTaskFn(int a1, int a2);
+
+        /// <summary>
+        /// Check if a task to reset the game has been set.
+        /// </summary>
+        [Function(new []{ esi, ebp }, eax, Caller)]
+        public struct CheckResetTaskFnPtr { public FuncPtr<int, int, int> Value; }
     }
 }

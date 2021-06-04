@@ -123,5 +123,7 @@
         oFlyJump = 60005,
         oDipsTest = 60007,
         oCrane = 7400,
+
+        oInvalid = 65535,
     }
 }

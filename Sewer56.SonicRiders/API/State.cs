@@ -71,6 +71,17 @@ namespace Sewer56.SonicRiders.API
         public static readonly void** CurrentStageObjectLayout = (void**) 0x00696C68;
 
         /// <summary>
+        /// Sets or gets the action to perform when a game end is called.
+        /// </summary>
+        public static readonly EndOfGameMode* EndOfGameMode = (EndOfGameMode*) 0x00692BA8;
+
+        /// <summary>
+        /// Gets or sets an address to a function, which if not-null/not-zero, will cause the game to reset
+        /// all of its resources. Once the resources are released, it will run this function.
+        /// </summary>
+        public static void** ResetTask = (void**) 0x692BC0;
+
+        /// <summary>
         /// An array of unlocked stages in the game.
         /// Use <see cref="UnlockedLevels"/> as an indexer.
         /// </summary>
