@@ -35,6 +35,15 @@ namespace Sewer56.SonicRiders.Parser.Layout
         }
 
         /// <summary>
+        /// Checks if the pointer belongs to this layout file.
+        /// </summary>
+        /// <param name="theObject">The object.</param>
+        public bool IsMyObject(SetObject* theObject)
+        {
+            return theObject >= Objects.Pointer && theObject < UnknownArray.Pointer;
+        }
+
+        /// <summary>
         /// Provides an estimation of the file size of a potential file based on the number of items requested.
         /// </summary>
         /// <param name="numItems">The number of items.</param>
