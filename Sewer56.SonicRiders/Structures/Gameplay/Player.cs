@@ -98,6 +98,13 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         public Vector3 Rotation;
 
         /// <summary>
+        /// Alternative character X,Y,Z position.
+        /// Purpose unknown, but if you don't set this, you will be teleported back on moving.
+        /// </summary>
+        [FieldOffset(0x38C)]
+        public Vector3 PositionAlt;
+
+        /// <summary>
         /// Position difference between the current player and another player when the player becomes attacked.
         /// </summary>
         [FieldOffset(0x3C0)]
