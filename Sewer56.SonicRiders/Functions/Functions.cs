@@ -258,7 +258,7 @@ namespace Sewer56.SonicRiders.Functions
         /// Checks if the game should kill turbulence.
         /// Note: Combine this with <see cref="ShouldSpawnTurbulence"/>
         /// </summary>
-        public static readonly IFunction<PlayerFn> ShouldNotGenerateTurbulence = SDK.ReloadedHooks.CreateFunction<PlayerFn>(0x00455240);
+        public static readonly IFunction<ShouldKillTurbulenceFn> ShouldNotGenerateTurbulence = SDK.ReloadedHooks.CreateFunction<ShouldKillTurbulenceFn>(0x00455240);
 
         /* Definitions */
         [Function(CallingConventions.Cdecl)]
@@ -514,5 +514,13 @@ namespace Sewer56.SonicRiders.Functions
         public unsafe delegate bool ShouldGenerateTurbulenceFn(Structures.Gameplay.Player* player);
         [Function(eax, eax, Caller)]
         public struct ShouldGenerateTurbulenceFnPtr { public FuncPtr<BlittablePointer<Structures.Gameplay.Player>, bool> Value; }
+
+        /// <summary>
+        /// Determines if the game should kill turbulence by using a few metrics.
+        /// </summary>
+        [Function(ecx, eax, Caller)]
+        public unsafe delegate bool ShouldKillTurbulenceFn(Structures.Gameplay.Player* player);
+        [Function(ecx, eax, Caller)]
+        public struct ShouldKillTurbulenceFnPtr { public FuncPtr<BlittablePointer<Structures.Gameplay.Player>, bool> Value; }
     }
 }
