@@ -248,6 +248,18 @@ namespace Sewer56.SonicRiders.Functions
         /// </summary>
         public static readonly IFunction<CheckResetTaskFn> CheckResetTask = SDK.ReloadedHooks.CreateFunction<CheckResetTaskFn>(0x00416ED0);
 
+        /// <summary>
+        /// Checks if the game should spawn turbulence.
+        /// Note: Combine this with <see cref="ShouldNotGenerateTurbulence"/>
+        /// </summary>
+        public static readonly IFunction<ShouldGenerateTurbulenceFn> ShouldSpawnTurbulence = SDK.ReloadedHooks.CreateFunction<ShouldGenerateTurbulenceFn>(0x00455160);
+
+        /// <summary>
+        /// Checks if the game should kill turbulence.
+        /// Note: Combine this with <see cref="ShouldSpawnTurbulence"/>
+        /// </summary>
+        public static readonly IFunction<PlayerFn> ShouldNotGenerateTurbulence = SDK.ReloadedHooks.CreateFunction<PlayerFn>(0x00455240);
+
         /* Definitions */
         [Function(CallingConventions.Cdecl)]
         public delegate int CdeclReturnIntFn();
@@ -494,5 +506,13 @@ namespace Sewer56.SonicRiders.Functions
         /// </summary>
         [Function(new []{ esi, ebp }, eax, Caller)]
         public struct CheckResetTaskFnPtr { public FuncPtr<int, int, int> Value; }
+
+        /// <summary>
+        /// Determines if the game should spawn turbulence by using a few metrics.
+        /// </summary>
+        [Function(eax, eax, Caller)]
+        public unsafe delegate bool ShouldGenerateTurbulenceFn(Structures.Gameplay.Player* player);
+        [Function(eax, eax, Caller)]
+        public struct ShouldGenerateTurbulenceFnPtr { public FuncPtr<BlittablePointer<Structures.Gameplay.Player>, bool> Value; }
     }
 }
