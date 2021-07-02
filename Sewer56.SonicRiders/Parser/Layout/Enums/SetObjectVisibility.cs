@@ -1,4 +1,5 @@
 ﻿using System;
+using Sewer56.SonicRiders.Structures.Enums;
 
 namespace Sewer56.SonicRiders.Parser.Layout.Enums
 {
@@ -24,5 +25,39 @@ namespace Sewer56.SonicRiders.Parser.Layout.Enums
         Mission5 = 1 << 10,
         Mission6 = 1 << 11,
         Mission7 = 1 << 12,
+    }
+
+    public static class SetObjectVisibilityExtensions
+    {
+        /// <summary>
+        /// Determines if the object will be loaded.
+        /// </summary>
+        /// <param name="visibility">The visibility.</param>
+        /// <param name="mode">The current mode the game is set to.</param>
+        public static bool IsVisible(this SetObjectVisibility visibility, ActiveRaceMode mode)
+        {
+            if ((visibility & SetObjectVisibility.Xbox) == 0)
+                return false;
+
+            switch (mode)
+            {
+                case ActiveRaceMode.Mission:
+                    var missionMask = SetObjectVisibility.Mission1 | SetObjectVisibility.Mission2 | SetObjectVisibility.Mission3 | 
+                                      SetObjectVisibility.Mission4 | SetObjectVisibility.Mission5 | SetObjectVisibility.Mission6 | 
+                                      SetObjectVisibility.Mission7;
+
+                    return (visibility & missionMask) != 0;
+
+                case ActiveRaceMode.TagMode:
+                    return (visibility & SetObjectVisibility.Tag) != 0;
+
+                case ActiveRaceMode.RaceStage:
+                case ActiveRaceMode.BattleStage:
+                    return (visibility & SetObjectVisibility.Survival) != 0;
+
+                default:
+                    return (visibility & SetObjectVisibility.Race) != 0;
+            }
+        }
     }
 }
