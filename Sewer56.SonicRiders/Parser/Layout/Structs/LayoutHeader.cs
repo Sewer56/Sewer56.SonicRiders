@@ -1,17 +1,25 @@
-﻿namespace Sewer56.SonicRiders.Parser.Layout.Structs
+﻿using System.Runtime.CompilerServices;
+
+namespace Sewer56.SonicRiders.Parser.Layout.Structs
 {
-    public struct LayoutHeader
+    public unsafe struct LayoutHeader
     {
+        /// <summary>
+        /// A header which is the combination of a constant 0x8000 (2 bytes) and the number of objects (2 bytes).
+        /// The magic constant 0x8000 is set to 0 after loaded in in game.
+        /// </summary>
+        public int CountMagicTuple;
+
         /// <summary>
         /// Total number of objects in this file.
         /// </summary>
-        public ushort ObjectCount;
+        public ref ushort ObjectCount => ref Unsafe.AsRef<ushort>(Unsafe.AsPointer(ref CountMagicTuple));
 
         /// <summary>
         /// Unknown use.
         /// Always 0x8000, until it is loaded in by game.
         /// </summary>
-        public ushort Magic;
+        public ref ushort Magic => ref Unsafe.AsRef<ushort>((byte*)Unsafe.AsPointer(ref CountMagicTuple) + 2);
 
         /// <summary>
         /// This is actually the size of the object
@@ -22,8 +30,7 @@
 
         public LayoutHeader(int objectCount, bool useFileMagic = false)
         {
-            ObjectCount = default;
-            Magic = default;
+            CountMagicTuple = default;
             ObjectCountMultiplyBy46Add8 = default;
             Initialise(objectCount, useFileMagic);
         }
