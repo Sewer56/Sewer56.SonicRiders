@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Sewer56.SonicRiders.Structures.Enums
 {
@@ -24,6 +25,35 @@ namespace Sewer56.SonicRiders.Structures.Enums
         Ulala,
         E10000G,
         E10000R,
+    }
+
+    public static class CharactersExtensions
+    {
+        private static Dictionary<Characters, char> _character = new Dictionary<Characters, char>()
+        {
+            { Characters.Nights, '0' },
+            { Characters.AiAi, '1' },
+            { Characters.Ulala, '2' },
+            { Characters.Amy, 'A' },
+            { Characters.Cream, 'C' },
+            { Characters.Shadow, 'D' },
+            { Characters.Robotnik, 'E' },
+            { Characters.Jet, 'J' },
+            { Characters.Knuckles, 'K' },
+            { Characters.Storm, 'M' },
+            { Characters.E10000R, 'O' },
+            { Characters.SuperSonic, 'P' },
+            { Characters.Rouge, 'R' },
+            { Characters.Sonic, 'S' },
+            { Characters.Tails, 'T' },
+            { Characters.Wave, 'W' },
+            { Characters.E10000G, 'Z' },
+        };
+
+        /// <summary>
+        /// Gets the character used to represent this character in File Names.
+        /// </summary>
+        public static char GetFilenameChar(this Characters character) => _character[character];
     }
 
     /// <summary>
