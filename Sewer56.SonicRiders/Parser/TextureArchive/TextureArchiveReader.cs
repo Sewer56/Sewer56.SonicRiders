@@ -33,7 +33,7 @@ namespace Sewer56.SonicRiders.Parser.TextureArchive
             
             // Texture Count
             endianStreamReader.Read(out short texCount);
-            endianStreamReader.Seek(2, SeekOrigin.Current);
+            endianStreamReader.Read(out short hasFlags);
             Files = new UnpackTextureFile[texCount];
 
             // Get Texture Offsets
@@ -48,8 +48,11 @@ namespace Sewer56.SonicRiders.Parser.TextureArchive
             Files[texCount - 1].Size = (archiveSize - Files[texCount - 1].Offset);
 
             // Read Texture Flags
-            for (int x = 0; x < texCount; x++)
-                Files[x].PadFlag = endianStreamReader.Read<byte>();
+            if (hasFlags > 0)
+            {
+                for (int x = 0; x < texCount; x++)
+                    Files[x].PadFlag = endianStreamReader.Read<byte>();
+            }
 
             // Read Texture Names
             for (int x = 0; x < texCount; x++)
