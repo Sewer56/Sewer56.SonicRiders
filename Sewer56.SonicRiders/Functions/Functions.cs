@@ -234,11 +234,6 @@ namespace Sewer56.SonicRiders.Functions
         public static readonly IFunction<SetEndOfRaceDialogTaskFn> SetEndOfRaceDialogTask = SDK.ReloadedHooks.CreateFunction<SetEndOfRaceDialogTaskFn>(0x0043ABD0);
 
         /// <summary>
-        /// Allows you to play a music track.
-        /// </summary>
-        public static readonly IFunction<PlayMusicFn> PlayMusic = SDK.ReloadedHooks.CreateFunction<PlayMusicFn>(0x0054EB30);
-
-        /// <summary>
         /// Reads the object layout file specified at <see cref="State.CurrentStageObjectLayout"/> and spawns the required objects.
         /// </summary>
         public static readonly IFunction<InitializeObjectLayoutFn> InitializeObjectLayout = SDK.ReloadedHooks.CreateFunction<InitializeObjectLayoutFn>(0x004196D0);
@@ -479,15 +474,6 @@ namespace Sewer56.SonicRiders.Functions
         /// <param name="mode">The end of race state.</param>
         [Function(CallingConventions.Cdecl)]
         public unsafe delegate Task* SetEndOfRaceDialogTaskFn(EndOfRaceDialogMode mode);
-
-        /// <summary>
-        /// Plays a music track.
-        /// </summary>
-        /// <param name="unknown">This is an unknown pointer. Presumably to some object from the CRI SDK.</param>
-        /// <param name="song">The relative file path to the Data folder inside the game directory.</param>
-        /// <remarks>ADXT_StartFname</remarks>
-        [Function(CallingConventions.Cdecl)]
-        public unsafe delegate int PlayMusicFn(void* unknown, string song);
 
         /// <summary>
         /// Reads the object layout file specified at <see cref="State.CurrentStageObjectLayout"/> and spawns the required objects.

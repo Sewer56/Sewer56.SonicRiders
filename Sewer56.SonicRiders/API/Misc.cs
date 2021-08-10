@@ -2,6 +2,7 @@
 using System.Numerics;
 using Reloaded.Memory.Pointers;
 using Sewer56.SonicRiders.Internal.DirectX;
+using Sewer56.SonicRiders.Structures.Enums;
 
 namespace Sewer56.SonicRiders.API
 {
@@ -28,6 +29,11 @@ namespace Sewer56.SonicRiders.API
         public static int* ResolutionY = (int*) 0x016BC7BC;
 
         /// <summary>
+        /// Greater than 0 if CRI middleware components are initialised, else 0.
+        /// </summary>
+        public static int* IsCriInitialized = (int*) 0x016BFC04;
+
+        /// <summary>
         /// Horizontal resolution of the game (as configured in launcher).
         /// </summary>
         public static float* AspectRatio2dResolutionX = (float*)0x005B0228;
@@ -38,9 +44,29 @@ namespace Sewer56.SonicRiders.API
         public static float* AspectRatio2dResolutionY = (float*)0x005B022C;
 
         /// <summary>
-        /// Whether fullscreen is set to on.
+        /// Whether fullscreen is set to on in the game configuration.
         /// </summary>
-        public static bool* Fullscreen = (bool*)0x016BCD38;
+        public static bool* ConfigFullscreen = (bool*)0x016BCD38;
+
+        /// <summary>
+        /// The current game language in the game configuration.
+        /// </summary>
+        public static MessageLanguage* ConfigMessageLanguage = (MessageLanguage*)0x016BCBE8;
+
+        /// <summary>
+        /// The current game voice language in the game configuration.
+        /// </summary>
+        public static VoiceLanguage* ConfigVoiceLanguage = (VoiceLanguage*)0x016BC558;
+
+        /// <summary>
+        /// The current game language.
+        /// </summary>
+        public static MessageLanguage* MessageLanguage = (MessageLanguage*)0x64B778;
+
+        /// <summary>
+        /// The current game voice language.
+        /// </summary>
+        public static VoiceLanguage* VoiceLanguage = (VoiceLanguage*)0x64B77C;
 
         /// <summary>
         /// Whether fullscreen is set to on.
