@@ -15,12 +15,12 @@ namespace Sewer56.SonicRiders.API
         /// <summary>
         /// Contains the remaining amount of free space in the buffer.
         /// </summary>
-        public static int* RemainingSize = (int*)0x017B8DA0;
+        public static int* RemainingSize = (int*) 0x017B8DA0;
 
         /// <summary>
         /// Contains the amount of bytes that were used in the buffer.
         /// </summary>
-        public static int* UsedSize = (int*)0x017B8DA4;
+        public static int* UsedSizeBack = (int*) 0x017B8DA4;
 
         /// <summary>
         /// Pointer to the start of the heap.
@@ -100,6 +100,16 @@ namespace Sewer56.SonicRiders.API
         /// Allocates an object from the end of the game's managed heap. (Zeroes memory)
         /// </summary>
         public static readonly IFunction<AllocFn> CallocHigh = SDK.ReloadedHooks.CreateFunction<AllocFn>(0x00527B50);
+
+        /// <summary>
+        /// Calculates the total used heap size.
+        /// </summary>
+        public static int GetUsedSize() => GetHeapSize() - *RemainingSize;
+
+        /// <summary>
+        /// Calculates the total heap size.
+        /// </summary>
+        public static int GetHeapSize() => (*EndPtr - *StartPtr);
 
         /// <summary>
         /// Allocates memory on the game's native heap.
