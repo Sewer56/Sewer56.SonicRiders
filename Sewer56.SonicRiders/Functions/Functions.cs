@@ -377,7 +377,7 @@ namespace Sewer56.SonicRiders.Functions
         /// <param name="fileName">The name of the file.</param>
         /// <param name="header">Shared file buffer header</param>
         [Function(CallingConventions.Cdecl)]
-        public unsafe delegate SharedFileBufferHeader* ArchiveInGameSetLoadFileFn(string fileName, SharedFileBufferHeader* header);
+        public unsafe delegate MemoryHeapHeader* ArchiveInGameSetLoadFileFn(string fileName, MemoryHeapHeader* header);
 
         /// <summary>
         /// Renders a 2D texture to the screen.
