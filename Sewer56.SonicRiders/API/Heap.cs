@@ -12,49 +12,74 @@ namespace Sewer56.SonicRiders.API
     /// </summary>
     public static unsafe class Heap
     {
+        /*
+         *  Some Observations:
+         *
+         *  ===============================================
+         *  Free is ran in opposite order of Malloc.
+         *  e.g.
+         *
+         *  Malloc 1
+         *  Malloc 2
+         *  Malloc 3
+         *  Free 3
+         *  Free 2
+         *  Free 1
+         *
+         *  ===============================================
+         *  To free multiple things at once, use FreeFrame.
+         *  Malloc 1
+         *  Malloc 2 
+         *  Malloc 3
+         *  FreeFrame 1
+         *
+         *  Malloc 2 and Malloc 3 are now disposed.
+         *  ===============================================
+         */
+
         /// <summary>
         /// Contains the remaining amount of free space in the buffer.
         /// </summary>
         public static int* RemainingSize = (int*) 0x017B8DA0;
 
         /// <summary>
-        /// Contains the amount of bytes that were used in the buffer.
+        /// Contains the amount of bytes that were used in the back of the buffer.
         /// </summary>
         public static int* UsedSizeBack = (int*) 0x017B8DA4;
 
         /// <summary>
         /// Pointer to the start of the heap.
         /// </summary>
-        public static int* StartPtr = (int*)0x017B8658;
+        public static int* StartPtr = (int*) 0x017B8658;
 
         /// <summary>
         /// Pointer to the end of the heap.
         /// </summary>
-        public static int* EndPtr = (int*)0x017B8D80;
+        public static int* EndPtr = (int*) 0x017B8D80;
 
         /// <summary>
-        /// Contains a pointer to the start of the heap.
+        /// The address of the start of the memory region containing [<see cref="MemoryHeapHeader"/> + data] blocks (from the front).
         /// </summary>
-        public static MemoryHeapHeader* FirstHeaderFront = (MemoryHeapHeader*)0x017B8DAC;
+        public static MallocResult** FirstHeaderFront = (MallocResult**)0x017B8DAC;
 
         /// <summary>
-        /// Contains a pointer to header at the back of the heap.
+        /// The address of the start of the memory region containing [<see cref="MemoryHeapHeader"/> + data] blocks (from the back).
         /// </summary>
-        public static MemoryHeapHeader* FirstHeaderBack = (MemoryHeapHeader*)0x017B8DB4;
+        public static MallocResult** FirstHeaderBack = (MallocResult**)0x017B8DB4;
 
         /// <summary>
         /// Contains the pointer to the "head" of the buffer. (from the front)
-        /// That is, the first byte in the buffer that is free to use/unused.
+        /// That is, the first byte in the buffer that is free to use/unused and where allocation will happen when <see cref="Malloc"/> is called.
         /// Memory between <see cref="FrameHeadFront"/> and <see cref="FrameHeadBack"/> is free to allocate.
         /// </summary>
-        public static MemoryHeapHeader* FrameHeadFront = (MemoryHeapHeader*)0x017B8DA8;
+        public static MallocResult** FrameHeadFront = (MallocResult**)0x017B8DA8;
 
         /// <summary>
         /// Contains the pointer to the "head" of the buffer. (from the back)
-        /// That is, the first byte in the buffer that is free to use/unused.
+        /// That is, the first byte in the buffer that is free to use/unused and where allocation will happen when <see cref="MallocHigh"/> is called.
         /// Memory between <see cref="FrameHeadFront"/> and <see cref="FrameHeadBack"/> is free to allocate.
         /// </summary>
-        public static MemoryHeapHeader* FrameHeadBack = (MemoryHeapHeader*)0x017B8DB0;
+        public static MallocResult** FrameHeadBack = (MallocResult**)0x017B8DB0;
 
         /// <summary>
         /// Sets up the pointers for the game's native heap.
@@ -63,13 +88,16 @@ namespace Sewer56.SonicRiders.API
 
         /// <summary>
         /// Frees an object from the game's native heap.
+        /// The passed in pointer is the location of the new header.
         /// </summary>
         public static readonly IFunction<FreeFn> Free = SDK.ReloadedHooks.CreateFunction<FreeFn>(0x00527890);
 
         /// <summary>
         /// Sets the header of the game's native heap to a new location.
+        /// The passed in pointer is the location of the new header.
+        /// Returns the new amount of free memory (i.e. <see cref="RemainingSize"/>).
         /// </summary>
-        public static readonly IFunction<FreeFn> FreeFrame = SDK.ReloadedHooks.CreateFunction<FreeFn>(0x005278B0);
+        public static readonly IFunction<FreeFrameFn> FreeFrame = SDK.ReloadedHooks.CreateFunction<FreeFrameFn>(0x005278B0);
 
         /// <summary>
         /// Frees a memory region allocated with <see cref="MallocHigh"/> or <see cref="CallocHigh"/>.
@@ -115,19 +143,28 @@ namespace Sewer56.SonicRiders.API
         /// Allocates memory on the game's native heap.
         /// </summary>
         [Function(CallingConventions.Cdecl)]
-        public delegate void* AllocFn(int alignment, int size);
+        public delegate MallocResult* AllocFn(int alignment, int size);
 
         [Function(CallingConventions.Cdecl)]
-        public struct AllocFnPtr { public FuncPtr<int, int, BlittablePointer<byte>> Value; }
+        public struct AllocFnPtr { public FuncPtr<int, int, BlittablePointer<MallocResult>> Value; }
 
         /// <summary>
         /// Frees an memory from the game's native heap.
         /// </summary>
         [Function(CallingConventions.Cdecl)]
-        public delegate int FreeFn(void* address);
+        public delegate MallocResult* FreeFn(MallocResult* address);
 
         [Function(CallingConventions.Cdecl)]
-        public struct FreeFnPtr { public FuncPtr<BlittablePointer<byte>, BlittablePointer<byte>> Value; }
+        public struct FreeFnPtr { public FuncPtr<BlittablePointer<MallocResult>, BlittablePointer<MallocResult>> Value; }
+
+        /// <summary>
+        /// Sets a new pointer to the end of the used memory.
+        /// </summary>
+        [Function(CallingConventions.Cdecl)]
+        public delegate int FreeFrameFn(MallocResult* address);
+
+        [Function(CallingConventions.Cdecl)]
+        public struct FreeFrameFnPtr { public FuncPtr<BlittablePointer<MallocResult>, int> Value; }
 
         /// <summary>
         /// Sets up the pointers for the game's native heap.
