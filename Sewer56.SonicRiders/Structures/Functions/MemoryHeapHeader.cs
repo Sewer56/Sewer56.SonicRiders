@@ -4,7 +4,7 @@ using Sewer56.SonicRiders.API;
 namespace Sewer56.SonicRiders.Structures.Functions
 {
     /// <summary>
-    /// The individual heap header associated with every memory heap allocation.
+    /// The individual heap header associated with every memory heap allocation made at the front of the heap.
     /// </summary>
     public unsafe struct MemoryHeapHeader
     {

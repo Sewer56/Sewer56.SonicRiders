@@ -65,7 +65,7 @@ namespace Sewer56.SonicRiders.API
         /// <summary>
         /// The address of the start of the memory region containing [<see cref="MemoryHeapHeader"/> + data] blocks (from the back).
         /// </summary>
-        public static MallocResult** FirstHeaderBack = (MallocResult**)0x017B8DB4;
+        public static MemoryHeapHeaderHigh** FirstHeaderBack = (MemoryHeapHeaderHigh**)0x017B8DB4;
 
         /// <summary>
         /// Contains the pointer to the "head" of the buffer. (from the front)
@@ -79,7 +79,7 @@ namespace Sewer56.SonicRiders.API
         /// That is, the first byte in the buffer that is free to use/unused and where allocation will happen when <see cref="MallocHigh"/> is called.
         /// Memory between <see cref="FrameHeadFront"/> and <see cref="FrameHeadBack"/> is free to allocate.
         /// </summary>
-        public static MallocResult** FrameHeadBack = (MallocResult**)0x017B8DB0;
+        public static MemoryHeapHeaderHigh** FrameHeadBack = (MemoryHeapHeaderHigh**)0x017B8DB0;
 
         /// <summary>
         /// Sets up the pointers for the game's native heap.
@@ -102,7 +102,7 @@ namespace Sewer56.SonicRiders.API
         /// <summary>
         /// Frees a memory region allocated with <see cref="MallocHigh"/> or <see cref="CallocHigh"/>.
         /// </summary>
-        public static readonly IFunction<FreeFn> FreeHigh = SDK.ReloadedHooks.CreateFunction<FreeFn>(0x005278E0);
+        public static readonly IFunction<FreeHighFn> FreeHigh = SDK.ReloadedHooks.CreateFunction<FreeHighFn>(0x005278E0);
 
         /// <summary>
         /// Frees all memory allocated with <see cref="MallocHigh"/> or <see cref="CallocHigh"/>.
@@ -122,12 +122,12 @@ namespace Sewer56.SonicRiders.API
         /// <summary>
         /// Allocates memory from the end of the game's managed heap.
         /// </summary>
-        public static readonly IFunction<AllocFn> MallocHigh = SDK.ReloadedHooks.CreateFunction<AllocFn>(0x00527A70);
+        public static readonly IFunction<AllocHighFn> MallocHigh = SDK.ReloadedHooks.CreateFunction<AllocHighFn>(0x00527A70);
 
         /// <summary>
         /// Allocates an object from the end of the game's managed heap. (Zeroes memory)
         /// </summary>
-        public static readonly IFunction<AllocFn> CallocHigh = SDK.ReloadedHooks.CreateFunction<AllocFn>(0x00527B50);
+        public static readonly IFunction<AllocHighFn> CallocHigh = SDK.ReloadedHooks.CreateFunction<AllocHighFn>(0x00527B50);
 
         /// <summary>
         /// Calculates the total used heap size.
@@ -140,7 +140,7 @@ namespace Sewer56.SonicRiders.API
         public static int GetHeapSize() => (*EndPtr - *StartPtr);
 
         /// <summary>
-        /// Allocates memory on the game's native heap.
+        /// Allocates memory on the front of the game's native heap.
         /// </summary>
         [Function(CallingConventions.Cdecl)]
         public delegate MallocResult* AllocFn(int alignment, int size);
@@ -149,13 +149,31 @@ namespace Sewer56.SonicRiders.API
         public struct AllocFnPtr { public FuncPtr<int, int, BlittablePointer<MallocResult>> Value; }
 
         /// <summary>
-        /// Frees an memory from the game's native heap.
+        /// Allocates memory on the back of the game's native heap.
+        /// </summary>
+        [Function(CallingConventions.Cdecl)]
+        public delegate MallocResultHigh* AllocHighFn(int alignment, int size);
+
+        [Function(CallingConventions.Cdecl)]
+        public struct AllocHighFnPtr { public FuncPtr<int, int, BlittablePointer<MallocResultHigh>> Value; }
+
+        /// <summary>
+        /// Frees an memory from the front of the game's native heap.
         /// </summary>
         [Function(CallingConventions.Cdecl)]
         public delegate MallocResult* FreeFn(MallocResult* address);
 
         [Function(CallingConventions.Cdecl)]
         public struct FreeFnPtr { public FuncPtr<BlittablePointer<MallocResult>, BlittablePointer<MallocResult>> Value; }
+
+        /// <summary>
+        /// Frees an memory from the back of the game's native heap.
+        /// </summary>
+        [Function(CallingConventions.Cdecl)]
+        public delegate int FreeHighFn(MallocResultHigh* address);
+
+        [Function(CallingConventions.Cdecl)]
+        public struct FreeHighFnPtr { public FuncPtr<BlittablePointer<MallocResultHigh>, int> Value; }
 
         /// <summary>
         /// Sets a new pointer to the end of the used memory.
