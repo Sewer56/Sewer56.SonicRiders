@@ -25,10 +25,12 @@ namespace Sewer56.SonicRiders.Parser.Archive
         /// <summary>
         /// Writes the contents of the archive to be generated to the stream.
         /// </summary>
-        public void Write(Stream writeStream, bool bigEndian)
+        /// <param name="writeStream">The stream to write to.</param>
+        /// <param name="options">The options for packing this archive.</param>
+        public void Write(Stream writeStream, ArchiveWriterOptions options)
         {
             using var stream = new ExtendedMemoryStream();
-            using EndianMemoryStream endianStream = bigEndian ? (EndianMemoryStream) new BigEndianMemoryStream(stream) : new LittleEndianMemoryStream(stream);
+            using EndianMemoryStream endianStream = options.BigEndian ? (EndianMemoryStream) new BigEndianMemoryStream(stream) : new LittleEndianMemoryStream(stream);
 
             // Number of items.
             endianStream.Write<int>(Groups.Keys.Count);
@@ -52,7 +54,10 @@ namespace Sewer56.SonicRiders.Parser.Archive
                 endianStream.Write<ushort>(group.Value.Id);
 
             // Write offsets for each file and pad.
-            int firstWriteOffset = Utilities.RoundUp((int)endianStream.Stream.Position + (sizeof(int) * totalItems), 16);
+            int firstWriteOffset = Utilities.RoundUp((int)endianStream.Stream.Position + (sizeof(int) * totalItems), options.Alignment);
+            if (firstWriteOffset < options.MinOffset)
+                firstWriteOffset = options.MinOffset;
+
             int fileWriteOffset  = firstWriteOffset;
             foreach (var group in Groups)
             {
@@ -60,16 +65,67 @@ namespace Sewer56.SonicRiders.Parser.Archive
                 {
                     endianStream.Write<int>(file.Data.Length <= 0 ? 0 : fileWriteOffset);
                     fileWriteOffset += file.Data.Length;
+                    if (options.AlignAllFiles)
+                        fileWriteOffset = Utilities.RoundUp(fileWriteOffset, options.Alignment);
                 }
             }
 
             // Write files.
             endianStream.Write(new byte[(int)(firstWriteOffset - endianStream.Stream.Position)]); // Alignment
             foreach (var file in Groups.SelectMany(x => x.Value.Files))
+            {
                 endianStream.Write(file.Data);
+                if (options.AlignAllFiles)
+                    endianStream.AddPadding(options.Alignment);
+            }
 
             writeStream.Write(endianStream.ToArray());
         }
+    }
 
+    public struct ArchiveWriterOptions
+    {
+        /// <summary>
+        /// Contains the default settings for GameCube packing.
+        /// </summary>
+        public static ArchiveWriterOptions GameCube = new ArchiveWriterOptions()
+        {
+            AlignAllFiles = true,
+            Alignment = 32,
+            MinOffset = 0,
+            BigEndian = true
+        };
+
+        /// <summary>
+        /// Contains the default settings for PC packing.
+        /// </summary>
+        public static ArchiveWriterOptions PC = new ArchiveWriterOptions()
+        {
+            AlignAllFiles = false,
+            Alignment = 16,
+            MinOffset = 0,
+            BigEndian = false
+        };
+
+        /// <summary>
+        /// Sets the alignment of the first packed file.
+        /// </summary>
+        public int Alignment { get; set; }
+
+        /// <summary>
+        /// Whether to use Big Endian or not.
+        /// </summary>
+        public bool BigEndian { get; set; }
+
+        /// <summary>
+        /// Sets the minimum offset for the first file to be packed.
+        /// If the header finishes before the offset, it will be padded.
+        /// </summary>
+        public int MinOffset { get; set; }
+
+        /// <summary>
+        /// If true, will align all files instead of only the first one.
+        /// </summary>
+        public bool AlignAllFiles { get; set; }
     }
 }
