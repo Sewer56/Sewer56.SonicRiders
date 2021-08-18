@@ -17,35 +17,35 @@ namespace Sewer56.SonicRiders.API
         /// <summary>
         /// The array containing the individual player data.
         /// </summary>
-        public static RefFixedArrayPtr<Structures.Gameplay.Player> Players => new RefFixedArrayPtr<Structures.Gameplay.Player>(0x006A4B80, MaxNumberOfPlayers);
+        public static RefFixedArrayPtr<Structures.Gameplay.Player> Players = new RefFixedArrayPtr<Structures.Gameplay.Player>(0x006A4B80, MaxNumberOfPlayers);
 
         /// <summary>
         /// The array containing the individual player inputs.
         /// </summary>
-        public static RefFixedArrayPtr<PlayerInput> Inputs => new RefFixedArrayPtr<PlayerInput>(0x017E4580, MaxNumberOfPlayers);
+        public static RefFixedArrayPtr<PlayerInput> Inputs = new RefFixedArrayPtr<PlayerInput>(0x017E4580, MaxNumberOfPlayers);
 
         /// <summary>
         /// Allows you to access the information of any particular extreme gear.
         /// In order to access an individual gear, access this variable like an array, with
         /// <see cref="Sewer56.SonicRiders.Structures.Enums.ExtremeGear"/> as an indexer.
         /// </summary>
-        public static FixedArrayPtr<ExtremeGear> Gears => new FixedArrayPtr<ExtremeGear>(0x6575B0, NumberOfGears);
+        public static FixedArrayPtr<ExtremeGear> Gears = new FixedArrayPtr<ExtremeGear>(0x6575B0, NumberOfGears);
 
         /// <summary>
         /// Contains the character colours in RGBA format (1 byte per color).
         /// Last slot is used by COM.
         /// </summary>
-        public static RefFixedArrayPtr<int> Colours => new RefFixedArrayPtr<int>(0x005B2538, 18);
+        public static RefFixedArrayPtr<int> Colours = new RefFixedArrayPtr<int>(0x005B2538, 18);
 
         /// <summary>
         /// Contains the individual statistics/properties Speed, Flight and Power characters.
         /// </summary>
-        public static RefFixedArrayPtr<CharacterTypeStats> TypeStats => new RefFixedArrayPtr<CharacterTypeStats>(0x005BD4D8, 3);
+        public static RefFixedArrayPtr<CharacterTypeStats> TypeStats = new RefFixedArrayPtr<CharacterTypeStats>(0x005BD4D8, 3);
 
         /// <summary>
         /// Provides you control over the turbulence in the game.
         /// </summary>
-        public static RefFixedArrayPtr<TurbulenceProperties> TurbulenceProperties { get; private set; } = new RefFixedArrayPtr<TurbulenceProperties>((ulong)0x005C4500, (int)(TurbulenceType.TrickRainbowTopPath + 1) * 3);
+        public static RefFixedArrayPtr<TurbulenceProperties> TurbulenceProperties  = new RefFixedArrayPtr<TurbulenceProperties>((ulong)0x005C4500, (int)(TurbulenceType.TrickRainbowTopPath + 1) * 3);
 
         /// <summary>
         /// The first set of Running Physics values.
