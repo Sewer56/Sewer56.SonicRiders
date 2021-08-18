@@ -106,19 +106,20 @@ namespace Sewer56.SonicRiders.Functions
         public static readonly IFunction<RandFn> Rand = SDK.ReloadedHooks.CreateFunction<RandFn>(0x0059B7CA);
 
         /// <summary>
-        /// Sets a new file to be opened by the game.
+        /// Initializes the data to to set a new file to be opened by the game.
         /// </summary>
-        public static readonly IFunction<ArchiveSetLoadFileFn> ArchiveAddLoadFile      = SDK.ReloadedHooks.CreateFunction<ArchiveSetLoadFileFn>(0x0041FA10);
+        public static readonly IFunction<SetAsyncReadFileDataFn> ArchiveSetAsyncReadFileData = SDK.ReloadedHooks.CreateFunction<SetAsyncReadFileDataFn>(0x0041FA10);
 
         /// <summary>
-        /// Sets a new file to be opened by the game.
+        /// Sets a new file to be opened by the game and loads the file in synchronously.
+        /// Native Function: UtilDvdMallocRead
         /// </summary>
-        public static readonly IFunction<ArchiveInGameSetLoadFileFn> ArchiveInGameLoadFile = SDK.ReloadedHooks.CreateFunction<ArchiveInGameSetLoadFileFn>(0x00514570);
+        public static readonly IFunction<UtilDvdMallocReadFn> ArchiveOpenAndReadFile = SDK.ReloadedHooks.CreateFunction<UtilDvdMallocReadFn>(0x00514570);
 
         /// <summary>
-        /// Removes a file opened by the game.
+        /// Cleans up after a file has been set to start reading asynchronously.
         /// </summary>
-        public static readonly IFunction<ArchiveUnsetLoadFileFn> ArchiveRemoveLoadFile  = SDK.ReloadedHooks.CreateFunction<ArchiveUnsetLoadFileFn>(0x0041F540);
+        public static readonly IFunction<CleanupFileReadManagerFn> ArchiveCleanupFileReadManager  = SDK.ReloadedHooks.CreateFunction<CleanupFileReadManagerFn>(0x0041F540);
 
         /// <summary>
         /// Sets up the <see cref="CompressorData"/> structure.
@@ -343,14 +344,14 @@ namespace Sewer56.SonicRiders.Functions
         /// </summary>
         /// <returns>Unique index for the file</returns>
         [Function(CallingConventions.Cdecl)]
-        public unsafe delegate int ArchiveSetLoadFileFn(void* fileName, int typicallyOne, int typicallyOne_1, int typicallyZero, void* someKindOfBuffer, void* someKindOfOtherBuffer, int typicallyOne_2, int typicallyOne_3, int playerIndex);
+        public unsafe delegate int SetAsyncReadFileDataFn(void* fileName, int typicallyOne, int maybeHasDesiredMemoryLocation, int typicallyZero, void* maybeDesiredMemoryLocation, void* someKindOfOtherBuffer, int typicallyOne_2, int typicallyOne_3, int sometimesPlayerIndex);
 
         /// <summary>
         /// Unloads a file from memory.
         /// </summary>
-        /// <param name="fileIndex">File index returned from <see cref="ArchiveSetLoadFileFn"/></param>
+        /// <param name="fileIndex">File index returned from <see cref="ArchiveSetAsyncReadFileData"/></param>
         [Function(CallingConventions.Cdecl)]
-        public unsafe delegate int ArchiveUnsetLoadFileFn(int fileIndex);
+        public unsafe delegate int CleanupFileReadManagerFn(int fileIndex);
 
         /// <param name="comp">Pointer to compressor data to initialize.</param>
         /// <param name="pUncompressedData">Pointer to uncompressed buffer.</param>
@@ -372,12 +373,13 @@ namespace Sewer56.SonicRiders.Functions
         public unsafe delegate byte DecompressFn(CompressorData* comp, void* pCompressedData, int blockSize, int* pBlockSizeRead, bool* pMaybeFinishedDecompressing);
 
         /// <summary>
-        /// Sets a file to be loaded in-game.
+        /// Sets a file to be loaded in-game and loads it synchronously.
         /// </summary>
         /// <param name="fileName">The name of the file.</param>
-        /// <param name="header">Shared file buffer header</param>
+        /// <param name="maybeDataAddress">Might be a pointer to <see cref="MemoryHeapHeader"/>. Needs further investigation.</param>
+        /// <return>Might be a pointer to <see cref="MemoryHeapHeader"/>. Needs further investigation.</return>
         [Function(CallingConventions.Cdecl)]
-        public unsafe delegate MemoryHeapHeader* ArchiveInGameSetLoadFileFn(string fileName, MemoryHeapHeader* header);
+        public unsafe delegate void* UtilDvdMallocReadFn(string fileName, void* maybeDataAddress);
 
         /// <summary>
         /// Renders a 2D texture to the screen.
