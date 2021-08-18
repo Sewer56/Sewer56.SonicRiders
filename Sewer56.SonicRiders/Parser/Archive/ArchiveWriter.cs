@@ -65,8 +65,7 @@ namespace Sewer56.SonicRiders.Parser.Archive
                 {
                     endianStream.Write<int>(file.Data.Length <= 0 ? 0 : fileWriteOffset);
                     fileWriteOffset += file.Data.Length;
-                    if (options.AlignAllFiles)
-                        fileWriteOffset = Utilities.RoundUp(fileWriteOffset, options.Alignment);
+                    fileWriteOffset = Utilities.RoundUp(fileWriteOffset, options.Alignment);
                 }
             }
 
@@ -75,8 +74,7 @@ namespace Sewer56.SonicRiders.Parser.Archive
             foreach (var file in Groups.SelectMany(x => x.Value.Files))
             {
                 endianStream.Write(file.Data);
-                if (options.AlignAllFiles)
-                    endianStream.AddPadding(options.Alignment);
+                endianStream.AddPadding(options.Alignment);
             }
 
             writeStream.Write(endianStream.ToArray());
@@ -90,7 +88,6 @@ namespace Sewer56.SonicRiders.Parser.Archive
         /// </summary>
         public static ArchiveWriterOptions GameCube = new ArchiveWriterOptions()
         {
-            AlignAllFiles = true,
             Alignment = 32,
             MinOffset = 0,
             BigEndian = true
@@ -101,7 +98,6 @@ namespace Sewer56.SonicRiders.Parser.Archive
         /// </summary>
         public static ArchiveWriterOptions PC = new ArchiveWriterOptions()
         {
-            AlignAllFiles = false,
             Alignment = 16,
             MinOffset = 0,
             BigEndian = false
@@ -122,10 +118,5 @@ namespace Sewer56.SonicRiders.Parser.Archive
         /// If the header finishes before the offset, it will be padded.
         /// </summary>
         public int MinOffset { get; set; }
-
-        /// <summary>
-        /// If true, will align all files instead of only the first one.
-        /// </summary>
-        public bool AlignAllFiles { get; set; }
     }
 }
