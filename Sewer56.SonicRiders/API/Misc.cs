@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Numerics;
 using Reloaded.Memory.Pointers;
 using Sewer56.SonicRiders.Internal.DirectX;
@@ -8,6 +10,16 @@ namespace Sewer56.SonicRiders.API
 {
     public static unsafe class Misc
     {
+        /// <summary>
+        /// The currently executing process.
+        /// </summary>
+        public static Process CurrentProcess { get; private set; } = Process.GetCurrentProcess();
+
+        /// <summary>
+        /// The directory containing the main executable for the current process.
+        /// </summary>
+        public static string ExecutingDirectory { get; private set; } = Path.GetDirectoryName(CurrentProcess.MainModule.FileName);
+
         /// <summary>
         /// Relative spawn positions for each player.
         /// </summary>

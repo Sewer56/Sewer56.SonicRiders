@@ -256,6 +256,16 @@ namespace Sewer56.SonicRiders.Functions
         /// </summary>
         public static readonly IFunction<ShouldKillTurbulenceFn> ShouldNotGenerateTurbulence = SDK.ReloadedHooks.CreateFunction<ShouldKillTurbulenceFn>(0x00455240);
 
+        /// <summary>
+        /// Calculates the required file memory for a DDS file based off of the PVRT texture.
+        /// </summary>
+        public static readonly IFunction<GetDdsTextureSizeForPvrtFn> GetDdsTextureSizeForPvrt = SDK.ReloadedHooks.CreateFunction<GetDdsTextureSizeForPvrtFn>(0x00544230);
+
+        /// <summary>
+        /// Converts the PVRT texture into a DDS file.
+        /// </summary>
+        public static readonly IFunction<ConvertToDdsFileFn> ConvertToDdsFile = SDK.ReloadedHooks.CreateFunction<ConvertToDdsFileFn>(0x00544530);
+
         /* Definitions */
         [Function(CallingConventions.Cdecl)]
         public delegate int CdeclReturnIntFn();
@@ -510,5 +520,25 @@ namespace Sewer56.SonicRiders.Functions
         public unsafe delegate bool ShouldKillTurbulenceFn(Structures.Gameplay.Player* player);
         [Function(ecx, eax, Caller)]
         public struct ShouldKillTurbulenceFnPtr { public FuncPtr<BlittablePointer<Structures.Gameplay.Player>, bool> Value; }
+
+        /// <summary>
+        /// Calculates the amount of memory required for a DDS file converted from PVRT.
+        /// </summary>
+        /// <param name="height">Height of the texture. (Offset: 0x30, short)</param>
+        /// <param name="width">Width of the texture. (Offset: 0x28, short)</param>
+        /// <param name="pvrtDataFormat">Pvrt data format. (Offset: 0x18, short)</param>
+        [Function(CallingConventions.Cdecl)]
+        public unsafe delegate int GetDdsTextureSizeForPvrtFn(int width, int height, int pvrtDataFormat);
+
+        /// <summary>
+        /// Converts a PVRT texture into a DDS file.
+        /// </summary>
+        /// <param name="ddsFile">Pointer to a buffer which will receive the converted DDS file.</param>
+        /// <param name="pvrtRawData">Pointer to the raw data of the PVRT file after the header.</param>
+        /// <param name="height">Height of the texture. (Offset: 0x30, short)</param>
+        /// <param name="width">Width of the texture. (Offset: 0x28, short)</param>
+        /// <param name="pvrtDataFormat">Pvrt data format. (Offset: 0x18, short)</param>
+        [Function(CallingConventions.Cdecl)]
+        public unsafe delegate void ConvertToDdsFileFn(void* ddsFile, void* pvrtRawData, int width, int height, int pvrtDataFormat);
     }
 }
