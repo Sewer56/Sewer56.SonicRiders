@@ -266,6 +266,17 @@ namespace Sewer56.SonicRiders.Functions
         /// </summary>
         public static readonly IFunction<ConvertToDdsFileFn> ConvertToDdsFile = SDK.ReloadedHooks.CreateFunction<ConvertToDdsFileFn>(0x00544530);
 
+        /// <summary>
+        /// Initializes a 2D menu metadata file tied with an Xvrs texture archive; such
+        /// as the one in TSGME -> 40016 -> 00004.
+        /// </summary>
+        public static readonly IFunction<Spani_SABInitFn> Initialize2dMetadataFile = SDK.ReloadedHooks.CreateFunction<Spani_SABInitFn>(0x004441D0);
+
+        /// <summary>
+        /// Loads a PVRT Texture from a given archive.
+        /// </summary>
+        public static readonly IFunction<GetSet_TexFn> LoadXvrsFromArchive = SDK.ReloadedHooks.CreateFunction<GetSet_TexFn>(0x00409220);
+
         /* Definitions */
         [Function(CallingConventions.Cdecl)]
         public delegate int CdeclReturnIntFn();
@@ -540,5 +551,23 @@ namespace Sewer56.SonicRiders.Functions
         /// <param name="pvrtDataFormat">Pvrt data format. (Offset: 0x18, short)</param>
         [Function(CallingConventions.Cdecl)]
         public unsafe delegate void ConvertToDdsFileFn(void* ddsFile, void* pvrtRawData, int width, int height, int pvrtDataFormat);
+
+        /// <summary>
+        /// Initializes a 2D menu metadata file tied with an Xvrs texture archive; such
+        /// as the one in TSGME -> 40016 -> 00004.
+        /// </summary>
+        /// <param name="pMetadata">Pointer to the metadata file in memory.</param>
+        [Function(CallingConventions.Cdecl)]
+        public unsafe delegate void Spani_SABInitFn(void* pMetadata);
+
+        /// <summary>
+        /// Loads a Xvrs Texture Archive from a given archive.
+        /// </summary>
+        /// <param name="pRidersArchiveData">Pointer to the first byte of the Riders archive.</param>
+        /// <param name="pFileOffset">Pointer to the offset in the archive containing the start of the texture data.</param>
+        /// <param name="ppPvrtTextureHeaders">Address of where the pointer to the PVRT Texture Info should be stored.</param>
+        /// <param name="pHeapHighHeader">Optional pointer to an address on the back and of the heap to receive the texture list.</param>
+        [Function(CallingConventions.Cdecl)]
+        public unsafe delegate void GetSet_TexFn(void* pRidersArchiveData, int* pFileOffset, void** ppPvrtTextureHeaders, MemoryHeapHeaderHigh* pHeapHighHeader);
     }
 }

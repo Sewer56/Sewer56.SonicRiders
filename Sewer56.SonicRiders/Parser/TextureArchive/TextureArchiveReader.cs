@@ -33,7 +33,8 @@ namespace Sewer56.SonicRiders.Parser.TextureArchive
             
             // Texture Count
             endianStreamReader.Read(out short texCount);
-            endianStreamReader.Read(out short hasFlags);
+            endianStreamReader.Read(out byte pad);
+            endianStreamReader.Read(out byte hasFlags);
             Files = new UnpackTextureFile[texCount];
 
             // Get Texture Offsets

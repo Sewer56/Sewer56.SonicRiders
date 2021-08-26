@@ -42,6 +42,23 @@ namespace Sewer56.SonicRiders
         /// </summary>
         /// <param name="number">The number.</param>
         /// <param name="multiple">The multiple.</param>
+        public static uint RoundUp(uint number, uint multiple)
+        {
+            if (multiple == 0)
+                return number;
+
+            uint remainder = number % multiple;
+            if (remainder == 0)
+                return number;
+
+            return number + multiple - remainder;
+        }
+
+        /// <summary>
+        /// Rounds a number up to the next multiple unless the number is already a multiple.
+        /// </summary>
+        /// <param name="number">The number.</param>
+        /// <param name="multiple">The multiple.</param>
         public static int RoundUp(int number, int multiple)
         {
             if (multiple == 0)

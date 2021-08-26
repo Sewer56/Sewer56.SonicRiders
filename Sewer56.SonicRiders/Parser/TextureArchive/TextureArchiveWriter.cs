@@ -11,8 +11,6 @@ namespace Sewer56.SonicRiders.Parser.TextureArchive
 {
     public class TextureArchiveWriter
     {
-        private const int FileDataAlignment = 32;
-
         /// <summary>
         /// Contains a list of all files.
         /// </summary>
@@ -31,30 +29,37 @@ namespace Sewer56.SonicRiders.Parser.TextureArchive
         /// <summary>
         /// Writes the contents of the archive to be generated to the stream.
         /// </summary>
-        public void Write(Stream writeStream, bool bigEndian)
+        public void Write(Stream writeStream, TextureArchiveWriterSettings options) => writeStream.Write(Write(options));
+
+        /// <summary>
+        /// Writes the contents of the archive to be generated to a byte array.
+        /// </summary>
+        public byte[] Write(TextureArchiveWriterSettings options)
         {
-            using var stream = new ExtendedMemoryStream();
-            using EndianMemoryStream endianStream = bigEndian ? (EndianMemoryStream) new BigEndianMemoryStream(stream) : new LittleEndianMemoryStream(stream);
+            using var stream = new ExtendedMemoryStream(EstimateFileSize(options));
+            using EndianMemoryStream endianStream = options.BigEndian ? (EndianMemoryStream)new BigEndianMemoryStream(stream) : new LittleEndianMemoryStream(stream);
 
             // Precompute Offsets
             var fileNameSize = Files.Sum(x => x.Name.Length) + (Files.Count);
             Span<int> offsets = stackalloc int[Files.Count];
-            PrecomputeFileOffsets(offsets, fileNameSize);
+            PrecomputeFileOffsets(offsets, fileNameSize, options);
 
             // Texture Count
-            endianStream.Write<short>((short) Files.Count);
-            endianStream.Write((short)1);
+            endianStream.Write<short>((short)Files.Count);
+            endianStream.Write((byte)0);
+            endianStream.Write(options.WriteFlagsSection ? (byte)1 : (byte)0);
 
             // Texture Offsets
             for (int x = 0; x < offsets.Length; x++)
                 endianStream.Write(offsets[x]);
 
             // Texture Flags
-            for (int x = 0; x < Files.Count; x++)
-                endianStream.Write((byte)0x11);
+            if (options.WriteFlagsSection)
+                for (int x = 0; x < Files.Count; x++)
+                    endianStream.Write((byte)0x11);
 
             // Texture Names
-            Span<byte> currentString  = stackalloc byte[1024];
+            Span<byte> currentString = stackalloc byte[1024];
             foreach (var file in Files)
             {
                 int numEncoded = Encoding.ASCII.GetBytes(file.Name, currentString);
@@ -63,30 +68,44 @@ namespace Sewer56.SonicRiders.Parser.TextureArchive
             }
 
             // Texture Data
-            stream.AddPadding(FileDataAlignment);
+            stream.AddPadding(options.Alignment);
             for (int x = 0; x < Files.Count; x++)
             {
                 stream.Write(Files[x].Data);
-                stream.AddPadding(FileDataAlignment);
+                stream.AddPadding(options.Alignment);
             }
 
-            writeStream.Write(stream.ToArray());
+            return stream.ToArray();
         }
 
-        private void PrecomputeFileOffsets(Span<int> offsets, int stringDataSize)
+        /// <summary>
+        /// Estimates the file size of the output file.
+        /// Note: Not accurate, but will return equal or slightly more than actual file.
+        /// </summary>
+        public int EstimateFileSize(TextureArchiveWriterSettings options)
+        {
+            var estimateFileSize = 0;
+            estimateFileSize += sizeof(int); // Header
+            estimateFileSize += (sizeof(int) + 1 * Files.Count); // Offsets + Flags
+            estimateFileSize += Files.Sum(x => x.Data.Length + x.Name.Length + 1); // Names and Data
+            estimateFileSize += (options.Alignment * Files.Count); // Alignment
+            return estimateFileSize;
+        }
+
+        private void PrecomputeFileOffsets(Span<int> offsets, int stringDataSize, TextureArchiveWriterSettings options)
         {
             const int headerSize = sizeof(int);
             int fileOffsetArraySize  = Files.Count * sizeof(int);
-            int unknownFlagArraySize = Files.Count * sizeof(byte);
+            int unknownFlagArraySize = options.WriteFlagsSection ? Files.Count * sizeof(byte) : 0;
             
             // Get offset for first file, aligned.
-            int currentFileDataOffset = Utilities.RoundUp(headerSize + fileOffsetArraySize + unknownFlagArraySize + stringDataSize, FileDataAlignment);
+            int currentFileDataOffset = Utilities.RoundUp(headerSize + fileOffsetArraySize + unknownFlagArraySize + stringDataSize, options.Alignment);
 
             // Populate offsets for every file.
             for (int x = 0; x < Files.Count; x++)
             {
                 offsets[x] = currentFileDataOffset;
-                currentFileDataOffset += Utilities.RoundUp(Files[x].Data.Length, FileDataAlignment);
+                currentFileDataOffset += Utilities.RoundUp(Files[x].Data.Length, options.Alignment);
             }
         }
     }
