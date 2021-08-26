@@ -6,6 +6,7 @@ using System.Text;
 using Reloaded.Memory.Streams;
 using Reloaded.Memory.Streams.Writers;
 using Sewer56.SonicRiders.Parser.TextureArchive.Structs;
+using Sewer56.SonicRiders.Utility.Stream;
 
 namespace Sewer56.SonicRiders.Parser.TextureArchive
 {
@@ -29,34 +30,51 @@ namespace Sewer56.SonicRiders.Parser.TextureArchive
         /// <summary>
         /// Writes the contents of the archive to be generated to the stream.
         /// </summary>
-        public void Write(Stream writeStream, TextureArchiveWriterSettings options) => writeStream.Write(Write(options));
+        public void Write(Stream writeStream, TextureArchiveWriterSettings options)
+        {
+            if (options.BigEndian)
+                Write(options, new BigEndianStreamWriter(writeStream));
+            else
+                Write(options, new LittleEndianStreamWriter(writeStream));
+        }
 
         /// <summary>
         /// Writes the contents of the archive to be generated to a byte array.
         /// </summary>
         public byte[] Write(TextureArchiveWriterSettings options)
         {
-            using var stream = new ExtendedMemoryStream(EstimateFileSize(options));
-            using EndianMemoryStream endianStream = options.BigEndian ? (EndianMemoryStream)new BigEndianMemoryStream(stream) : new LittleEndianMemoryStream(stream);
+            using var stream = new MemoryStream(EstimateFileSize(options));
+            if (options.BigEndian)
+                Write(options, new BigEndianStreamWriter(stream));
+            else
+                Write(options, new LittleEndianStreamWriter(stream));
 
+            return stream.ToArray();
+        }
+
+        /// <summary>
+        /// Writes the contents of the archive to be generated to a byte array.
+        /// </summary>
+        public void Write<T>(TextureArchiveWriterSettings options, T target) where T : IEndianStreamWriter
+        {
             // Precompute Offsets
             var fileNameSize = Files.Sum(x => x.Name.Length) + (Files.Count);
             Span<int> offsets = stackalloc int[Files.Count];
             PrecomputeFileOffsets(offsets, fileNameSize, options);
 
             // Texture Count
-            endianStream.Write<short>((short)Files.Count);
-            endianStream.Write((byte)0);
-            endianStream.Write(options.WriteFlagsSection ? (byte)1 : (byte)0);
+            target.Write<short>((short)Files.Count);
+            target.Write((byte)0);
+            target.Write(options.WriteFlagsSection ? (byte)1 : (byte)0);
 
             // Texture Offsets
             for (int x = 0; x < offsets.Length; x++)
-                endianStream.Write(offsets[x]);
+                target.Write(offsets[x]);
 
             // Texture Flags
             if (options.WriteFlagsSection)
                 for (int x = 0; x < Files.Count; x++)
-                    endianStream.Write((byte)0x11);
+                    target.Write((byte)0x11);
 
             // Texture Names
             Span<byte> currentString = stackalloc byte[1024];
@@ -64,18 +82,16 @@ namespace Sewer56.SonicRiders.Parser.TextureArchive
             {
                 int numEncoded = Encoding.ASCII.GetBytes(file.Name, currentString);
                 currentString[numEncoded] = 0x00;
-                stream.Write(currentString.Slice(0, numEncoded + 1));
+                target.Write(currentString.Slice(0, numEncoded + 1));
             }
 
             // Texture Data
-            stream.AddPadding(options.Alignment);
+            target.Stream.AddPadding(options.Alignment);
             for (int x = 0; x < Files.Count; x++)
             {
-                stream.Write(Files[x].Data);
-                stream.AddPadding(options.Alignment);
+                target.Write(Files[x].Data);
+                target.Stream.AddPadding(options.Alignment);
             }
-
-            return stream.ToArray();
         }
 
         /// <summary>
@@ -91,7 +107,6 @@ namespace Sewer56.SonicRiders.Parser.TextureArchive
             estimateFileSize += (options.Alignment * Files.Count); // Alignment
             return estimateFileSize;
         }
-
         private void PrecomputeFileOffsets(Span<int> offsets, int stringDataSize, TextureArchiveWriterSettings options)
         {
             const int headerSize = sizeof(int);
