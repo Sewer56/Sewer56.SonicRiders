@@ -12,7 +12,16 @@ namespace Sewer56.SonicRiders.API
     public static unsafe class Player
     {
         public const int MaxNumberOfPlayers = 8;
-        public static readonly int NumberOfGears = 41;
+
+        /// <summary>
+        /// Number of the game's original gears.
+        /// </summary>
+        public static readonly int OriginalNumberOfGears = 41;
+
+        /// <summary>
+        /// The current number of gears.
+        /// </summary>
+        public static int NumberOfGears = 41;
 
         /// <summary>
         /// The array containing the individual player data.
@@ -29,7 +38,7 @@ namespace Sewer56.SonicRiders.API
         /// In order to access an individual gear, access this variable like an array, with
         /// <see cref="Sewer56.SonicRiders.Structures.Enums.ExtremeGear"/> as an indexer.
         /// </summary>
-        public static FixedArrayPtr<ExtremeGear> Gears = new FixedArrayPtr<ExtremeGear>(0x6575B0, NumberOfGears);
+        public static FixedArrayPtr<ExtremeGear> Gears = new FixedArrayPtr<ExtremeGear>(0x6575B0, OriginalNumberOfGears);
 
         /// <summary>
         /// Contains the character colours in RGBA format (1 byte per color).
