@@ -66,6 +66,8 @@ namespace Sewer56.SonicRiders.Internal.DirectX
         /// Defines the IDirect3DDevice9.EndScene function, allowing us to render ontop of the DirectX instance.
         /// </summary>
         /// <param name="device">Pointer to the individual Direct3D9 device.</param>
+
+        [FunctionHookOptions(PreferRelativeJump = true)]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         [Function(Reloaded.Hooks.Definitions.X64.CallingConventions.Microsoft)]
         [Reloaded.Hooks.Definitions.X86.Function(CallingConventions.Stdcall)]
@@ -77,11 +79,14 @@ namespace Sewer56.SonicRiders.Internal.DirectX
         /// </summary>
         /// <param name="device">Pointer to the individual Direct3D9 device.</param>
         /// <param name="presentParameters">Pointer to a D3DPRESENT_PARAMETERS structure, describing the new presentation parameters.</param>
+
+        [FunctionHookOptions(PreferRelativeJump = true)]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         [Function(Reloaded.Hooks.Definitions.X64.CallingConventions.Microsoft)]
         [Reloaded.Hooks.Definitions.X86.Function(CallingConventions.Stdcall)]
         public delegate IntPtr Reset(IntPtr device, ref PresentParameters presentParameters);
 
+        [FunctionHookOptions(PreferRelativeJump = true)]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         [Function(Reloaded.Hooks.Definitions.X64.CallingConventions.Microsoft)]
         [Reloaded.Hooks.Definitions.X86.Function(CallingConventions.Stdcall)]
