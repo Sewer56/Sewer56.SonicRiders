@@ -194,7 +194,7 @@ namespace Sewer56.SonicRiders.Functions
         /// <summary>
         /// Removes all the tasks from the task heap.
         /// </summary>
-        public static readonly IFunction<CdeclReturnIntFn> RunPhysicsSimulation = SDK.ReloadedHooks.CreateFunction<CdeclReturnIntFn>(0x00441640);
+        public static readonly IFunction<SaveAllRegistersReturnIntFn> RunPhysicsSimulation = SDK.ReloadedHooks.CreateFunction<SaveAllRegistersReturnIntFn>(0x00441640);
 
         /// <summary>
         /// Loads the assets to be used during the race.
@@ -280,6 +280,10 @@ namespace Sewer56.SonicRiders.Functions
         /* Definitions */
         [Function(CallingConventions.Cdecl)]
         public delegate int CdeclReturnIntFn();
+
+        [Function(new FunctionAttribute.Register[0], eax, Caller, new []{ eax, ebx, ecx, edx, edi, esi, ebp })]
+        public delegate int SaveAllRegistersReturnIntFn();
+
         [Function(CallingConventions.Cdecl)]
         public struct CdeclReturnIntFnPtr { public FuncPtr<int> Value; }
 
