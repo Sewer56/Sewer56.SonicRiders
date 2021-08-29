@@ -89,7 +89,7 @@ namespace Sewer56.SonicRiders.Parser.TextureArchive
             target.Stream.AddPadding(options.Alignment);
             for (int x = 0; x < Files.Count; x++)
             {
-                target.Write(Files[x].Data);
+                target.Write(Files[x].Data.AsSpan());
                 target.Stream.AddPadding(options.Alignment);
             }
         }
