@@ -240,6 +240,12 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         public byte TriggerPressure;
 
         /// <summary>
+        /// Pointer to the gear used by the player.
+        /// </summary>
+        [FieldOffset(0xB78)]
+        public ExtremeGear* ExtremeGearPtr;
+
+        /// <summary>
         /// The vertical speed in the upwards direction.
         /// </summary>
         [FieldOffset(0xBD8)]
