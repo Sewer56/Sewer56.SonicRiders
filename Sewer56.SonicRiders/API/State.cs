@@ -45,6 +45,19 @@ namespace Sewer56.SonicRiders.API
         public static readonly ActiveRaceMode* RaceMode = (ActiveRaceMode*)0x00692B88;
 
         /// <summary>
+        /// The detailed version of <see cref="RaceMode"/>.
+        /// Includes an additional number (e.g. 701 instead of 700) that indicates state of the current <see cref="RaceMode"/>.
+        ///
+        /// The following are valid for races:
+        /// 0 = Loaded
+        /// 1 = Intro Cutscene
+        /// 2 = Start Countdown
+        /// 3 = After Crossing Start Line
+        /// 4 = After Finish Line
+        /// </summary>
+        public static readonly ActiveRaceMode* RaceModeDetail = (ActiveRaceMode*)0x692B8C;
+
+        /// <summary>
         /// Does not affect level timer/state e.g. starting line, interactive elements.
         /// Setting this pauses the game without allowing the user to control the pause menu.
         /// </summary>
