@@ -9,6 +9,7 @@ using Sewer56.SonicRiders.Structures.Enums;
 using Sewer56.SonicRiders.Structures.Functions;
 using Sewer56.SonicRiders.Structures.Tasks;
 using Sewer56.SonicRiders.Structures.Tasks.Base;
+using static Reloaded.Hooks.Definitions.X86.FunctionAttribute;
 using static Reloaded.Hooks.Definitions.X86.FunctionAttribute.Register;
 using static Reloaded.Hooks.Definitions.X86.FunctionAttribute.StackCleanup;
 using Void = Reloaded.Hooks.Definitions.Structs.Void;
@@ -277,11 +278,16 @@ namespace Sewer56.SonicRiders.Functions
         /// </summary>
         public static readonly IFunction<GetSet_TexFn> LoadXvrsFromArchive = SDK.ReloadedHooks.CreateFunction<GetSet_TexFn>(0x00409220);
 
+        /// <summary>
+        /// Applies speed loss from turning.
+        /// </summary>
+        public static readonly IFunction<ApplyTurningSpeedLossFn> ApplyTurningSpeedLoss = SDK.ReloadedHooks.CreateFunction<ApplyTurningSpeedLossFn>(0x004E37E0);
+
         /* Definitions */
         [Function(CallingConventions.Cdecl)]
         public delegate int CdeclReturnIntFn();
 
-        [Function(new FunctionAttribute.Register[0], eax, Caller, new []{ eax, ebx, ecx, edx, edi, esi, ebp })]
+        [Function(new Register[0], eax, Caller, new []{ eax, ebx, ecx, edx, edi, esi, ebp })]
         public delegate int SaveAllRegistersReturnIntFn();
 
         [Function(CallingConventions.Cdecl)]
@@ -573,5 +579,15 @@ namespace Sewer56.SonicRiders.Functions
         /// <param name="pHeapHighHeader">Optional pointer to an address on the back and of the heap to receive the texture list.</param>
         [Function(CallingConventions.Cdecl)]
         public unsafe delegate void GetSet_TexFn(void* pRidersArchiveData, int* pFileOffset, void** ppPvrtTextureHeaders, MemoryHeapHeaderHigh* pHeapHighHeader);
+
+        /// <summary>
+        /// Modifies the speed lost while turning.
+        /// </summary>
+        /// <param name="player">The player to implement turning speed difference in.</param>
+        /// <param name="speedLossProperties">Properties pertaining to speed loss while turning.</param>
+        [Function(new Register[] { eax, esi }, eax, Caller)]
+        public unsafe delegate Structures.Gameplay.Player* ApplyTurningSpeedLossFn(Structures.Gameplay.Player* player, TurningSpeedLossProperties* speedLossProperties);
+        [Function(new Register[] { eax, esi }, eax, Caller)]
+        public struct ApplyTurningSpeedLossFnPtr { public FuncPtr<BlittablePointer<Structures.Gameplay.Player>, BlittablePointer<TurningSpeedLossProperties>, BlittablePointer<Structures.Gameplay.Player>> Value; }
     }
 }
