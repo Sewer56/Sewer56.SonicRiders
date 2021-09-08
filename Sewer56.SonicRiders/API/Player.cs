@@ -19,6 +19,11 @@ namespace Sewer56.SonicRiders.API
         public static readonly int OriginalNumberOfGears = 41;
 
         /// <summary>
+        /// Number of the game's original characters.
+        /// </summary>
+        public static readonly int OriginalNumberOfCharacters = 17;
+
+        /// <summary>
         /// The current number of gears.
         /// </summary>
         public static int NumberOfGears = 41;
@@ -27,6 +32,11 @@ namespace Sewer56.SonicRiders.API
         /// The array containing the individual player data.
         /// </summary>
         public static RefFixedArrayPtr<Structures.Gameplay.Player> Players = new RefFixedArrayPtr<Structures.Gameplay.Player>(0x006A4B80, MaxNumberOfPlayers);
+
+        /// <summary>
+        /// The array containing the individual player data.
+        /// </summary>
+        public static RefFixedArrayPtr<CharacterParameters> CharacterParameters = new RefFixedArrayPtr<CharacterParameters>(0x5C2D18, OriginalNumberOfCharacters);
 
         /// <summary>
         /// The array containing the individual player inputs.

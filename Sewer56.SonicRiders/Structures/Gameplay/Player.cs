@@ -208,6 +208,18 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         public int AirGainedThisFrame;
 
         /// <summary>
+        /// Base Value = 1
+        /// </summary>
+        [FieldOffset(0xAFC)]
+        public float TrickAirGainMultiplier;
+
+        /// <summary>
+        /// Special flags of the gear the player is currently using.
+        /// </summary>
+        [FieldOffset(0xB08)]
+        public ExtremeGearSpecialFlags GearSpecialFlags;
+
+        /// <summary>
         /// Movement flags for the current frame.
         /// </summary>
         [FieldOffset(0xB5C)]
