@@ -283,12 +283,20 @@ namespace Sewer56.SonicRiders.Functions
         /// </summary>
         public static readonly IFunction<ApplyTurningSpeedLossFn> ApplyTurningSpeedLoss = SDK.ReloadedHooks.CreateFunction<ApplyTurningSpeedLossFn>(0x004E37E0);
 
+        /// <summary>
+        /// Calculates the player stats for a given player 
+        /// </summary>
+        public static readonly IFunction<PlayerFn> SetPlayerStatsForRaceMode = SDK.ReloadedHooks.CreateFunction<PlayerFn>(0x004B2060);
+
         /* Definitions */
         [Function(CallingConventions.Cdecl)]
         public delegate int CdeclReturnIntFn();
 
         [Function(new Register[0], eax, Caller, new []{ eax, ebx, ecx, edx, edi, esi, ebp })]
         public delegate int SaveAllRegistersReturnIntFn();
+
+        [Function(new Register[0], eax, Caller, new[] { eax, ebx, ecx, edx, edi, esi, ebp })]
+        public struct SaveAllRegistersReturnIntFnPtr { public FuncPtr<int> Value; }
 
         [Function(CallingConventions.Cdecl)]
         public struct CdeclReturnIntFnPtr { public FuncPtr<int> Value; }
@@ -435,11 +443,17 @@ namespace Sewer56.SonicRiders.Functions
         [Function(new[] { esi }, eax, Caller)]
         public unsafe delegate int SetGoalRaceFinishTaskFn(Structures.Gameplay.Player* player);
 
+        [Function(new[] { esi }, eax, Caller)]
+        public struct SetGoalRaceFinishTaskFnPtr { public FuncPtr<BlittablePointer<Structures.Gameplay.Player>, int> Value; }
+
         /// <summary>
         /// Updates the player's lap counter.
         /// </summary>
         [Function(new[] { eax }, eax, Caller)]
         public unsafe delegate int UpdateLapCounterFn(Structures.Gameplay.Player* player, int a2);
+
+        [Function(new[] { eax }, eax, Caller)]
+        public struct UpdateLapCounterFnPtr { public FuncPtr<BlittablePointer<Structures.Gameplay.Player>, int, int> Value; }
 
         /// <summary>
         /// Saves the current rule settings menu content to game memory
@@ -494,6 +508,9 @@ namespace Sewer56.SonicRiders.Functions
         [Function(esi, eax, Caller)]
         public delegate int PauseGameFn(int a1, int a2, byte a3);
 
+        [Function(esi, eax, Caller)]
+        public struct PauseGameFnPtr { public FuncPtr<int, int, byte, int> Value; }
+
         /// <summary>
         /// Sets a task which ends the current game.
         /// </summary>
@@ -508,6 +525,9 @@ namespace Sewer56.SonicRiders.Functions
         [Function(CallingConventions.Cdecl)]
         public unsafe delegate Task* SetEndOfRaceDialogTaskFn(EndOfRaceDialogMode mode);
 
+        [Function(CallingConventions.Cdecl)]
+        public struct SetEndOfRaceDialogTaskFnPtr { public FuncPtr<EndOfRaceDialogMode, BlittablePointer<Task>> Value; }
+        
         /// <summary>
         /// Reads the object layout file specified at <see cref="State.CurrentStageObjectLayout"/> and spawns the required objects.
         /// </summary>
@@ -532,7 +552,7 @@ namespace Sewer56.SonicRiders.Functions
         [Function(eax, eax, Caller)]
         public unsafe delegate bool ShouldGenerateTurbulenceFn(Structures.Gameplay.Player* player);
         [Function(eax, eax, Caller)]
-        public struct ShouldGenerateTurbulenceFnPtr { public FuncPtr<BlittablePointer<Structures.Gameplay.Player>, bool> Value; }
+        public struct ShouldGenerateTurbulenceFnPtr { public FuncPtr<BlittablePointer<Structures.Gameplay.Player>, byte> Value; }
 
         /// <summary>
         /// Determines if the game should kill turbulence by using a few metrics.
@@ -540,7 +560,7 @@ namespace Sewer56.SonicRiders.Functions
         [Function(ecx, eax, Caller)]
         public unsafe delegate bool ShouldKillTurbulenceFn(Structures.Gameplay.Player* player);
         [Function(ecx, eax, Caller)]
-        public struct ShouldKillTurbulenceFnPtr { public FuncPtr<BlittablePointer<Structures.Gameplay.Player>, bool> Value; }
+        public struct ShouldKillTurbulenceFnPtr { public FuncPtr<BlittablePointer<Structures.Gameplay.Player>, byte> Value; }
 
         /// <summary>
         /// Calculates the amount of memory required for a DDS file converted from PVRT.
