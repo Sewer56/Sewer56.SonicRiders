@@ -33,6 +33,8 @@
         /// </summary>
         public float AccelToSpeedCap3;
 
+        public int Unknown;
+
         /// <summary>
         /// Stats inherited from the <see cref="ExtremeGear"/>.
         /// Modified to account for character stats.
