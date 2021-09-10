@@ -172,28 +172,22 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         public int BoostFramesLeft;
 
         /// <summary>
-        /// Acceleration.
-        /// Final Product of Character and Board Acceleration
-        /// Affects speeds from 0 to 140. (Speed Type, Default Gear)
+        /// Stats when player is level one.
         /// </summary>
-        [FieldOffset(0xA1C)]
-        public float AccelerationThreshold1;
+        [FieldOffset(0xA10)]
+        public PlayerLevelStats LevelOneStats;
 
         /// <summary>
-        /// Acceleration.
-        /// Final Product of Character and Board Acceleration
-        /// Affects speeds from 140 to Top Speed. (Speed Type, Default Gear)
+        /// Stats when player is level two.
         /// </summary>
-        [FieldOffset(0xA20)]
-        public float AccelerationThreshold2;
+        [FieldOffset(0xA48)]
+        public PlayerLevelStats LevelTwoStats;
 
         /// <summary>
-        /// Acceleration.
-        /// Final Product of Character and Board Acceleration
-        /// Affects speeds from Top Speed to Beyond. (Speed Type, Default Gear)
+        /// Stats when player is level three.
         /// </summary>
-        [FieldOffset(0xA24)]
-        public float AccelerationThreshold3;
+        [FieldOffset(0xA80)]
+        public PlayerLevelStats LevelThreeStats;
 
         /// <summary>
         /// Range 0 - 200,000
@@ -256,6 +250,12 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         /// </summary>
         [FieldOffset(0xB78)]
         public ExtremeGear* ExtremeGearPtr;
+
+        /// <summary>
+        /// The wall bounce angle in radians.
+        /// </summary>
+        [FieldOffset(0xBB8)]
+        public float WallBounceAngle;
 
         /// <summary>
         /// The vertical speed in the upwards direction.
