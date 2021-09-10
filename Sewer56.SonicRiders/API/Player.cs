@@ -103,5 +103,30 @@ namespace Sewer56.SonicRiders.API
 
             return -1;
         }
+
+        /// <summary>
+        /// Gets the player index of an individual pointer by checking if the pointer falls in
+        /// the range between the start and end of any of the player structs.
+        /// </summary>
+        /// <param name="ptr">The pointer to somewhere inside a valid player structure.</param>
+        /// <param name="result">Pointer to the player struct this mid struct ptr belongs to.</param>
+        /// <returns>Returns the player index based off of the player pointer. Otherwise -1 if not found.</returns>
+        public static unsafe int GetPlayerIndexFromMidStructPtr(void* ptr, out Structures.Gameplay.Player* result)
+        {
+            for (int x = 0; x < Players.Count; x++)
+            {
+                var current = &Players.Pointer[x];
+                var next    = current + 1;
+
+                if (ptr >= current && ptr < next)
+                {
+                    result = current;
+                    return x;
+                }
+            }
+
+            result = default;
+            return -1;
+        }
     }
 }
