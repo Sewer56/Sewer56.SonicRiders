@@ -214,6 +214,12 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         public ExtremeGearSpecialFlags GearSpecialFlags;
 
         /// <summary>
+        /// The type of ramp the player performed a jump off of..
+        /// </summary>
+        [FieldOffset(0xB2D)]
+        public RampType RampType;
+
+        /// <summary>
         /// Movement flags for the current frame.
         /// </summary>
         [FieldOffset(0xB5C)]
