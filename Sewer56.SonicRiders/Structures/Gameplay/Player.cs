@@ -202,6 +202,12 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         public int AirGainedThisFrame;
 
         /// <summary>
+        /// Number of frames required to generate a drift dash.
+        /// </summary>
+        [FieldOffset(0xAF8)]
+        public int FramesToGenerateDriftDash;
+
+        /// <summary>
         /// Base Value = 1
         /// </summary>
         [FieldOffset(0xAFC)]
@@ -312,6 +318,12 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         /// </summary>
         [FieldOffset(0xC60)]
         public float TurningAmount;
+
+        /// <summary>
+        /// Current amount of frames spent drifting.
+        /// </summary>
+        [FieldOffset(0xC88)]
+        public int CurrentDriftFrames;
 
         [FieldOffset(0xCCC)]
         public int Rings;
