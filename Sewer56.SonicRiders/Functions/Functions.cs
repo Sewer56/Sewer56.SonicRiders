@@ -288,6 +288,11 @@ namespace Sewer56.SonicRiders.Functions
         /// </summary>
         public static readonly IFunction<PlayerFn> SetPlayerStatsForRaceMode = SDK.ReloadedHooks.CreateFunction<PlayerFn>(0x004B2060);
 
+        /// <summary>
+        /// Renders an exhaust trail for a given player.
+        /// </summary>
+        public static readonly IFunction<CdeclReturnByteFn> ExhaustTrailTask = SDK.ReloadedHooks.CreateFunction<CdeclReturnByteFn>(0x0044AD30);
+
         /* Definitions */
         [Function(CallingConventions.Cdecl)]
         public delegate int CdeclReturnIntFn();
