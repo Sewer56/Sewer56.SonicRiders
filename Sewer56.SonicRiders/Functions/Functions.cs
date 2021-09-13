@@ -293,6 +293,12 @@ namespace Sewer56.SonicRiders.Functions
         /// </summary>
         public static readonly IFunction<CdeclReturnByteFn> ExhaustTrailTask = SDK.ReloadedHooks.CreateFunction<CdeclReturnByteFn>(0x0044AD30);
 
+        /// <summary>
+        /// Sets the run state speed for characters and some other things.
+        /// </summary>
+        [Obsolete("Not actually obsolete but will be renamed in a future release.")]
+        public static readonly IFunction<PlayerFn> HandleRunStateRunningSpeedAndSomeOtherStuff = SDK.ReloadedHooks.CreateFunction<PlayerFn>(0x4CA6F0);
+
         /* Definitions */
         [Function(CallingConventions.Cdecl)]
         public delegate int CdeclReturnIntFn();
