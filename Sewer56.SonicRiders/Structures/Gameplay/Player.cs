@@ -348,6 +348,12 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         public PlayerControlFlags PlayerControlFlags;
 
         /// <summary>
+        /// Seems to be the turbulence index of the turbulence in closest proximity to player. Unsure.
+        /// </summary>
+        [FieldOffset(0xFD0)]
+        public int MaybeClosestTurbulenceIndex;
+
+        /// <summary>
         /// Pointer to the player which the player is currently being attacked by.
         /// </summary>
         [FieldOffset(0x10C0)]
