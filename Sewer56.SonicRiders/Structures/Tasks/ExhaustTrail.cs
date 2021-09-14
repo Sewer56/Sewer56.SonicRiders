@@ -21,6 +21,6 @@ namespace Sewer56.SonicRiders.Structures.Tasks
         /// The colour of the exhaust trail.
         /// </summary>
         [FieldOffset(0x54)]
-        public ColorABGR ExhaustTrailColour;
+        public ColorRGBA ExhaustTrailColour;
     }
 }
