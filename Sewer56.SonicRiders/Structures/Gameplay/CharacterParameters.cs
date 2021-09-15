@@ -41,19 +41,21 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         public byte StatDashLv1;
         public byte StatDashLv2;
         public byte StatDashLv3;
+        private byte pad_1;
 
         public byte StatLimitLv1;
         public byte StatLimitLv2;
         public byte StatLimitLv3;
+        private byte pad_2;
 
         public byte StatPowerLv1;
         public byte StatPowerLv2;
         public byte StatPowerLv3;
+        private byte pad_3;
 
         public byte StatCorneringLv1;
         public byte StatCorneringLv2;
         public byte StatCorneringLv3;
-
-        private byte pad_1;
+        private byte pad_4;
     }
 }
