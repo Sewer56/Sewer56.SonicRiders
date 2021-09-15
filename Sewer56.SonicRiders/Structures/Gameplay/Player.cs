@@ -101,7 +101,7 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         /// Alternative character X,Y,Z position.
         /// Purpose unknown, but if you don't set this, you will be teleported back on moving.
         /// </summary>
-        [FieldOffset(0x38C)]
+        [FieldOffset(0x390)]
         public Vector3 PositionAlt;
 
         /// <summary>
