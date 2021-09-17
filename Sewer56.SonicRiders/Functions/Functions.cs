@@ -299,6 +299,12 @@ namespace Sewer56.SonicRiders.Functions
         [Obsolete("Not actually obsolete but will be renamed in a future release.")]
         public static readonly IFunction<PlayerFn> HandleRunStateRunningSpeedAndSomeOtherStuff = SDK.ReloadedHooks.CreateFunction<PlayerFn>(0x4CA6F0);
 
+        /// <summary>
+        /// Calculates the player stats for a given player 
+        /// </summary>
+        public static readonly IFunction<CdeclReturnIntFn> ShowLevelDownAnimationTask = SDK.ReloadedHooks.CreateFunction<CdeclReturnIntFn>(0x429DE0);
+
+
         /* Definitions */
         [Function(CallingConventions.Cdecl)]
         public delegate int CdeclReturnIntFn();
