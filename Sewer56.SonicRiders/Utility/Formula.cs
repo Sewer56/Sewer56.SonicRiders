@@ -26,7 +26,7 @@ namespace Sewer56.SonicRiders.Utility
             var typeLevelStats = CharacterTypeStats.GetLevelStats(typeStats, characterLevel);
 
             var speedMultiplier = (1 + extremeGear->SpeedHandlingMultiplier);
-            var totalSpeed      = typeLevelStats->AdditiveSpeed + extremeGear->AdditiveSpeed;
+            var totalSpeed      = typeLevelStats->SpeedCap3 + extremeGear->AdditiveSpeed;
 
             rawSpeed = totalSpeed * speedMultiplier;
 

@@ -33,7 +33,7 @@
         /// </summary>
         public float AccelToSpeedCap3;
 
-        public int Unknown;
+        public float Offroad;
 
         /// <summary>
         /// Stats inherited from the <see cref="ExtremeGear"/>.

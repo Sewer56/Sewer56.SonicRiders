@@ -2,17 +2,17 @@
 
 namespace Sewer56.SonicRiders.Structures.Gameplay
 {
-    [StructLayout(LayoutKind.Explicit, Size = 0x64)]
+    [StructLayout(LayoutKind.Sequential)]
     public unsafe struct CharacterTypeStats
     {
-        [FieldOffset(0x00)]
         public CharacterTypeLevelStats LevelOne;
-
-        [FieldOffset(0x1C)]
         public CharacterTypeLevelStats LevelTwo;
-
-        [FieldOffset(0x38)]
         public CharacterTypeLevelStats LevelThree;
+
+        public float Unknown_1;
+        public float Unknown_2;
+        public float Unknown_3;
+        public float Unknown_4;
 
         /// <summary>
         /// Returns the type stats for a specific level.

@@ -59,7 +59,7 @@ namespace Sewer56.SonicRiders.API
         /// <summary>
         /// Contains the individual statistics/properties Speed, Flight and Power characters.
         /// </summary>
-        public static RefFixedArrayPtr<CharacterTypeStats> TypeStats = new RefFixedArrayPtr<CharacterTypeStats>(0x005BD4D8, 3);
+        public static RefFixedArrayPtr<CharacterTypeStats> TypeStats = new RefFixedArrayPtr<CharacterTypeStats>(0x5BD4D0, 3);
 
         /// <summary>
         /// Provides you control over the turbulence in the game.

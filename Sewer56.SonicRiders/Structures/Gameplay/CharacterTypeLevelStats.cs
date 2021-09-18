@@ -2,35 +2,40 @@
 
 namespace Sewer56.SonicRiders.Structures.Gameplay
 {
-    [StructLayout(LayoutKind.Explicit, Size = 0x1C)]
+    [StructLayout(LayoutKind.Sequential)]
     public struct CharacterTypeLevelStats
     {
         /// <summary>
-        /// Default 0.75 for Speed Type.
-        /// Multiplier for the default maximum speed the character can have onboard.
+        /// Speed cap #1.
         /// </summary>
-        [FieldOffset(0x00)]
-        public float AdditiveSpeed;
+        public float SpeedCap1;
 
         /// <summary>
-        /// Current acceleration of the character.
+        /// Speed cap #2.
         /// </summary>
-        [FieldOffset(0x04)]
-        public float LowSpeedAccel;
+        public float SpeedCap2;
 
-        [FieldOffset(0x08)]
-        public float Field_08;
+        /// <summary>
+        /// Speed cap #3.
+        /// Also boost speed cap.
+        /// </summary>
+        public float SpeedCap3;
 
-        [FieldOffset(0x0C)]
-        public float HighSpeedAccel;
+        /// <summary>
+        /// Acceleration between 0 and <see cref="SpeedCap1"/>.
+        /// </summary>
+        public float AccelToSpeedCap1;
 
-        [FieldOffset(0x10)]
-        public float OffRoadCruisingResistance;
+        /// <summary>
+        /// Acceleration between <see cref="SpeedCap1"/> and <see cref="SpeedCap2"/>.
+        /// </summary>
+        public float AccelToSpeedCap2;
 
-        [FieldOffset(0x14)]
-        public float Field_14;
+        /// <summary>
+        /// Acceleration between <see cref="SpeedCap2"/> and infinity.
+        /// </summary>
+        public float AccelToSpeedCap3;
 
-        [FieldOffset(0x18)]
-        public float Field_18;
+        public float Offroad;
     }
 }
