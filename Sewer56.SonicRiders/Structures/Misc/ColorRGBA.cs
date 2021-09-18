@@ -1,4 +1,6 @@
-﻿namespace Sewer56.SonicRiders.Structures.Misc
+﻿using System;
+
+namespace Sewer56.SonicRiders.Structures.Misc
 {
     public struct ColorRGBA
     {
@@ -19,6 +21,21 @@
         public override string ToString()
         {
             return $"ABGR {Alpha}-{Blue}-{Green}-{Red}";
+        }
+
+        public bool Equals(ColorRGBA other)
+        {
+            return Red == other.Red && Green == other.Green && Blue == other.Blue && Alpha == other.Alpha;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is ColorRGBA other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Red, Green, Blue, Alpha);
         }
     }
 }
