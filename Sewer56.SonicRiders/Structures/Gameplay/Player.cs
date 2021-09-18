@@ -123,6 +123,25 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         public CharacterAnimation Animation;
 
         /// <summary>
+        /// The current object affecting the gravity of the player.
+        /// </summary>
+        [FieldOffset(0x740)]
+        public GravityObject* GravityObject;
+
+        /// <summary>
+        /// Might be the value fprcing a player to follow along the current gravity object.
+        /// Only applies when <see cref="GravityKind"/> is 2 (<see cref="GravityKind.SuckIn"/>)
+        /// </summary>
+        [FieldOffset(0x748)]
+        public ushort GravityObjectMaybeIsForcedToFollowPath;
+
+        /// <summary>
+        /// The player's current segment along the <see cref="GravityObject"/>.
+        /// </summary>
+        [FieldOffset(0x74A)]
+        public ushort GravityObjectCurrentSegment;
+
+        /// <summary>
         /// Frame counter for the current animation.
         /// Generally counts up to 60.
         /// </summary>
@@ -427,5 +446,12 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         /// </summary>
         [FieldOffset(0x11CA)] 
         public TurbulenceType TurbulenceType;
+
+        /// <summary>
+        /// How gravity is currently affecting the player.
+        /// Applies if <see cref="GravityObject"/> is not 0.
+        /// </summary>
+        [FieldOffset(0x11E4)]
+        public GravityKind GravityKind;
     }
 }
