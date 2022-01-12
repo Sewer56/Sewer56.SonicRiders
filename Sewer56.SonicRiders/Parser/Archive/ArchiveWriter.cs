@@ -29,7 +29,7 @@ namespace Sewer56.SonicRiders.Parser.Archive
         /// <param name="options">The options for packing this archive.</param>
         public void Write(Stream writeStream, ArchiveWriterOptions options)
         {
-            using var stream = new ExtendedMemoryStream();
+            using var stream = new ExtendedMemoryStream(EstimateFileSize(options) + 1);
             using EndianMemoryStream endianStream = options.BigEndian ? (EndianMemoryStream) new BigEndianMemoryStream(stream) : new LittleEndianMemoryStream(stream);
 
             // Number of items.
@@ -78,6 +78,37 @@ namespace Sewer56.SonicRiders.Parser.Archive
             }
 
             writeStream.Write(endianStream.ToArray());
+        }
+
+        /// <summary>
+        /// Estimates the file size of the resulting archive.
+        /// </summary>
+        public int EstimateFileSize(ArchiveWriterOptions options)
+        {
+            int result = 0;
+            result += sizeof(int);                        // Number of items.
+            result += Groups.Count;                       // Number of items for each id.
+            result = Utilities.RoundUp(result, 4);        // Alignment
+            result += Groups.Keys.Count * sizeof(int);    // First item index for each group & ID for each group.
+
+            // Calculate number of total items.
+            int totalItems = 0;
+            foreach (var group in Groups) 
+                totalItems += group.Value.Files.Count;
+
+            // Align starting offset.
+            result = Utilities.RoundUp((int)result + (sizeof(int) * totalItems), options.Alignment);
+
+            foreach (var group in Groups)
+            {
+                foreach (var file in group.Value.Files)
+                {
+                    result += file.Data.Length;
+                    result = Utilities.RoundUp(result, options.Alignment);
+                }
+            }
+
+            return result;
         }
     }
 
