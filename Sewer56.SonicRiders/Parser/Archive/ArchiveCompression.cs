@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
+using Reloaded.Memory;
 using Reloaded.Memory.Streams;
 using Reloaded.Memory.Streams.Readers;
 using Sewer56.BitStream;
 using Sewer56.BitStream.ByteStreams;
 using Sewer56.BitStream.Interfaces;
 using Sewer56.SonicRiders.Parser.Archive.Helpers;
+using Sewer56.SonicRiders.Utility.Stream;
 
 namespace Sewer56.SonicRiders.Parser.Archive
 {
@@ -52,6 +54,165 @@ namespace Sewer56.SonicRiders.Parser.Archive
             bool isCompressed = reader.Read<uint>() == _signature;
             reader.Seek(pos, SeekOrigin.Begin);
             return isCompressed;
+        }
+
+        /// <summary>
+        /// Compresses the contents of a stream
+        /// </summary>
+        /// <param name="source">The source of where the data should be compressed from.</param>
+        /// <param name="numBytes">Number of bytes from the stream that should be compressed.</param>
+        /// <param name="options">Options for the file compressor.</param>
+        public static unsafe Span<byte> CompressFast(Stream source, int numBytes, ArchiveCompressorOptions options)
+        {
+            // TODO: Optimize this.
+
+            // Read the data to be compressed into memory.
+            var dataToCompress = GC.AllocateUninitializedArray<byte>(numBytes);
+            source.Read(dataToCompress);
+
+            // Initialize Writer.
+            using var memoryStream = new MemoryStream(numBytes);
+            var byteStream = new StreamByteStream(memoryStream);
+            var writer = new BitStream<StreamByteStream>(byteStream);
+            
+            // Write header
+            // Writer is big endian by nature, so we inverse it.
+            writer.Write(!options.BigEndian ? Endian.Reverse(_signature) : _signature);
+            writer.Write(!options.BigEndian ? Endian.Reverse(numBytes) : numBytes);
+            writer.Seek(options.StartOffset);
+
+            // Compress the data.
+            fixed (byte* dataPtr = &dataToCompress[0])
+            {
+                int pointer    = 0;
+                int maxPointer = dataToCompress.Length;
+                while (pointer < maxPointer)
+                {
+                    var match = Lz77GetLongestMatch(dataPtr, maxPointer, pointer, byte.MaxValue, byte.MaxValue);
+
+                    /*
+                        1 XXXXXXXX YYYYYYYY
+                        | |        |
+                        | |        1 byte length
+                        | 1 byte offset.
+                        compression flag 
+                    */
+
+                    // Compressed 2 bytes:   17 / 16 = 1.0625 bits 
+                    // Uncompressed 2 bytes: 18 / 16 = 1.125 bits
+                    // Conclusion: Compression effective if length >= 2.
+                    if (match.Length >= 2)
+                    {
+                        writer.WriteBit(1);
+                        writer.Write((byte) (match.Offset * -1));
+                        writer.Write((byte) match.Length);
+                        pointer += match.Length;
+                    }
+                    else
+                    {
+                        writer.WriteBit(0);
+                        writer.Write(dataPtr[pointer++]);
+                    }
+                }
+            }
+
+            return memoryStream.GetBuffer().AsSpan(0, writer.NextByteIndex);
+        }
+
+        /// <summary>
+        /// Looks for a match in the search buffer and finds the longest match of repeating bytes.
+        /// </summary>
+        /// <param name="source">The array in which we will be looking for matches.</param>
+        /// <param name="sourceLength">Length of the source array.</param>
+        /// <param name="pointer">Current offset from the start of the array used for matching symbols from.</param>
+        /// <param name="searchBufferSize">The amount of bytes to search backwards in order to find the matching pattern.</param>
+        /// <param name="maxLength">The maximum number of bytes to match in a found pattern searching backwards. This number is inclusive, i.e. includes the passed value.</param>
+        private static unsafe Lz77Match Lz77GetLongestMatch(byte* source, int sourceLength, int pointer, int searchBufferSize, int maxLength)
+        {
+            // Remembers our current best LZ77 match.
+            var bestLZ77Match = new Lz77Match();
+            
+            // Length of the current match.
+            int currentLength = 0;
+            
+            // Minimum pointer position we can access.
+            int minimumPointerPosition = pointer - searchBufferSize;
+            if (minimumPointerPosition < 0)
+                minimumPointerPosition = 0;
+
+            // Speedup: If cannot exceed source length, do not check it on every loop iteration. (else clause) 
+            if (pointer + maxLength + sizeof(int) >= sourceLength) // length is 1 indexed, our reads are not.
+            {
+                for (int currentPointer = pointer - 1; currentPointer >= minimumPointerPosition; currentPointer--)
+                {
+                    if (source[currentPointer] != source[pointer])
+                        continue;
+
+                    // We've matched a symbol: Count matching symbols.
+                    currentLength = 1;
+                    while ((pointer + currentLength < sourceLength) && (source[currentPointer + currentLength] == source[pointer + currentLength]))
+                        currentLength++;
+
+                    /* 
+                        Cap at the limit of repeated bytes if it's over the limit of what format allows.
+                        We can also stop our search here.
+                    */
+                    if (currentLength > maxLength)
+                    {
+                        currentLength = maxLength;
+                        bestLZ77Match.Length = currentLength;
+                        bestLZ77Match.Offset = currentPointer - pointer;
+                        goto foundMaxLengthMatch;
+                    }
+
+                    /* Set the best match if acquired. */
+                    if (currentLength > bestLZ77Match.Length)
+                    {
+                        bestLZ77Match.Length = currentLength;
+                        bestLZ77Match.Offset = currentPointer - pointer;
+                    }
+                }
+            }
+            else
+            {
+                // Since minimum bytes for compression effectiveness is 2 for this algorithm, start by trying to match
+                // 2 bytes.
+                short initialMatch = *(short*)(&source[pointer]);
+
+                // Iterate over each individual byte backwards to find the longest match. 
+                for (int currentPointer = pointer - 1; currentPointer >= minimumPointerPosition; currentPointer--)
+                {
+                    // Check for initial 2 byte match.
+                    if (*(short*)(&source[currentPointer]) != initialMatch) 
+                        continue;
+                    
+                    currentLength = sizeof(short);
+                    while (source[currentPointer + currentLength] == source[pointer + currentLength])
+                    {
+                        currentLength++;
+
+                        // This check needs to be here, otherwise the search might go into uninitialised memory as 
+                        // the loop will not cap before maxLength
+                        if (currentLength > maxLength)
+                        {
+                            currentLength = maxLength;
+                            bestLZ77Match.Length = currentLength;
+                            bestLZ77Match.Offset = currentPointer - pointer;
+                            goto foundMaxLengthMatch;
+                        }
+                    }
+
+                    // Set the best match if acquired.
+                    if (currentLength > bestLZ77Match.Length)
+                    {
+                        bestLZ77Match.Length = currentLength;
+                        bestLZ77Match.Offset = currentPointer - pointer;
+                    }
+                }
+            }
+
+            foundMaxLengthMatch:
+            return bestLZ77Match;
         }
 
         /// <summary>
@@ -109,7 +270,7 @@ namespace Sewer56.SonicRiders.Parser.Archive
         {
             var endianByteStream = GetStreamFromEndian(stream, options.BigEndian, options.BufferSize, out var bufferedStreamReader);
             endianByteStream.Seek(_decompSizeOffset, SeekOrigin.Current);
-            decompressedBuffer = new byte[endianByteStream.Read<int>()];
+            decompressedBuffer = GC.AllocateUninitializedArray<byte>(endianByteStream.Read<int>());
             return bufferedStreamReader;
         }
 
@@ -223,5 +384,18 @@ namespace Sewer56.SonicRiders.Parser.Archive
             BigEndian = bigEndian;
             BufferSize = 65536;
         }
+    }
+
+    struct Lz77Match
+    {
+        /// <summary>
+        /// Offset from the current pointer.
+        /// </summary>
+        public int Offset;
+        
+        /// <summary>
+        /// Length of the found match.
+        /// </summary>
+        public int Length;
     }
 }
