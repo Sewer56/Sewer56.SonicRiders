@@ -12,13 +12,15 @@ namespace Sewer56.SonicRiders.Parser.Menu.Metadata
     public unsafe class InMemoryMenuMetadata
     {
         public MetadataHeader* Header;
-        public EntryHeader* EntryHeader;
+        public ObjectSectionHeader* ObjectSectionHeader;
 
-        public List<BlittablePointer<Entry>> Entries;
-        public List<List<BlittablePointer<SubEntry>>> SubEntries;
+        public List<BlittablePointer<Object>> Objects;
 
-        public TextureIdHeader* TextureIdHeader;
-        public TextureIdEntry* TextureIdEntries => TextureIdHeader->GetEntryPointer(TextureIdHeader);
+        public List<List<BlittablePointer<ActionLayer>>> ActionLayers;
+        public List<List<BlittablePointer<Layer>>> Layers;
+
+        public TextureSectionHeader* TextureIdHeader;
+        public TextureEntry* TextureIdEntries => TextureIdHeader->GetEntryPointer(TextureIdHeader);
 
         /// <summary>
         /// Determines the file size from the other properties.
@@ -50,32 +52,41 @@ namespace Sewer56.SonicRiders.Parser.Menu.Metadata
             Header = headerAddress;
 
             var entryHeaderPtr = (byte*)(headerAddress + 1);
-            EntryHeader = (EntryHeader*)entryHeaderPtr;
+            ObjectSectionHeader = (ObjectSectionHeader*)entryHeaderPtr;
 
-            InitializeOrClear(ref Entries, EntryHeader->NumEntries);
-            InitializeOrClear(ref SubEntries, EntryHeader->NumEntries);
+            InitializeOrClear(ref Objects, ObjectSectionHeader->NumObjects);
+            InitializeOrClear(ref Layers, ObjectSectionHeader->NumObjects);
+            InitializeOrClear(ref ActionLayers, ObjectSectionHeader->NumObjects);
 
             // Add entry
-            for (int x = 0; x < EntryHeader->NumEntries; x++)
+            for (int x = 0; x < ObjectSectionHeader->NumObjects; x++)
             {
-                var entryPtr = isLoaded ? EntryHeader->GetEntryPointer(EntryHeader, x) : (Entry*)(entryHeaderPtr + (uint)EntryHeader->GetEntryPointer(EntryHeader, x));
-                Entries.Add(entryPtr);
+                var entryPtr = isLoaded ? ObjectSectionHeader->GetObjectPointer(ObjectSectionHeader, x) : (Object*)(entryHeaderPtr + (uint)ObjectSectionHeader->GetObjectPointer(ObjectSectionHeader, x));
+                Objects.Add(entryPtr);
 
-                // Add subentries
-                var subEntries = GetItemOrDefault(SubEntries, x);
-                InitializeOrClear(ref subEntries, entryPtr->SubEntryCount);
+                // Add action layers.
+                var actionLayers = GetItemOrDefault(ActionLayers, x);
+                InitializeOrClear(ref actionLayers, 1);
 
-                for (int y = 0; y < entryPtr->SubEntryCount; y++)
+                // Add layers
+                var layers = GetItemOrDefault(Layers, x);
+                InitializeOrClear(ref layers, entryPtr->LayerCount);
+
+                for (int y = 0; y < entryPtr->LayerCount; y++)
                 {
-                    var subEntryPtr = isLoaded ? entryPtr->GetSubEntryPointer(entryPtr, y) : (SubEntry*)((byte*)entryPtr + (uint)entryPtr->GetSubEntryPointer(entryPtr, y));
-                    subEntries.Add(subEntryPtr);
+                    var subEntryPtr = isLoaded ? entryPtr->GetLayerPointer(entryPtr, y) : (Layer*)((byte*)entryPtr + (uint)entryPtr->GetLayerPointer(entryPtr, y));
+                    if (y == 0)
+                        actionLayers.Add((ActionLayer*) subEntryPtr);
+                    else
+                        layers.Add(subEntryPtr);
                 }
 
-                SubEntries.Add(subEntries);
+                ActionLayers.Add(actionLayers);
+                Layers.Add(layers);
             }
 
             // Add final section.
-            TextureIdHeader = isLoaded ? Header->TextureIndicesPtr : (TextureIdHeader*)((byte*)headerAddress + (uint)Header->TextureIndicesPtr);
+            TextureIdHeader = isLoaded ? Header->TextureIndicesPtr : (TextureSectionHeader*)((byte*)headerAddress + (uint)Header->TextureIndicesPtr);
         }
         
         private void InitializeOrClear<T>(ref List<T> list, int count)

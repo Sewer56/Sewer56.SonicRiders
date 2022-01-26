@@ -3,7 +3,7 @@
     /// <summary>
     /// Individual entry in the Texture Id section.
     /// </summary>
-    public struct TextureIdEntry
+    public struct TextureEntry
     {
         public short Unknown;
 

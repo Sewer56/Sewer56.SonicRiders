@@ -3,7 +3,7 @@
 namespace Sewer56.SonicRiders.Parser.Menu.Metadata.Enums
 {
     [Flags]
-    public enum SubentryFlags
+    public enum LayerFlags
     {
         FlipHorizontal = 0x1,
         FlipVertical = 0x2,

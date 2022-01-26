@@ -1,14 +1,14 @@
 ﻿namespace Sewer56.SonicRiders.Parser.Menu.Metadata.Structs
 {
-    public unsafe struct EntryHeader
+    public unsafe struct ObjectSectionHeader
     {
         /// <summary>
-        /// Total number of entries.
+        /// Total number of objects.
         /// </summary>
-        public int NumEntries;
+        public int NumObjects;
 
         /// <summary>
-        /// Total size of all the whole entry section, including entries and this header.
+        /// Total size of all the whole entry section, including objects and this header.
         /// </summary>
         public int TotalSectionSize;
 
@@ -21,10 +21,10 @@
         /// <summary>
         /// Gets a pointer to a given subentry.
         /// </summary>
-        public Entry* GetEntryPointer(EntryHeader* thisHeader, int index)
+        public Object* GetObjectPointer(ObjectSectionHeader* thisHeader, int index)
         {
             var pointers = (uint*)(thisHeader + 1);
-            return (Entry*)pointers[index];
+            return (Object*)pointers[index];
         }
     };
 }

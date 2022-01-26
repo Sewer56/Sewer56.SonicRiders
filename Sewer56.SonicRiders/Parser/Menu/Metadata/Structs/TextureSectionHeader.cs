@@ -3,7 +3,7 @@
     /// <summary>
     /// Header for the texture index section.
     /// </summary>
-    public unsafe struct TextureIdHeader
+    public unsafe struct TextureSectionHeader
     {
         /// <summary>
         /// Number of textures in this section.
@@ -19,6 +19,6 @@
         /// Gets the pointer to the inline array of entries.
         /// </summary>
         /// <param name="thisItem">The address of this item.</param>
-        public TextureIdEntry* GetEntryPointer(TextureIdHeader* thisItem) => (TextureIdEntry*)(thisItem + 1);
+        public TextureEntry* GetEntryPointer(TextureSectionHeader* thisItem) => (TextureEntry*)(thisItem + 1);
     }
 }

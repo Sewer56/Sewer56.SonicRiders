@@ -274,6 +274,13 @@ namespace Sewer56.SonicRiders.Functions
         public static readonly IFunction<Spani_SABInitFn> Initialize2dMetadataFile = SDK.ReloadedHooks.CreateFunction<Spani_SABInitFn>(0x004441D0);
 
         /// <summary>
+        /// Wrapper for <see cref="Spani_SABInitFn"/>.
+        /// Writes `*pFileOffset` + `pRidersArchiveData` to `*ppMetadata`.
+        /// Calls <see cref="Spani_SABInitFn"/> with `*ppMetadata`.
+        /// </summary>
+        public static readonly IFunction<Spani_SABInitWrapperFn> Initialize2dMetadataFileWrapper = SDK.ReloadedHooks.CreateFunction<Spani_SABInitWrapperFn>(0x00403290);
+
+        /// <summary>
         /// Loads a PVRT Texture from a given archive.
         /// </summary>
         public static readonly IFunction<GetSet_TexFn> LoadXvrsFromArchive = SDK.ReloadedHooks.CreateFunction<GetSet_TexFn>(0x00409220);
@@ -606,6 +613,23 @@ namespace Sewer56.SonicRiders.Functions
         /// <param name="pMetadata">Pointer to the metadata file in memory.</param>
         [Function(CallingConventions.Cdecl)]
         public unsafe delegate void Spani_SABInitFn(void* pMetadata);
+
+        [Function(CallingConventions.Cdecl)]
+        public struct Spani_SABInitFnPtr { public FuncPtr<BlittablePointer<byte>, Void> Value; }
+
+        /// <summary>
+        /// Wrapper for <see cref="Spani_SABInitFn"/>.
+        /// Writes `*pFileOffset` + `pRidersArchiveData` to `*ppMetadata`.
+        /// Calls <see cref="Spani_SABInitFn"/> with `*ppMetadata`.
+        /// </summary>
+        /// <param name="pFileOffset">Pointer containing the offset of the metadata file in the archive..</param>
+        /// <param name="pRidersArchiveData">Pointer to the Riders native PackMan archive.</param>
+        /// <param name="ppMetadata">Pointer to where the pointer to the file should be stored.</param>
+        [Function(new []{ eax, edx }, eax, Caller)]
+        public unsafe delegate int Spani_SABInitWrapperFn(int* pFileOffset, void* pRidersArchiveData, void** ppMetadata);
+
+        [Function(new[] { eax, edx }, eax, Caller)]
+        public struct Spani_SABInitWrapperFnPtr { public FuncPtr<BlittablePointer<int>, BlittablePointer<byte>, BlittablePointer<BlittablePointer<byte>>, int> Value; }
 
         /// <summary>
         /// Loads a Xvrs Texture Archive from a given archive.

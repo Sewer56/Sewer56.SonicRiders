@@ -18,8 +18,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Parser\010 Template\" />
-    <Folder Include="Parser\Menu\Metadata\Enums\" />
-    <Folder Include="Parser\Menu\Metadata\Structs\" />
     <Folder Include="Parser\Portal\Structs\" />
     <Folder Include="Parser\TrickSprite\Formatter\" />
   </ItemGroup>

@@ -3,17 +3,17 @@
     /// <summary>
     /// Represents an individual entry of the Menu Metadata format.
     /// </summary>
-    public unsafe struct Entry
+    public unsafe struct Object
     {
         /// <summary>
-        /// The amount of sub entries in this entry.
+        /// The amount of layers in this entry.
         /// </summary>
-        public int SubEntryCount;
+        public int LayerCount;
         
         /// <summary>
-        /// Total size of the entry, including this header.
+        /// Total size of this object, including this header.
         /// </summary>
-        public int TotalEntrySize;
+        public int ObjectSize;
         
         /*
             After this struct in memory follow pointers to individual entries.
@@ -22,12 +22,13 @@
         */
 
         /// <summary>
-        /// Gets a pointer to a given subentry.
+        /// Gets a pointer to a given layer.
         /// </summary>
-        public SubEntry* GetSubEntryPointer(Entry* thisHeader, int index)
+        /// <returns>A pointer to a layer, which can be a regular or an action layer.</returns>
+        public Layer* GetLayerPointer(Object* thisHeader, int index)
         {
             var pointers = (uint*)(thisHeader + 1);
-            return (SubEntry*)pointers[index];
+            return (Layer*)pointers[index];
         }
     }
 }
