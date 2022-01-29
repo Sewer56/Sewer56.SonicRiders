@@ -1,4 +1,6 @@
 ﻿using Reloaded.Memory.Pointers;
+using Reloaded.Memory.Streams.Writers;
+using Sewer56.SonicRiders.Structures.Misc;
 
 namespace Sewer56.SonicRiders.Utility
 {
@@ -14,5 +16,17 @@ namespace Sewer56.SonicRiders.Utility
             return result;
         }
 
+        /// <summary>
+        /// Writes a colour to a managed memory stream.
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="color"></param>
+        public static void Write(this EndianMemoryStream writer, ColorABGR color)
+        {
+            writer.Write(color.Alpha);
+            writer.Write(color.Blue);
+            writer.Write(color.Green);
+            writer.Write(color.Red);
+        }
     }
 }
