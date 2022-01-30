@@ -1,4 +1,7 @@
-﻿namespace Sewer56.SonicRiders.Parser.Menu.Metadata.Managed
+﻿using Reloaded.Memory.Streams.Readers;
+using Reloaded.Memory.Streams.Writers;
+
+namespace Sewer56.SonicRiders.Parser.Menu.Metadata.Managed
 {    
     /// <summary>
     /// Individual entry in the Texture section.
@@ -31,5 +34,32 @@
         /// 0-1 Where 1 represents the whole height of the texture.
         /// </summary>
         public float NormalizedHeight { get; set; }
+        
+        /// <summary>
+        /// Reads a texture from the provided stream.
+        /// </summary>
+        /// <param name="streamReader">The reader reading the stream.</param>
+        public static Texture Read(EndianStreamReader streamReader)
+        {
+            return new Texture()
+            {
+                Unknown           = streamReader.Read<short>(),
+                XvrsTextureId     = streamReader.Read<short>(),
+                NormalizedPosX    = streamReader.Read<float>(),
+                NormalizedPosY    = streamReader.Read<float>(),
+                NormalizedWidth   = streamReader.Read<float>(),
+                NormalizedHeight  = streamReader.Read<float>(),
+            };
+        }
+
+        public void Write(EndianMemoryStream stream)
+        {
+            stream.Write(Unknown);
+            stream.Write(XvrsTextureId);
+            stream.Write(NormalizedPosX);
+            stream.Write(NormalizedPosY);
+            stream.Write(NormalizedWidth);
+            stream.Write(NormalizedHeight);
+        }
     }
 }

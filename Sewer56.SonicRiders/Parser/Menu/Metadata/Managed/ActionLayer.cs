@@ -1,4 +1,5 @@
-﻿using Reloaded.Memory.Streams.Writers;
+﻿using Reloaded.Memory.Streams.Readers;
+using Reloaded.Memory.Streams.Writers;
 
 namespace Sewer56.SonicRiders.Parser.Menu.Metadata.Managed
 {
@@ -20,6 +21,8 @@ namespace Sewer56.SonicRiders.Parser.Menu.Metadata.Managed
 
         public short Unk_5 { get; set; }
 
+        public int Unknown_6 { get; set; }
+
         /// <summary>
         /// Writes the action layer to a given stream.
         /// </summary>
@@ -33,15 +36,37 @@ namespace Sewer56.SonicRiders.Parser.Menu.Metadata.Managed
             stream.Write(IsEnabled);
             stream.Write(Unk_1);
 
-            if (IsEnabled < 0)
+            if (IsEnabled <= 0)
                 return (int)(stream.Stream.Position - originalPos);
 
-            stream.Write(parent.GetDurationOfLongestAnimation());
+            stream.Write((short)parent.GetDurationOfLongestAnimation());
             stream.Write(UnknownFlag);
             stream.Write(Unk_4);
             stream.Write(Unk_5);
+            stream.Write(Unknown_6);
 
             return (int)(stream.Stream.Position - originalPos);
+        }
+
+        /// <summary>
+        /// Reads the contents of an action layer from a given stream.
+        /// </summary>
+        /// <param name="streamReader">The stream to read the contents from.</param>
+        public static ActionLayer Read(EndianStreamReader streamReader)
+        {
+            var layer = new ActionLayer();
+            layer.IsEnabled = streamReader.Read<short>();
+            layer.Unk_1     = streamReader.Read<short>();
+
+            if (layer.IsEnabled < 0)
+                return layer;
+
+            streamReader.Read(out short longestAnimationDuration);
+            layer.UnknownFlag = streamReader.Read<short>();
+            layer.Unk_4 = streamReader.Read<short>();
+            layer.Unk_5 = streamReader.Read<short>();
+            layer.Unknown_6 = streamReader.Read<int>();
+            return layer;
         }
     }
 }

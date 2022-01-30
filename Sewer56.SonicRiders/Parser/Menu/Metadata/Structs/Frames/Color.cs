@@ -1,4 +1,5 @@
-﻿using Reloaded.Memory.Streams.Writers;
+﻿using Reloaded.Memory.Streams.Readers;
+using Reloaded.Memory.Streams.Writers;
 using Sewer56.SonicRiders.Parser.Menu.Metadata.Enums;
 using Sewer56.SonicRiders.Parser.Menu.Metadata.Managed.Frames;
 using Sewer56.SonicRiders.Parser.Menu.Metadata.Structs.Frames.Attributes;
@@ -13,6 +14,8 @@ namespace Sewer56.SonicRiders.Parser.Menu.Metadata.Structs.Frames
     [FrameType(DataType = KeyframeDataType.Color)]
     public struct Color : IManagedFrame
     {
+        public unsafe int Size => sizeof(Color);
+
         /// <summary/>
         public ColorABGR TopLeft;
 
@@ -27,11 +30,22 @@ namespace Sewer56.SonicRiders.Parser.Menu.Metadata.Structs.Frames
 
         public int Write(EndianMemoryStream stream)
         {
-            stream.Write(TopLeft);
-            stream.Write(BottomLeft);
-            stream.Write(BottomRight);
-            stream.Write(TopRight);
-            return 1;
+            var pos = stream.Stream.Position;
+            Extensions.Write(stream, TopLeft);
+            Extensions.Write(stream, BottomLeft);
+            Extensions.Write(stream, BottomRight);
+            Extensions.Write(stream, TopRight);
+            return (int)(stream.Stream.Position - pos);
+        }
+
+        public object Read(EndianStreamReader stream)
+        {
+            var result = new Color();
+            Extensions.Read(stream, out result.TopLeft);
+            Extensions.Read(stream, out result.BottomLeft);
+            Extensions.Read(stream, out result.BottomRight);
+            Extensions.Read(stream, out result.TopRight);
+            return result;
         }
     }
 }

@@ -27,6 +27,8 @@ namespace Sewer56.SonicRiders.Parser.Menu.Metadata.Structs
         public short Unk_4;
         
         public short Unk_5;
+
+        public int Unknown_6;
     }
 
     public struct Layer

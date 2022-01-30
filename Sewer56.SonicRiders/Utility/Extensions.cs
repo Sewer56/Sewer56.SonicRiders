@@ -1,4 +1,5 @@
 ﻿using Reloaded.Memory.Pointers;
+using Reloaded.Memory.Streams.Readers;
 using Reloaded.Memory.Streams.Writers;
 using Sewer56.SonicRiders.Structures.Misc;
 
@@ -17,10 +18,24 @@ namespace Sewer56.SonicRiders.Utility
         }
 
         /// <summary>
+        /// Reads a colour from a managed memory stream.
+        /// </summary>
+        /// <param name="reader">Reader used for reading the stream.</param>
+        /// <param name="color">The read colour value.</param>
+        public static void Read(this EndianStreamReader reader, out ColorABGR color)
+        {
+            color = new ColorABGR();
+            color.Alpha = reader.Read<byte>();
+            color.Blue  = reader.Read<byte>();
+            color.Green = reader.Read<byte>();
+            color.Red   = reader.Read<byte>();
+        }
+
+        /// <summary>
         /// Writes a colour to a managed memory stream.
         /// </summary>
-        /// <param name="writer"></param>
-        /// <param name="color"></param>
+        /// <param name="writer">Writer used for writing the stream.</param>
+        /// <param name="color">Colour to write.</param>
         public static void Write(this EndianMemoryStream writer, ColorABGR color)
         {
             writer.Write(color.Alpha);
