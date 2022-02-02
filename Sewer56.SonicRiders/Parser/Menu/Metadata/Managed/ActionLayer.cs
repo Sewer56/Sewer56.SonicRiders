@@ -14,6 +14,7 @@ namespace Sewer56.SonicRiders.Parser.Menu.Metadata.Managed
 
         // Struct may potentially end here.
         // TODO: Calculate duration of longest animation.
+        public short LongestAnimationDuration { get; set; }
 
         public short UnknownFlag { get; set; }
 
@@ -39,7 +40,7 @@ namespace Sewer56.SonicRiders.Parser.Menu.Metadata.Managed
             if (IsEnabled <= 0)
                 return (int)(stream.Stream.Position - originalPos);
 
-            stream.Write((short)parent.GetDurationOfLongestAnimation());
+            stream.Write(LongestAnimationDuration);
             stream.Write(UnknownFlag);
             stream.Write(Unk_4);
             stream.Write(Unk_5);
@@ -61,7 +62,7 @@ namespace Sewer56.SonicRiders.Parser.Menu.Metadata.Managed
             if (layer.IsEnabled < 0)
                 return layer;
 
-            streamReader.Read(out short longestAnimationDuration);
+            layer.LongestAnimationDuration = streamReader.Read<short>();
             layer.UnknownFlag = streamReader.Read<short>();
             layer.Unk_4 = streamReader.Read<short>();
             layer.Unk_5 = streamReader.Read<short>();
