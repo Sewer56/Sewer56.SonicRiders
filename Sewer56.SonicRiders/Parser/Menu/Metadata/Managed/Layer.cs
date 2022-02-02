@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using Reloaded.Memory.Streams.Readers;
 using Reloaded.Memory.Streams.Writers;
 using Sewer56.SonicRiders.Parser.Menu.Metadata.Enums;
@@ -9,6 +11,8 @@ namespace Sewer56.SonicRiders.Parser.Menu.Metadata.Managed
 {
     public class Layer
     {
+        public const short ExpectedLayerSize = 0x2C;
+
         /// <summary>
         /// Certainty: 90%
         /// </summary>
@@ -71,6 +75,11 @@ namespace Sewer56.SonicRiders.Parser.Menu.Metadata.Managed
         /// <summary/>
         public ColorABGR ColorTopRight;
 
+        /// <summary>
+        /// Extended data for this layer.
+        /// </summary>
+        public byte[] Extension = Array.Empty<byte>();
+
         public List<Keyframe> Keyframes = new();
 
         /// <summary>
@@ -103,6 +112,13 @@ namespace Sewer56.SonicRiders.Parser.Menu.Metadata.Managed
             Extensions.Read(streamReader, out layer.ColorBottomRight);
             Extensions.Read(streamReader, out layer.ColorTopRight);
 
+            if (numBytes > ExpectedLayerSize)
+            {
+                var extraBytes = numBytes - ExpectedLayerSize;
+                layer.Extension = streamReader.ReadBytes(streamReader.Position(), extraBytes);
+                streamReader.Seek(extraBytes, SeekOrigin.Current);
+            }
+
             // Read keyframes.
             int remainingFrames = numKeyframes;
             if (layer.AnimationDurationFrames <= 0 && remainingFrames <= 0)
@@ -128,7 +144,7 @@ namespace Sewer56.SonicRiders.Parser.Menu.Metadata.Managed
         public void Write(EndianMemoryStream stream)
         {
             stream.Write((short)(Keyframes.Count + 1)); // Number of keyframes.
-            stream.Write((short)(0x2C)); // Number of Bytes in layer header.
+            stream.Write((short)(ExpectedLayerSize + Extension.Length)); // Number of Bytes in layer header.
             stream.Write(KeyframeType.HalfByteCount);
 
             stream.Write(AnimationDurationFrames);
@@ -148,6 +164,9 @@ namespace Sewer56.SonicRiders.Parser.Menu.Metadata.Managed
             Extensions.Write(stream, ColorBottomLeft);
             Extensions.Write(stream, ColorBottomRight);
             Extensions.Write(stream, ColorTopRight);
+
+            if (Extension.Length > 0)
+                stream.Write(Extension);
 
             foreach (var keyFrame in Keyframes)
                 keyFrame.Write(stream);
