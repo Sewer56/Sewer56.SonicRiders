@@ -65,6 +65,11 @@ namespace Sewer56.SonicRiders.Structures.Enums
         /// <summary>
         /// Toggled while an item box pickup is being rendered to the screen
         /// </summary>
-        ItemBoxPickup = 0x200000
+        ItemBoxPickup = 0x200000,
+
+        /// <summary>
+        /// Active when the player is in a pit. Removing the flag detaches the player from the pit.
+        /// </summary>
+        IsInPit = 0x02000000
     }
 }
