@@ -111,6 +111,14 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         public Vector3 AttackedByPosOffset;
 
         /// <summary>
+        /// Index of the last rail the player has grinded on.
+        /// Used as part of rail attaching operation.
+        /// This is copied to <see cref="CurrentRailIndex"/> when player starts grinding.
+        /// </summary>
+        [FieldOffset(0x6EC)]
+        public short LastRailIndex;
+
+        /// <summary>
         /// Unknown state. Set after attacking. Can disable attacks.
         /// </summary>
         [FieldOffset(0x7B8)]
@@ -365,6 +373,29 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         /// </summary>
         [FieldOffset(0xCDC)]
         public PlayerControlFlags PlayerControlFlags;
+
+        /// <summary>
+        /// Contains the number of items chained as part of a shortcut taking operation.
+        /// This can be:
+        /// - Number of Power Objects in Combo.
+        /// - Number of Fly Hoops
+        /// - Number of Grind Rails
+        /// </summary>
+        [FieldOffset(0xEB8)]
+        public int ShortcutChainCounter;
+
+        /// <summary>
+        /// Time spent performing the current shortcut.
+        /// Appears to be in frames, however precision is greater than frame.
+        /// </summary>
+        [FieldOffset(0xEBC)]
+        public float ShortcutTimeSpent;
+
+        /// <summary>
+        /// Index of the rail the player's currently grinding on.
+        /// </summary>
+        [FieldOffset(0xEC0)]
+        public int CurrentRailIndex;
 
         /// <summary>
         /// Seems to be the turbulence index of the turbulence in closest proximity to player. Unsure.

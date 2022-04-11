@@ -84,6 +84,11 @@ namespace Sewer56.SonicRiders.API
         public static readonly void** CurrentStageObjectLayout = (void**) 0x00696C68;
 
         /// <summary>
+        /// Pointer to the current stage spline file containing the rails for this stage.
+        /// </summary>
+        public static readonly void** CurrentRailFile = (void**) 0x17DD708;
+
+        /// <summary>
         /// Sets or gets the action to perform when a game end is called.
         /// </summary>
         public static readonly EndOfGameMode* EndOfGameMode = (EndOfGameMode*) 0x00692BA8;
