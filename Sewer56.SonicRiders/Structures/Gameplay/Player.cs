@@ -385,11 +385,11 @@ namespace Sewer56.SonicRiders.Structures.Gameplay
         public int ShortcutChainCounter;
 
         /// <summary>
-        /// Time spent performing the current shortcut.
-        /// Appears to be in frames, however precision is greater than frame.
+        /// Distance travelled in the current shortcut.
+        /// Implementation varies per shortcut, fly uses horizontal speed, rails use progression. Power ignores.
         /// </summary>
         [FieldOffset(0xEBC)]
-        public float ShortcutTimeSpent;
+        public float ShortcutDistanceTravelled;
 
         /// <summary>
         /// Index of the rail the player's currently grinding on.
