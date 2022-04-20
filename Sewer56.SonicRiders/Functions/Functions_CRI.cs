@@ -36,6 +36,12 @@ namespace Sewer56.SonicRiders.Functions
         public static readonly IFunction<CdeclReturnIntFn> ADXM_ExecMain = SDK.ReloadedHooks.CreateFunction<CdeclReturnIntFn>(0x0054CD30);
 
         /// <summary>
+        /// Starts the playback of a sound file within an AFS archive.
+        /// CRI SDK: ADXT_StartAfs
+        /// </summary>
+        public static readonly IFunction<ADXT_StartAfs> PlayAfsSound = SDK.ReloadedHooks.CreateFunction<ADXT_StartAfs>(0x0054E990);
+
+        /// <summary>
         /// Plays a music track.
         /// </summary>
         /// <param name="unknown">This is an unknown pointer. Presumably to some object from the CRI SDK.</param>
@@ -43,6 +49,18 @@ namespace Sewer56.SonicRiders.Functions
         /// <remarks>ADXT_StartFname</remarks>
         [Function(CallingConventions.Cdecl)]
         public unsafe delegate int PlayMusicFn(void* unknown, string song);
+
+        /// <summary>
+        /// Plays data from AFS file on the disc.
+        /// The <see cref="ADXF_LoadPartitionNwFn"/> function serves for linking the
+        /// <paramref name="ptid"/> and the AFS file name.
+        /// The <paramref name="fileId"/> refers to the sequential number inside the AFS file.
+        /// </summary>
+        /// <param name="adxtHandle">ADXT Handle.</param>
+        /// <param name="ptid">Partition ID. Riders uses 0 - 2.</param>
+        /// <param name="fileId">Index of file inside AFS archive.</param>
+        [Function(CallingConventions.Cdecl)]
+        public unsafe delegate int ADXT_StartAfs(void* adxtHandle, int ptid, int fileId);
 
         /// <summary>
         /// Requests to read partition information of AFS file. And sets the partition ID.
