@@ -9,6 +9,7 @@ using Sewer56.BitStream;
 using Sewer56.BitStream.ByteStreams;
 using Sewer56.BitStream.Interfaces;
 using Sewer56.SonicRiders.Parser.Archive.Helpers;
+using Sewer56.SonicRiders.Utility;
 using Sewer56.SonicRiders.Utility.Stream;
 
 namespace Sewer56.SonicRiders.Parser.Archive
@@ -68,7 +69,7 @@ namespace Sewer56.SonicRiders.Parser.Archive
 
             // Read the data to be compressed into memory.
             var dataToCompress = GC.AllocateUninitializedArray<byte>(numBytes);
-            source.Read(dataToCompress);
+            source.TryReadSafe(dataToCompress);
 
             // Initialize Writer.
             using var memoryStream = new MemoryStream(numBytes);

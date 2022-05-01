@@ -5,6 +5,7 @@ using Reloaded.Memory.Streams;
 using Reloaded.Memory.Streams.Readers;
 using Sewer56.SonicRiders.Parser.Archive.Structs;
 using Sewer56.SonicRiders.Parser.Archive.Structs.Managed;
+using Sewer56.SonicRiders.Utility;
 
 namespace Sewer56.SonicRiders.Parser.Archive
 {
@@ -129,11 +130,11 @@ namespace Sewer56.SonicRiders.Parser.Archive
             var file   = group.Files[fileIndex];
             var offset = file.Offset;
             if (offset <= 0)
-                return new byte[0];
+                return Array.Empty<byte>();
 
-            var buffer = new byte[file.Size];
+            var buffer = GC.AllocateUninitializedArray<byte>(file.Size);
             _stream.Position = _startPos + file.Offset;
-            _stream.Read(buffer.AsSpan());
+            _stream.TryReadSafe(buffer);
             return buffer;
         }
     }
