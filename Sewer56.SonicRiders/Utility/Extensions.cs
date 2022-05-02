@@ -1,4 +1,6 @@
-﻿using Reloaded.Memory.Pointers;
+﻿using System;
+using System.Runtime.CompilerServices;
+using Reloaded.Memory.Pointers;
 using Reloaded.Memory.Streams.Readers;
 using Reloaded.Memory.Streams.Writers;
 using Sewer56.SonicRiders.Structures.Misc;
@@ -42,6 +44,31 @@ namespace Sewer56.SonicRiders.Utility
             writer.Write(color.Blue);
             writer.Write(color.Green);
             writer.Write(color.Red);
+        }
+
+        /// <summary>
+        /// Reads a given number of bytes from a stream.
+        /// </summary>
+        /// <param name="stream">The stream to read the value from.</param>
+        /// <param name="result">The buffer to receive the bytes.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool TryReadSafe(this System.IO.Stream stream, Span<byte> result)
+        {
+            int numBytesRead = 0;
+            int numBytesToRead = result.Length;
+
+            do
+            {
+                int bytesRead = stream.Read(result.Slice(numBytesRead));
+                if (bytesRead <= 0)
+                    return false;
+
+                numBytesRead += bytesRead;
+                numBytesToRead -= bytesRead;
+            }
+            while (numBytesRead < numBytesToRead);
+
+            return true;
         }
     }
 }
