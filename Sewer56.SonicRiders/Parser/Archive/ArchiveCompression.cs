@@ -128,6 +128,7 @@ namespace Sewer56.SonicRiders.Parser.Archive
         /// <param name="pointer">Current offset from the start of the array used for matching symbols from.</param>
         /// <param name="searchBufferSize">The amount of bytes to search backwards in order to find the matching pattern.</param>
         /// <param name="maxLength">The maximum number of bytes to match in a found pattern searching backwards. This number is inclusive, i.e. includes the passed value.</param>
+        [SkipLocalsInit]
         private static unsafe Lz77Match Lz77GetLongestMatch(byte* source, int sourceLength, int pointer, int searchBufferSize, int maxLength)
         {
             // Remembers our current best LZ77 match.
@@ -275,6 +276,7 @@ namespace Sewer56.SonicRiders.Parser.Archive
             return bufferedStreamReader;
         }
 
+        [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         private static unsafe void Decompress_Internal<T>(byte* decompPtr, int decompSize, int startOffset, ref BitStream<T> compressedStream) where T : IByteStream
         {
@@ -309,6 +311,7 @@ namespace Sewer56.SonicRiders.Parser.Archive
         /// <summary>
         /// Performs a copy from an earlier point in the array to a later point in the array.
         /// </summary>
+        [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveOptimization | MethodImplOptions.AggressiveInlining)]
         private static unsafe void LZ77Copy(int length, int offset, byte* destination, ref int destinationIndex)
         {
