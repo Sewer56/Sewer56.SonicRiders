@@ -77,7 +77,8 @@ namespace Sewer56.SonicRiders.Parser.Archive
                 endianStream.AddPadding(options.Alignment);
             }
 
-            writeStream.Write(endianStream.ToArray());
+            stream.Position = 0;
+            stream.CopyTo(writeStream);
         }
 
         /// <summary>
