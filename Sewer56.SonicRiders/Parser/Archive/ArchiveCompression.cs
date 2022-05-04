@@ -58,6 +58,13 @@ namespace Sewer56.SonicRiders.Parser.Archive
         }
 
         /// <summary>
+        /// Gets the maximum possible compressed size of file for an uncompressed file.
+        /// </summary>
+        /// <param name="uncompressedSize">The uncompressed size of the file.</param>
+        /// <returns>Maximum compressed size.</returns>
+        public static int GetMaxCompressedSize(int uncompressedSize) => (int) Math.Ceiling(uncompressedSize * 1.125f);
+
+        /// <summary>
         /// Compresses the contents of a stream
         /// </summary>
         /// <param name="source">The source of where the data should be compressed from.</param>
@@ -72,52 +79,56 @@ namespace Sewer56.SonicRiders.Parser.Archive
             source.TryReadSafe(dataToCompress);
 
             // Initialize Writer.
-            using var memoryStream = new MemoryStream(numBytes);
-            var byteStream = new StreamByteStream(memoryStream);
-            var writer = new BitStream<StreamByteStream>(byteStream);
-            
-            // Write header
-            // Writer is big endian by nature, so we inverse it.
-            writer.Write(!options.BigEndian ? Endian.Reverse(_signature) : _signature);
-            writer.Write(!options.BigEndian ? Endian.Reverse(numBytes) : numBytes);
-            writer.Seek(options.StartOffset);
-
-            // Compress the data.
-            fixed (byte* dataPtr = &dataToCompress[0])
+            var maxCompSize = GetMaxCompressedSize(dataToCompress.Length);
+            var compressedData = GC.AllocateUninitializedArray<byte>(maxCompSize);
+            fixed (byte* compressedDataPtr = compressedData)
             {
-                int pointer    = 0;
-                int maxPointer = dataToCompress.Length;
-                while (pointer < maxPointer)
+                var byteStream = new PointerByteStream(compressedDataPtr);
+                var writer = new BitStream<PointerByteStream>(byteStream);
+
+                // Write header
+                // Writer is big endian by nature, so we inverse it.
+                writer.Write(!options.BigEndian ? Endian.Reverse(_signature) : _signature);
+                writer.Write(!options.BigEndian ? Endian.Reverse(numBytes) : numBytes);
+                writer.Seek(options.StartOffset);
+
+                // Compress the data.
+                fixed (byte* dataPtr = &dataToCompress[0])
                 {
-                    var match = Lz77GetLongestMatch(dataPtr, maxPointer, pointer, byte.MaxValue, byte.MaxValue);
-
-                    /*
-                        1 XXXXXXXX YYYYYYYY
-                        | |        |
-                        | |        1 byte length
-                        | 1 byte offset.
-                        compression flag 
-                    */
-
-                    // Compressed 2 bytes:   17 / 16 = 1.0625 bits 
-                    // Uncompressed 2 bytes: 18 / 16 = 1.125 bits
-                    // Conclusion: Compression effective if length >= 2.
-                    if (match.Length >= 2)
+                    int pointer = 0;
+                    int maxPointer = dataToCompress.Length;
+                    while (pointer < maxPointer)
                     {
-                        writer.WriteBit(1);
-                        writer.Write((byte) (match.Offset * -1));
-                        writer.Write((byte) match.Length);
-                        pointer += match.Length;
-                    }
-                    else
-                    {
-                        writer.WriteBit(0);
-                        writer.Write(dataPtr[pointer++]);
+                        var match = Lz77GetLongestMatch(dataPtr, maxPointer, pointer, byte.MaxValue, byte.MaxValue);
+
+                        /*
+                            1 XXXXXXXX YYYYYYYY
+                            | |        |
+                            | |        1 byte length
+                            | 1 byte offset.
+                            compression flag 
+                        */
+
+                        // Compressed 2 bytes:   17 / 16 = 1.0625 bits 
+                        // Uncompressed 2 bytes: 18 / 16 = 1.125 bits
+                        // Conclusion: Compression effective if length >= 2.
+                        if (match.Length >= 2)
+                        {
+                            writer.WriteBit(1);
+                            writer.Write((byte)(match.Offset * -1));
+                            writer.Write((byte)match.Length);
+                            pointer += match.Length;
+                        }
+                        else
+                        {
+                            writer.WriteBit(0);
+                            writer.Write(dataPtr[pointer++]);
+                        }
                     }
                 }
-            }
 
-            return memoryStream.GetBuffer().AsSpan(0, writer.NextByteIndex);
+                return compressedData.AsSpan(0, writer.NextByteIndex);
+            }
         }
 
         /// <summary>
@@ -164,7 +175,7 @@ namespace Sewer56.SonicRiders.Parser.Archive
                         currentLength = maxLength;
                         bestLZ77Match.Length = currentLength;
                         bestLZ77Match.Offset = currentPointer - pointer;
-                        goto foundMaxLengthMatch;
+                        return bestLZ77Match;
                     }
 
                     /* Set the best match if acquired. */
@@ -200,7 +211,7 @@ namespace Sewer56.SonicRiders.Parser.Archive
                             currentLength = maxLength;
                             bestLZ77Match.Length = currentLength;
                             bestLZ77Match.Offset = currentPointer - pointer;
-                            goto foundMaxLengthMatch;
+                            return bestLZ77Match;
                         }
                     }
 
@@ -212,8 +223,7 @@ namespace Sewer56.SonicRiders.Parser.Archive
                     }
                 }
             }
-
-            foundMaxLengthMatch:
+            
             return bestLZ77Match;
         }
 
