@@ -61,7 +61,7 @@ namespace Sewer56.SonicRiders.Parser.Archive
         /// Gets the maximum possible compressed size of file for an uncompressed file.
         /// </summary>
         /// <param name="uncompressedSize">The uncompressed size of the file.</param>
-        /// <returns>Maximum compressed size.</returns>
+        /// <returns>Maximum compressed size. Does not include compression header.</returns>
         public static int GetMaxCompressedSize(int uncompressedSize) => (int) Math.Ceiling(uncompressedSize * 1.125f);
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace Sewer56.SonicRiders.Parser.Archive
             source.TryReadSafe(dataToCompress);
 
             // Initialize Writer.
-            var maxCompSize = GetMaxCompressedSize(dataToCompress.Length);
+            var maxCompSize = GetMaxCompressedSize(dataToCompress.Length) + options.StartOffset;
             var compressedData = GC.AllocateUninitializedArray<byte>(maxCompSize);
             fixed (byte* compressedDataPtr = compressedData)
             {
