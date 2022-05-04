@@ -232,12 +232,16 @@ namespace Sewer56.SonicRiders.Parser.Archive
 
             // Setup compressed buffer reading
             var compressedData = endianByteStream.ReadBytes(startPos, fileLength);
-            var byteStream = new ArrayByteStream(compressedData);
-            var bitStream  = new BitStream<ArrayByteStream>(byteStream);
 
-            // Start decompressing
             fixed (byte* resultPtr = decompressedBuffer)
+            fixed (byte* compressedPtr = compressedData)
+            {
+                var byteStream = new PointerByteStream(compressedPtr);
+                var bitStream = new BitStream<PointerByteStream>(byteStream);
+
+                // Start decompressing
                 Decompress_Internal(resultPtr, decompressedBuffer.Length, options.StartOffset, ref bitStream);
+            }
 
             // Advance underlying stream
             stream.Position = startPos + fileLength;
