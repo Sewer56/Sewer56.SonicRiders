@@ -271,7 +271,7 @@ namespace Sewer56.SonicRiders.Parser.Archive
             using var endianByteStream = Decompress_Internal_Init(stream, options, out var decompressedBuffer);
 
             // Setup compressed buffer reading
-            var byteStream = new BufferedStreamReaderByteStream(endianByteStream);
+            var byteStream = new BufferedStreamReaderByteStream(endianByteStream.Reader);
             var bitStream = new BitStream<BufferedStreamReaderByteStream>(byteStream);
 
             // Start decompressing
@@ -282,12 +282,12 @@ namespace Sewer56.SonicRiders.Parser.Archive
             return decompressedBuffer;
         }
 
-        private static BufferedStreamReader Decompress_Internal_Init(Stream stream, ArchiveCompressorOptions options, out byte[] decompressedBuffer)
+        private static EndianStreamReader Decompress_Internal_Init(Stream stream, ArchiveCompressorOptions options, out byte[] decompressedBuffer)
         {
-            var endianByteStream = GetStreamFromEndian(stream, options.BigEndian, options.BufferSize, out var bufferedStreamReader);
+            var endianByteStream = GetStreamFromEndian(stream, options.BigEndian, options.BufferSize);
             endianByteStream.Seek(_decompSizeOffset, SeekOrigin.Current);
             decompressedBuffer = GC.AllocateUninitializedArray<byte>(endianByteStream.Read<int>());
-            return bufferedStreamReader;
+            return endianByteStream;
         }
 
         [SkipLocalsInit]
@@ -365,13 +365,11 @@ namespace Sewer56.SonicRiders.Parser.Archive
             destinationIndex += length;
         }
 
-        private static EndianStreamReader GetStreamFromEndian(Stream stream, bool bigEndian, int bufferSize, out BufferedStreamReader streamReader)
+        private static EndianStreamReader GetStreamFromEndian(Stream stream, bool bigEndian, int bufferSize)
         {
-            streamReader = new BufferedStreamReader(stream, bufferSize);
+            var streamReader = new BufferedStreamReader(stream, bufferSize);
             return bigEndian ? new BigEndianStreamReader(streamReader) : new LittleEndianStreamReader(streamReader);
         }
-
-        private static EndianStreamReader GetStreamFromEndian(Stream stream, bool bigEndian, int bufferSize) => GetStreamFromEndian(stream, bigEndian, bufferSize, out _);
     }
 
     public struct ArchiveCompressorOptions
