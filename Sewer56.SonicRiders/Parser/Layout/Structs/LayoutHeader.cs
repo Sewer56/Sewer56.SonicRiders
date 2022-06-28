@@ -1,8 +1,10 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Reflection.PortableExecutable;
+using System.Runtime.CompilerServices;
+using Reloaded.Memory;
 
 namespace Sewer56.SonicRiders.Parser.Layout.Structs
 {
-    public unsafe struct LayoutHeader
+    public unsafe struct LayoutHeader : IEndianReversible
     {
         /// <summary>
         /// A header which is the combination of a constant 0x8000 (2 bytes) and the number of objects (2 bytes).
@@ -40,6 +42,18 @@ namespace Sewer56.SonicRiders.Parser.Layout.Structs
             ObjectCount = (ushort) objectCount;
             Magic = useFileMagic ? (ushort) 0x8000 : (ushort) 0;
             ObjectCountMultiplyBy46Add8 = (objectCount * 46) + 8;
+        }
+
+        /// <inheritdoc/>
+        public void SwapEndian()
+        {
+            var objSwapped = Endian.Reverse(ObjectCount);
+            var magicSwapped = Endian.Reverse(Magic);
+
+            // Not a bug, just how it differs between platforms
+            ObjectCount = magicSwapped;
+            Magic = objSwapped;
+            ObjectCountMultiplyBy46Add8 = Endian.Reverse(ObjectCountMultiplyBy46Add8);
         }
     }
 }

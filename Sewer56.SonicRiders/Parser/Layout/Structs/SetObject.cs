@@ -1,12 +1,14 @@
 ﻿using System.Numerics;
+using Reloaded.Memory;
 using Sewer56.SonicRiders.Parser.Layout.Enums;
+using Sewer56.SonicRiders.Utility;
 
 namespace Sewer56.SonicRiders.Parser.Layout.Structs
 {
     /// <summary>
     /// Represents an individual placeable object.
     /// </summary>
-    public struct SetObject
+    public struct SetObject : IEndianReversible
     {
         public ObjectId Type;
 
@@ -49,5 +51,18 @@ namespace Sewer56.SonicRiders.Parser.Layout.Structs
         /// In some cases, these fields are used to store additional object properties.
         /// </summary>
         public Vector3 Scale;
+
+        /// <summary>
+        /// Swaps the endian of this structure.
+        /// </summary>
+        public void SwapEndian()
+        {
+            Type = (ObjectId)Endian.Reverse((ushort)Type);
+            Visibility = (SetObjectVisibility)Endian.Reverse((int)Visibility);
+            Attribute = Endian.Reverse(Attribute);
+            Position.EndianSwap();
+            Rotation.EndianSwap();
+            Scale.EndianSwap();
+        }
     }
 }

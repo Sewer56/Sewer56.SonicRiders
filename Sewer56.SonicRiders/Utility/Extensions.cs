@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Numerics;
 using System.Runtime.CompilerServices;
+using Reloaded.Memory;
 using Reloaded.Memory.Pointers;
 using Reloaded.Memory.Streams.Readers;
 using Reloaded.Memory.Streams.Writers;
@@ -69,6 +71,17 @@ namespace Sewer56.SonicRiders.Utility
             while (numBytesRead < numBytesToRead);
 
             return true;
+        }
+
+        /// <summary>
+        /// Swaps the endian of a vector.
+        /// </summary>
+        /// <param name="vector">The vector to swap the endian in.</param>
+        public static void EndianSwap(this ref Vector3 vector)
+        {
+            vector.X = Endian.Reverse(vector.X);
+            vector.Y = Endian.Reverse(vector.Y);
+            vector.Z = Endian.Reverse(vector.Z);
         }
     }
 }
