@@ -20,6 +20,19 @@ public static class FileTypeGuesser
     /// Does not advance the stream.
     /// </summary>
     /// <param name="data">Stream containing the data.</param>
+    /// <param name="fileType">Type of the file, if guess is successful.</param>
+    /// <remarks>Does not advance the stream.</remarks>
+    public static bool TryGuess(byte[] data, out FileType? fileType)
+    {
+        using var stream = new MemoryStream(data);
+        return TryGuess(stream, data.Length, out fileType);
+    }
+
+    /// <summary>
+    /// Tries to guess the file type of a file.
+    /// Does not advance the stream.
+    /// </summary>
+    /// <param name="data">Stream containing the data.</param>
     /// <param name="streamLength">Length of the stream.</param>
     /// <param name="fileType">Type of the file, if guess is successful.</param>
     /// <returns></returns>

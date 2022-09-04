@@ -49,6 +49,17 @@ public class FileType
     /// An example file for this format.
     /// </summary>
     public string Example { get; set; } = "";
+
+    /// <summary>
+    /// Returns either an extension of a custom designated extension.
+    /// </summary>
+    public string? GetExtensionOrCustomExtension()
+    {
+        if (!string.IsNullOrEmpty(Extension))
+            return Extension;
+
+        return CustomExtension;
+    }
 }
 
 /// <summary>

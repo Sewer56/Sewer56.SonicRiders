@@ -120,7 +120,7 @@ public static class KnownFileTypes
             },
             Description = "",
             Example = "v.xnf"
-        },        
+        },
         new()
         {
             Id = "NN-XNG",
@@ -159,6 +159,23 @@ public static class KnownFileTypes
             {
                 new Tool("Sega NN Tools", "https://github.com/Argx2121/Sega_NN_tools", "Arg!!", "Can Import/Export Models for Sonic Riders (PC, GCN) and Many More!!")
             },           
+            Documentation = new Documentation[]
+            {
+                new ("RadfordHound's NN Spec", "https://gist.github.com/Radfordhound/5650ef12209da2709a6bf9b705bdd79c", "RadfordHound")
+            },
+            Description = "The model format for Sonic Riders' 3D Models",
+            Example = "v.xno"
+        },
+        new()
+        {
+            Id = "NN-GNO",
+            Extension = ".GNO",
+            Category = "3D",
+            Format = "Sega NN: 3D Object [GCN/GX]",
+            Tools = new Tool[]
+            {
+                new Tool("Sega NN Tools", "https://github.com/Argx2121/Sega_NN_tools", "Arg!!", "Can Import/Export Models for Sonic Riders (PC, GCN) and Many More!!")
+            },
             Documentation = new Documentation[]
             {
                 new ("RadfordHound's NN Spec", "https://gist.github.com/Radfordhound/5650ef12209da2709a6bf9b705bdd79c", "RadfordHound")

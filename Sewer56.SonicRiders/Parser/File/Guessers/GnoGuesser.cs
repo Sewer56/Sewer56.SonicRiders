@@ -7,24 +7,25 @@ using Sewer56.SonicRiders.Parser.File.Structures;
 namespace Sewer56.SonicRiders.Parser.File.Guessers;
 
 #nullable enable
-public class XnoGuesser : IFileTypeGuesser
+public class GnoGuesser : IFileTypeGuesser
 {
     private FileType? _fileType;
 
-    public XnoGuesser() => _fileType = KnownFileTypes.Types.FirstOrDefault(x => x.Id == GetId());
+    // Added for convenience of people doing model work while PC Riders is worked on.
+    public GnoGuesser() => _fileType = KnownFileTypes.Types.FirstOrDefault(x => x.Id == GetId());
 
-    public string GetId() => "NN-XNO";
+    public string GetId() => "NN-GNO";
     public FileType? GetFileType() => _fileType;
 
     public bool TryGuess(BufferedStreamReader data, int streamLength)
     {
-        if (data.Peek<int>() != 0x4649584E) // 'NXIF'
+        if (data.Peek<int>() != 0x4649474E) // 'NGIF'
             return false;
 
         data.Seek(32, SeekOrigin.Current);
 
-        var nxtlOrNxob = data.Peek<uint>();
-        return nxtlOrNxob is 0x4C54584E or 0x424F584E; // 'NXTL' 
+        var ngtlOrNxob = data.Peek<uint>();
+        return ngtlOrNxob is 0x4C54474E or 0x424F474E; // 'NGTL' or 'NGOB' 
     }
 }
 #nullable disable
