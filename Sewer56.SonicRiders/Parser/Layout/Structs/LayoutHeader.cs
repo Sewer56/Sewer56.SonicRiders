@@ -1,5 +1,4 @@
-﻿using System.Reflection.PortableExecutable;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using Reloaded.Memory;
 
 namespace Sewer56.SonicRiders.Parser.Layout.Structs

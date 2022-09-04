@@ -3,6 +3,7 @@
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>10.0</LangVersion>
     <Version>1.1.0</Version>
   </PropertyGroup>
   <ItemGroup>

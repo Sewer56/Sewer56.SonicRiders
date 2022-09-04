@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
+using System.Reflection;
 using System.Text;
 using Reloaded.Memory.Streams;
 using Sewer56.SonicRiders.Structures.Enums;
