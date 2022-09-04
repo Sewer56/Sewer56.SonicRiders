@@ -240,6 +240,7 @@ public static class KnownFileTypes
             Id = "RIDERS-OBJPORTAL",
             Category = "Game",
             Extension = null,
+            CustomExtension = ".riders-visibility-layout",
             Format = "Object Visibility Layout Format",
             Tools = Array.Empty<Tool>(),
             Documentation = new Documentation[]
@@ -253,7 +254,7 @@ public static class KnownFileTypes
         {
             Id = "PVRT",
             Category = "Graphics",
-            Extension = null,
+            Extension = ".PVR",
             Format = "Texture Format",
             Tools = new Tool[]
             {
