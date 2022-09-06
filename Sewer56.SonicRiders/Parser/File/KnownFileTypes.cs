@@ -16,9 +16,9 @@ public static class KnownFileTypes
             Tools = Array.Empty<Tool>(),
             Documentation = new Documentation[]
             {
-                new("Dreamcast Variant [AM2-DTPK.txt]", "https://github.com/Shenmue-Mods/DTPKUtil/blob/master/AM2-DTPK.txt", "Sappharad")
+                new("Riders Variant", "https://github.com/Sewer56/SonicRiders.Index/blob/master/docs/files/template/PackMan.bt", "Sewer56")
             },
-            Description = "Archive containing uncompressed audio. Variant of .SND used in Shenmue, alongside other games. Most likely PCM 16-bit, 1 Channel, 22050Hz audio; but there can sometimes be a mix of multiple frequencies. DTPKUtil may support the Xbox variant we use in the future.",
+            Description = "Archive containing uncompressed audio. Usually mono.",
             Example = "00.dat"
         },
         new()
