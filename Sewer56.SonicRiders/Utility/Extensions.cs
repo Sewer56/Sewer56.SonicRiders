@@ -59,7 +59,7 @@ namespace Sewer56.SonicRiders.Utility
             int numBytesRead = 0;
             int numBytesToRead = result.Length;
 
-            do
+            while (numBytesToRead > 0)
             {
                 int bytesRead = stream.Read(result.Slice(numBytesRead));
                 if (bytesRead <= 0)
@@ -68,7 +68,6 @@ namespace Sewer56.SonicRiders.Utility
                 numBytesRead += bytesRead;
                 numBytesToRead -= bytesRead;
             }
-            while (numBytesRead < numBytesToRead);
 
             return true;
         }
