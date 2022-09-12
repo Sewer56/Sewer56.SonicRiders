@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using System.Windows.Forms;
 using Reloaded.Hooks.Definitions;
 using Reloaded.Hooks.Definitions.X64;
+using Sewer56.SonicRiders.Internal.DirectX.Window;
 using SharpDX.Direct3D9;
 using CallingConventions = Reloaded.Hooks.Definitions.X86.CallingConventions;
 
@@ -42,9 +42,11 @@ namespace Sewer56.SonicRiders.Internal.DirectX
         {
             // Obtain the pointer to the IDirect3DDevice9 instance by creating our own blank windows form and creating a  
             // IDirect3DDevice9 targeting that form. The returned device should be the same one as used by the program.
+            IntPtr hWnd = IntPtr.Zero;
+
             using (var direct3D = new Direct3D())
-            using (var renderForm = new Form())
-            using (var device = new Device(direct3D, 0, DeviceType.Hardware, IntPtr.Zero, CreateFlags.HardwareVertexProcessing, GetParameters(direct3D, renderForm.Handle)))
+            using (var renderForm = new CustomWindow("temp"))
+            using (var device = new Device(direct3D, 0, DeviceType.Hardware, IntPtr.Zero, CreateFlags.HardwareVertexProcessing, GetParameters(direct3D, renderForm.Hwnd)))
             {
                 Direct3D9VTable = _hooks.VirtualFunctionTableFromObject(direct3D.NativePointer, Enum.GetNames(typeof(IDirect3D9)).Length);
                 DeviceVTable = _hooks.VirtualFunctionTableFromObject(device.NativePointer, Enum.GetNames(typeof(IDirect3DDevice9)).Length);
@@ -54,8 +56,8 @@ namespace Sewer56.SonicRiders.Internal.DirectX
             }
 
             using (var direct3D = new Direct3DEx())
-            using (var renderForm = new Form())
-            using (var device = new DeviceEx(direct3D, 0, DeviceType.Hardware, IntPtr.Zero, CreateFlags.HardwareVertexProcessing, GetParameters(direct3D, renderForm.Handle)))
+            using (var renderForm = new CustomWindow("temp"))
+            using (var device = new DeviceEx(direct3D, 0, DeviceType.Hardware, IntPtr.Zero, CreateFlags.HardwareVertexProcessing, GetParameters(direct3D, renderForm.Hwnd)))
             {
                 DeviceExVTable = _hooks.VirtualFunctionTableFromObject(direct3D.NativePointer, Enum.GetNames(typeof(IDirect3D9)).Length);
                 Direct3D9ExVTable = _hooks.VirtualFunctionTableFromObject(device.NativePointer, Enum.GetNames(typeof(IDirect3DDevice9)).Length);
