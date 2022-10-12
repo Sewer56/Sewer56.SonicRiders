@@ -21,7 +21,7 @@ namespace Sewer56.SonicRiders.Internal
 
             var mainModule = Process.GetCurrentProcess().MainModule;
             if (mainModule != null)
-                Memory.CurrentProcess.ChangePermission(mainModule.BaseAddress, mainModule.ModuleMemorySize, Kernel32.MEM_PROTECTION.PAGE_EXECUTE_READWRITE);
+                Memory.CurrentProcess.ChangePermission((nuint)(nint)mainModule.BaseAddress, mainModule.ModuleMemorySize, Kernel32.MEM_PROTECTION.PAGE_EXECUTE_READWRITE);
 
             _isChanged = true;
         }

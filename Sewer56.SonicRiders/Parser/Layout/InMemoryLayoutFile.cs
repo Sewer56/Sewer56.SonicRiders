@@ -34,12 +34,12 @@ namespace Sewer56.SonicRiders.Parser.Layout
             if (endianSwap)
                 Header->SwapEndian();
 
-            Objects = new RefFixedArrayPtr<SetObject>((ulong) (Header + 1), Header->ObjectCount);
+            Objects = new RefFixedArrayPtr<SetObject>((nuint) (Header + 1), Header->ObjectCount);
             if (endianSwap) 
                 for (int x = 0; x < Objects.Count; x++)
                     Objects[x].SwapEndian();
 
-            UnknownArray = new RefFixedArrayPtr<ushort>((ulong) (Header + 1) + (ulong)(Objects.Count * sizeof(SetObject)), Header->ObjectCount);
+            UnknownArray = new RefFixedArrayPtr<ushort>((nuint)(Header + 1) + (nuint)(Objects.Count * sizeof(SetObject)), Header->ObjectCount);
             if (endianSwap)
                 for (int x = 0; x < UnknownArray.Count; x++)
                     UnknownArray[x] = Endian.Reverse(UnknownArray[x]);
