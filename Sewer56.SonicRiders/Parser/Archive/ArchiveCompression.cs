@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using Reloaded.Memory;
 using Reloaded.Memory.Streams;
 using Reloaded.Memory.Streams.Readers;
@@ -26,8 +27,14 @@ namespace Sewer56.SonicRiders.Parser.Archive
         */
 
         /// <summary> Present at the start of each compressed file. </summary>
-        private const uint _signature = 0x80000001;
-        private const int _decompSizeOffset = 4;
+        private const uint Signature = 0x80000001;
+        
+        /// <summary> Template data for an OOCH header. </summary>
+        private static byte[] OochTemplate = {
+            0x4F, 0x4F, 0x43, 0x48, 0x01, 0x00, 0x00, 0x08, 0xF3, 0x46, 0x2B, 0x00, 0xA0, 0x7A, 0x59, 0x00,
+            0x18, 0x00, 0x1C, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20, 0x00, 0x00, 0x00,
+            0x08, 0x00, 0x00, 0x00, 0x08, 0x00, 0x00, 0x00 
+        };
 
         /// <summary>
         /// Determines whether this is a compressed archive and returns true or false.
@@ -52,7 +59,7 @@ namespace Sewer56.SonicRiders.Parser.Archive
         public static bool IsCompressed(EndianStreamReader reader)
         {
             var pos = reader.Position();
-            bool isCompressed = reader.Read<uint>() == _signature;
+            bool isCompressed = reader.Read<uint>() == Signature;
             reader.Seek(pos, SeekOrigin.Begin);
             return isCompressed;
         }
@@ -88,8 +95,17 @@ namespace Sewer56.SonicRiders.Parser.Archive
 
                 // Write header
                 // Writer is big endian by nature, so we inverse it.
-                writer.Write(!options.BigEndian ? Endian.Reverse(_signature) : _signature);
-                writer.Write(!options.BigEndian ? Endian.Reverse(numBytes) : numBytes);
+                if (!options.UseOochHeader)
+                {
+                    writer.Write(!options.BigEndian ? Endian.Reverse(Signature) : Signature);
+                    writer.Write(!options.BigEndian ? Endian.Reverse(numBytes) : numBytes);
+                }
+                else
+                {
+                    writer.Write(OochTemplate);
+                    writer.Seek(12);
+                    writer.Write(Endian.Reverse(numBytes)); // little endian
+                }
                 writer.Seek(options.StartOffset);
 
                 // Compress the data.
@@ -127,6 +143,15 @@ namespace Sewer56.SonicRiders.Parser.Archive
                     }
                 }
 
+                if (options.UseOochHeader)
+                {
+                    var offset = writer.NextByteIndex;
+                    var compLength = writer.NextByteIndex - options.StartOffset;
+                    writer.Seek(8);
+                    writer.Write(Endian.Reverse(compLength)); // little endian
+                    writer.Seek(offset);
+                }
+                
                 return compressedData.AsSpan(0, writer.NextByteIndex);
             }
         }
@@ -284,8 +309,8 @@ namespace Sewer56.SonicRiders.Parser.Archive
 
         private static EndianStreamReader Decompress_Internal_Init(Stream stream, ArchiveCompressorOptions options, out byte[] decompressedBuffer)
         {
-            var endianByteStream = GetStreamFromEndian(stream, options.BigEndian, options.BufferSize);
-            endianByteStream.Seek(_decompSizeOffset, SeekOrigin.Current);
+            var endianByteStream = GetStreamFromEndian(stream, options.UseOochHeader ? false : options.BigEndian, options.BufferSize);
+            endianByteStream.Seek(options.CompSizeOffset, SeekOrigin.Current);
             decompressedBuffer = GC.AllocateUninitializedArray<byte>(endianByteStream.Read<int>());
             return endianByteStream;
         }
@@ -374,18 +399,31 @@ namespace Sewer56.SonicRiders.Parser.Archive
 
     public struct ArchiveCompressorOptions
     {
-        public static ArchiveCompressorOptions PC = new(0x80, false); // and Xbox
-        public static ArchiveCompressorOptions GameCube = new(0x20, true);
+        public static ArchiveCompressorOptions PC = new(0x80, 4, false, false); // and Xbox
+        public static ArchiveCompressorOptions GameCube = new(0x20, 4, true, false);
 
+        public static ArchiveCompressorOptions ZG_WII = new(0x800, 12, true, true);
+        public static ArchiveCompressorOptions ZG_PS2 = new(0x800, 12, false, true);
+        
         /// <summary>
         /// The offset to the start of the compressed data.
         /// </summary>
         public int StartOffset;
 
         /// <summary>
+        /// The offset to the compressed data size.
+        /// </summary>
+        public int CompSizeOffset;
+
+        /// <summary>
         /// True if the source file is big endian, else false.
         /// </summary>
         public bool BigEndian;
+
+        /// <summary>
+        /// Uses the 'OOCH' header. (Only used in Zero Gravity)
+        /// </summary>
+        public bool UseOochHeader;
 
         /// <summary>
         /// Size of the buffer used for caching the contents of the passed in stream to be compressed/decompressed..
@@ -394,11 +432,25 @@ namespace Sewer56.SonicRiders.Parser.Archive
         /// </summary>
         public int BufferSize;
 
-        public ArchiveCompressorOptions(int startOffset, bool bigEndian)
+        public ArchiveCompressorOptions(int startOffset, int compSizeOffset, bool bigEndian, bool useOoch)
         {
             StartOffset = startOffset;
+            CompSizeOffset = compSizeOffset;
             BigEndian = bigEndian;
             BufferSize = 65536;
+            UseOochHeader = true;
+        }
+        
+        /// <summary>
+        /// Returns the preset for the given parameters.
+        /// </summary>
+        /// <param name="isBigEndian">True for 'Big Endian'.</param>
+        /// <param name="isZg">True if the game is 'zero gravity'.</param>
+        public static ArchiveCompressorOptions GetPreset(bool isBigEndian, bool isZg)
+        {
+            return !isZg ? 
+                isBigEndian ? GameCube : PC 
+                : isBigEndian ? ZG_WII : ZG_PS2;
         }
     }
 
